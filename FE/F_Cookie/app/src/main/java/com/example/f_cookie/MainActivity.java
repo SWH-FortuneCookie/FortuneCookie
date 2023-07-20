@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,27 +60,42 @@ public class MainActivity extends AppCompatActivity {
     public static final int CAMERA_PERMISSIONS_REQUEST = 2;
     public static final int CAMERA_IMAGE_REQUEST = 3;
 
+    private View detailLayout;
     private TextView mImageDetails;
     private ImageView mMainImage;
+
+    private ImageButton getInfoBtn;
+    private ImageButton getManagBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.home_main);
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(view -> {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//            builder
+//                    .setMessage("Choose a picture")
+//                    .setPositiveButton("Gallery", (dialog, which) -> startGalleryChooser())
+//                    .setNegativeButton("Camera", (dialog, which) -> startCamera());
+//            builder.create().show();
+//        });
+
+        getInfoBtn = findViewById(R.id.infoBtn);
+        getManagBtn = findViewById(R.id.manageBtn);
+
+        getInfoBtn.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder
-                    .setMessage("Choose a picture")
-                    .setPositiveButton("Gallery", (dialog, which) -> startGalleryChooser())
-                    .setNegativeButton("Camera", (dialog, which) -> startCamera());
+            builder.setMessage("사진을 촬영해주세요").setPositiveButton("카메라", (dialog, which) -> startCamera())
+                    .setNegativeButton("테스트용", (dialog, which) -> startGalleryChooser());
             builder.create().show();
         });
 
+        detailLayout = findViewById(R.id.detailLayout);
         mImageDetails = findViewById(R.id.image_details);
         mMainImage = findViewById(R.id.main_image);
     }
@@ -272,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void callCloudVision(final Bitmap bitmap) {
         // Switch text to loading
+        detailLayout.setVisibility(View.VISIBLE);
         mImageDetails.setText("Uploading image. Please wait.");
 
         // Do the real work in an async task, because we need to use the network anyway
@@ -308,15 +327,32 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder message = new StringBuilder("I found these things:\n\n");
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
+
         if (labels != null) {
             for (EntityAnnotation label : labels) {
                 message.append(String.format(Locale.US, "%.3f: %s", label.getScore(), label.getDescription()));
+                //System.out.println("가져온 것 테스트: " + label.getDescription());
                 message.append("\n");
+
+                if (NameExtract(label.getDescription().toString()) == true){
+                    break;
+                }
             }
         } else {
             message.append("nothing");
         }
 
         return message.toString();
+    }
+
+    private static boolean NameExtract(String name){
+        String medi1 = "타이레놀";
+        //System.out.println(name);
+
+        if(name.equals(medi1) == true){
+            return true;
+            //백엔드로 약 이름 전달 부분
+        }
+        else return false;
     }
 }
