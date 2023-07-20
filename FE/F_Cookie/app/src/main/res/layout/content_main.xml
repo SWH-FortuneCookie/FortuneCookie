@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context="com.example.f_cookie.MainActivity"
-                tools:showIn="@layout/activity_main">
+                tools:showIn="@layout/home_main">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Use the floating action button to select an image."/>
+                android:text=""/>
 
             <ImageView
                 android:id="@+id/main_image"
