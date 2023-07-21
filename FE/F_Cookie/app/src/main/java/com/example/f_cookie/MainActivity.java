@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton getInfoBtn;
     private ImageButton getManagBtn;
+    private static int picErrCount = 0;
+    private static String divId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
 //            builder.create().show();
 //        });
 
+        divId = getDivId(MainActivity.this);
+        System.out.println("디바이스 아이디 " + divId);
+        //디바이스 아이디 전달
+
         getInfoBtn = findViewById(R.id.infoBtn);
         getManagBtn = findViewById(R.id.manageBtn);
 
@@ -98,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
         detailLayout = findViewById(R.id.detailLayout);
         mImageDetails = findViewById(R.id.image_details);
         mMainImage = findViewById(R.id.main_image);
+    }
+
+    public static String getDivId(Context context){
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
     public void startGalleryChooser() {
@@ -328,16 +340,46 @@ public class MainActivity extends AppCompatActivity {
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
 
+        String temp = "";
+        int repeatCount = 0;
+
         if (labels != null) {
             for (EntityAnnotation label : labels) {
                 message.append(String.format(Locale.US, "%.3f: %s", label.getScore(), label.getDescription()));
                 //System.out.println("가져온 것 테스트: " + label.getDescription());
                 message.append("\n");
 
+                repeatCount++;
+
+                //      * 훼스탈 처리 *
+                if (label.getDescription().equals("훼스탈")) {
+                    temp = "훼스탈";
+                    System.out.println(temp);
+                }
+                if (label.getDescription().equals("골드")) {
+                    if (temp.equals("훼스탈")) {
+                        //백엔드로 훼스탈골드 전달 & -> 의약품 상세 페이지
+                        break;
+                    }
+                }
+                if (label.getDescription().equals("플러스")) {
+                    if (temp.equals("훼스탈")) {
+                        //백엔드로 훼스탈플러스 전달 & -> 의약품 상세 페이지
+                        break;
+                    }
+                }
+
+                //      * 훼스탈 제외 경우 *
                 if (NameExtract(label.getDescription().toString()) == true){
                     break;
                 }
             }
+
+            if (repeatCount == labels.size()) {
+                picError();
+                System.out.println("반대면을 촬영해주세요 -> UI 필요");
+            }
+
         } else {
             message.append("nothing");
         }
@@ -346,13 +388,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static boolean NameExtract(String name){
-        String medi1 = "타이레놀";
-        //System.out.println(name);
+        String[] medicine = {"타이레놀", "케토톱", "인사돌", "임팩타민", "활명수", "판피린", "이모튼",
+                "판콜", "베아제"};
 
-        if(name.equals(medi1) == true){
-            return true;
-            //백엔드로 약 이름 전달 부분
+        boolean correct = false;
+
+        for (int i = 0; i < medicine.length; i++) {
+            if (name.equals(medicine[i])) {
+                correct = true;
+                break;
+            }
         }
-        else return false;
+
+        return correct;
+    }
+
+    private static void picError() {
+        picErrCount += 1;
+        
+        if (picErrCount >= 2) {
+            System.out.println("다시 촬영해주세요 -> UI 필요");
+        }
     }
 }
