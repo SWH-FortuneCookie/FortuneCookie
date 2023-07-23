@@ -5,8 +5,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:context="com.example.f_cookie.MainActivity"
-                tools:showIn="@layout/home_main">
+                tools:context="com.example.f_cookie.MainActivity">
+<!--                tools:showIn="@layout/home_main">-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+<!--            테스트용-->
             <TextView
                 android:id="@+id/image_details"
                 android:layout_width="match_parent"
@@ -29,6 +30,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="fitCenter"/>
+
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/reverseTxt"
+                android:layout_width="370dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="7dp"
+                android:text="반대면을 촬영해주세요!"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@drawable/text_background"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/againTxt"
+                android:layout_width="370dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="7dp"
+                android:text="다시 촬영해주세요!"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@drawable/text_background"/>
+
+            <android.widget.Button
+                android:visibility="gone"
+                android:id="@+id/photoBtn"
+                android:layout_marginTop="7dp"
+                android:layout_width="370dp"
+                android:layout_height="70dp"
+                android:text="촬영"
+                android:textSize="24dp"
+                android:background="@drawable/white_btn_background"
+                android:layout_gravity="center"/>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
