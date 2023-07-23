@@ -1,6 +1,7 @@
 package com.example.f_cookie;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -11,12 +12,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView mImageDetails;
     private ImageView mMainImage;
 
+    private static TextView reverseTxt, againTxt;
+    private static Button photoBtn;
+
     private ImageButton getInfoBtn;
     private ImageButton getManagBtn;
     private static int picErrCount = 0;
@@ -106,6 +114,31 @@ public class MainActivity extends AppCompatActivity {
         detailLayout = findViewById(R.id.detailLayout);
         mImageDetails = findViewById(R.id.image_details);
         mMainImage = findViewById(R.id.main_image);
+        reverseTxt = findViewById(R.id.reverseTxt);
+        againTxt = findViewById(R.id.againTxt);
+        photoBtn = findViewById(R.id.photoBtn);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    void checkErr(){
+        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(VibrationEffect.createOneShot(1000, 100));
+
+        if (picError() == 1) {
+            reverseTxt.setVisibility(View.VISIBLE);
+            photoBtn.setVisibility(View.VISIBLE);
+        }
+        if (picError() == 2) {
+            againTxt.setVisibility(View.VISIBLE);
+            photoBtn.setVisibility(View.VISIBLE);
+        }
+
+        photoBtn.setOnClickListener(view -> {
+            startCamera();
+            againTxt.setVisibility(View.GONE);
+            reverseTxt.setVisibility(View.GONE);
+            photoBtn.setVisibility(View.GONE);
+        });
     }
 
     public static String getDivId(Context context){
@@ -371,13 +404,14 @@ public class MainActivity extends AppCompatActivity {
 
                 //      * 훼스탈 제외 경우 *
                 if (NameExtract(label.getDescription().toString()) == true){
+                    //백엔드로 이름 전달 & -> 의약품 상세 페이지
                     break;
                 }
             }
 
+            //불일치 경우
             if (repeatCount == labels.size()) {
                 picError();
-                System.out.println("반대면을 촬영해주세요 -> UI 필요");
             }
 
         } else {
@@ -403,11 +437,9 @@ public class MainActivity extends AppCompatActivity {
         return correct;
     }
 
-    private static void picError() {
+    private static int picError() {
         picErrCount += 1;
-        
-        if (picErrCount >= 2) {
-            System.out.println("다시 촬영해주세요 -> UI 필요");
-        }
+
+        return picErrCount;
     }
 }
