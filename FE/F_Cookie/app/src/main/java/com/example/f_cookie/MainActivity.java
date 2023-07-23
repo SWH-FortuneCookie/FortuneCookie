@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton getManagBtn;
     private static int picErrCount = 0;
     private static String divId = "";
+    private static String temp = "";
+    private static boolean vb = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,13 @@ public class MainActivity extends AppCompatActivity {
         reverseTxt = findViewById(R.id.reverseTxt);
         againTxt = findViewById(R.id.againTxt);
         photoBtn = findViewById(R.id.photoBtn);
+
+        photoBtn.setOnClickListener(view -> {
+            startCamera();
+            againTxt.setVisibility(View.GONE);
+            reverseTxt.setVisibility(View.GONE);
+            photoBtn.setVisibility(View.GONE);
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -124,11 +133,11 @@ public class MainActivity extends AppCompatActivity {
         Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         vib.vibrate(VibrationEffect.createOneShot(1000, 100));
 
-        if (picError() == 1) {
+        if (picErrCount == 1) {
             reverseTxt.setVisibility(View.VISIBLE);
             photoBtn.setVisibility(View.VISIBLE);
         }
-        if (picError() == 2) {
+        if (picErrCount == 2) {
             againTxt.setVisibility(View.VISIBLE);
             photoBtn.setVisibility(View.VISIBLE);
         }
@@ -174,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         return new File(dir, FILE_NAME);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -183,6 +193,14 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
             Uri photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
             uploadImage(photoUri);
+        }
+
+        LableDetectionTask.Vibrate();
+        if (vb == true) {
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(VibrationEffect.createOneShot(1000, 100));
+
+            vb = false;
         }
     }
 
@@ -330,6 +348,20 @@ public class MainActivity extends AppCompatActivity {
                 TextView imageDetail = activity.findViewById(R.id.image_details);
                 imageDetail.setText(result);
             }
+            if (picErrCount == 1) {
+                Vibrate();
+                reverseTxt.setVisibility(View.VISIBLE);
+                photoBtn.setVisibility(View.VISIBLE);
+            }
+            if (picErrCount >= 2) {
+                Vibrate();
+                againTxt.setVisibility(View.VISIBLE);
+                photoBtn.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public static void Vibrate() {
+            vb = true;
         }
     }
 
@@ -373,8 +405,8 @@ public class MainActivity extends AppCompatActivity {
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
 
-        String temp = "";
         int repeatCount = 0;
+        String store = "";
 
         if (labels != null) {
             for (EntityAnnotation label : labels) {
@@ -384,26 +416,34 @@ public class MainActivity extends AppCompatActivity {
 
                 repeatCount++;
 
+                store = label.getDescription();
+
                 //      * 훼스탈 처리 *
-                if (label.getDescription().equals("훼스탈")) {
-                    temp = "훼스탈";
-                    System.out.println(temp);
-                }
-                if (label.getDescription().equals("골드")) {
+//                if (label.getDescription().equals("훼스탈")) {
+//                    temp = "훼스탈";
+//                    System.out.println(temp);
+//                }
+                if (store.equals("골드") || store.equals("플러스") || store.equals("큐") || store.equals("Q") || store.equals("티")) {
                     if (temp.equals("훼스탈")) {
+                        System.out.println(temp + store);
+                        //백엔드로 훼스탈골드 전달 & -> 의약품 상세 페이지
+                        break;
+                    }
+                    if (temp.equals("판피린")) {
+                        System.out.println(temp + store);
                         //백엔드로 훼스탈골드 전달 & -> 의약품 상세 페이지
                         break;
                     }
                 }
-                if (label.getDescription().equals("플러스")) {
-                    if (temp.equals("훼스탈")) {
-                        //백엔드로 훼스탈플러스 전달 & -> 의약품 상세 페이지
-                        break;
-                    }
-                }
+//                if (label.getDescription().equals("플러스")) {
+//                    if (temp.equals("훼스탈")) {
+//                        //백엔드로 훼스탈플러스 전달 & -> 의약품 상세 페이지
+//                        break;
+//                    }
+//                }
 
-                //      * 훼스탈 제외 경우 *
                 if (NameExtract(label.getDescription().toString()) == true){
+                    System.out.println(temp + store);
                     //백엔드로 이름 전달 & -> 의약품 상세 페이지
                     break;
                 }
@@ -415,6 +455,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else {
+            picError();
             message.append("nothing");
         }
 
@@ -429,17 +470,32 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < medicine.length; i++) {
             if (name.equals(medicine[i])) {
-                correct = true;
+                if (name.equals("훼스탈")) {
+                    temp = "훼스탈";
+                }
+                if (name.equals("판피린")) {
+                    temp = "판피린";
+                }
+                else {
+                    correct = true;
+                }
                 break;
             }
         }
-
         return correct;
     }
 
     private static int picError() {
-        picErrCount += 1;
-
+        picErrCount++;
+        System.out.println("에러카운트 " + picErrCount);
         return picErrCount;
+    }
+
+    private class Vibration {
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        void Vibrate() {
+            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+            vib.vibrate(VibrationEffect.createOneShot(1000, 100));
+        }
     }
 }
