@@ -14,21 +14,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <ImageButton
-        android:id="@+id/infoBtn"
-        android:src="@drawable/group7"
-        android:background="@android:color/transparent"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/infoBtn"-->
+<!--        android:src="@drawable/group7"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
 
-    <ImageButton
+<!--    <ImageButton-->
+<!--        android:id="@+id/manageBtn"-->
+<!--        android:background="@drawable/group7"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
+
+    <Button
+        android:id="@+id/infoBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="의약품 정보 얻기"
+        android:background="@drawable/r1"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp" />
+
+    <Button
         android:id="@+id/manageBtn"
-        android:src="@drawable/group8"
-        android:background="@android:color/transparent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내 복약관리"
+        android:background="@drawable/r2"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

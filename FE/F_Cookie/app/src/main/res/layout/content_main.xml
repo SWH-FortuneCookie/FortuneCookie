@@ -8,69 +8,152 @@
                 tools:context="com.example.f_cookie.MainActivity">
 <!--                tools:showIn="@layout/home_main">-->
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-<!--            테스트용-->
+            <ImageView
+                android:id="@+id/main_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/descriptTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사진을 인식 중입니다!"
+                android:textColor="@color/white"
+                android:textSize="22dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/r3"/>
+            
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/reverseTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="반대면을 촬영해주세요!"
+                android:textColor="@color/white"
+                android:textSize="22dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/r4"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/againTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="다시 촬영해주세요!"
+                android:textColor="@color/white"
+                android:textSize="22dp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/r4"/>
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/photoBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="     촬영"
+                android:textColor="#3f3f3f"
+                android:textSize="28dp"
+                android:textStyle="bold"
+                android:background="@drawable/photo"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+    </FrameLayout>
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--&lt;!&ndash;            테스트용&ndash;&gt;-->
             <TextView
                 android:id="@+id/image_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text=""/>
+                android:text=""
+                android:textSize="0dp"/>
 
-            <ImageView
-                android:id="@+id/main_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="fitCenter"/>
+<!--            <ImageView-->
+<!--                android:id="@+id/main_image"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="200dp"-->
+<!--                android:scaleType="fitCenter"/>-->
 
 
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/reverseTxt"
-                android:layout_width="370dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="7dp"
-                android:text="반대면을 촬영해주세요!"
-                android:textColor="@color/white"
-                android:textSize="24dp"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:background="@drawable/text_background"/>
+<!--            <TextView-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/reverseTxt"-->
+<!--                android:layout_width="370dp"-->
+<!--                android:layout_height="70dp"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:text="반대면을 촬영해주세요!"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="22dp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:background="@drawable/text_background"/>-->
 
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/againTxt"
-                android:layout_width="370dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="7dp"
-                android:text="다시 촬영해주세요!"
-                android:textColor="@color/white"
-                android:textSize="24dp"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:background="@drawable/text_background"/>
+<!--            <TextView-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/againTxt"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:text="다시 촬영해주세요!"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="22dp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:gravity="center"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:background="@drawable/r4"/>-->
 
-            <android.widget.Button
-                android:visibility="gone"
-                android:id="@+id/photoBtn"
-                android:layout_marginTop="7dp"
-                android:layout_width="370dp"
-                android:layout_height="70dp"
-                android:text="촬영"
-                android:textSize="24dp"
-                android:background="@drawable/white_btn_background"
-                android:layout_gravity="center"/>
+<!--            <Button-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/photoBtn"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="     촬영"-->
+<!--                android:textColor="#3f3f3f"-->
+<!--                android:textSize="28dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:background="@drawable/photo"-->
+<!--                android:layout_gravity="center"/>-->
 
-        </LinearLayout>
-    </ScrollView>
+<!--        </LinearLayout>-->
+<!--    </ScrollView>-->
 </RelativeLayout>
