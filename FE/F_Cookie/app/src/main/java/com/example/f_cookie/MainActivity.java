@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
@@ -71,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView mImageDetails;
     private ImageView mMainImage;
 
-    private static TextView reverseTxt, againTxt;
+    private static TextView reverseTxt, againTxt, descriptTxt;
     private static Button photoBtn;
 
-    private ImageButton getInfoBtn;
-    private ImageButton getManagBtn;
+    private Button getInfoBtn;
+    private Button getManagBtn;
     private static int picErrCount = 0;
     private static String divId = "";
     private static String temp = "";
@@ -99,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
 //            builder.create().show();
 //        });
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
         divId = getDivId(MainActivity.this);
         System.out.println("디바이스 아이디 " + divId);
         //디바이스 아이디 전달
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         mMainImage = findViewById(R.id.main_image);
         reverseTxt = findViewById(R.id.reverseTxt);
         againTxt = findViewById(R.id.againTxt);
+        descriptTxt = findViewById(R.id.descriptTxt);
         photoBtn = findViewById(R.id.photoBtn);
 
         photoBtn.setOnClickListener(view -> {
@@ -349,11 +353,13 @@ public class MainActivity extends AppCompatActivity {
                 imageDetail.setText(result);
             }
             if (picErrCount == 1) {
+                descriptTxt.setVisibility(View.INVISIBLE);
                 Vibrate();
                 reverseTxt.setVisibility(View.VISIBLE);
                 photoBtn.setVisibility(View.VISIBLE);
             }
             if (picErrCount >= 2) {
+                descriptTxt.setVisibility(View.INVISIBLE);
                 Vibrate();
                 againTxt.setVisibility(View.VISIBLE);
                 photoBtn.setVisibility(View.VISIBLE);
@@ -369,6 +375,10 @@ public class MainActivity extends AppCompatActivity {
         // Switch text to loading
         detailLayout.setVisibility(View.VISIBLE);
         mImageDetails.setText("Uploading image. Please wait.");
+
+        // 인식 중 UI 여기!
+        descriptTxt.setVisibility(View.VISIBLE);
+        photoBtn.setVisibility(View.VISIBLE);
 
         // Do the real work in an async task, because we need to use the network anyway
         try {
