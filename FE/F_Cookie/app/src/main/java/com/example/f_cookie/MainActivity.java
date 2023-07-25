@@ -16,6 +16,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
     private static String divId = "";
     private static String temp = "";
     private static boolean vb = false;
+    private static boolean next = false;
+
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
 //                    .setNegativeButton("Camera", (dialog, which) -> startCamera());
 //            builder.create().show();
 //        });
+
+        context = this;
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
@@ -191,6 +198,11 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //    }
 
+    public void DetailPage() {
+        Intent intent = new Intent(this, MeDetailActivity.class);
+        startActivity(intent);
+    }
+
     public static String getDivId(Context context){
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
@@ -236,11 +248,10 @@ public class MainActivity extends AppCompatActivity {
             uploadImage(photoUri);
         }
 
-        LableDetectionTask.Vibrate();
+        Vibrate();
         if (vb == true) {
             Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
             vib.vibrate(VibrationEffect.createOneShot(1000, 100));
-
             vb = false;
         }
     }
@@ -331,13 +342,6 @@ public class MainActivity extends AppCompatActivity {
             base64EncodedImage.encodeContent(imageBytes);
             annotateImageRequest.setImage(base64EncodedImage);
 
-            // add the features we want
-//            annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
-//                Feature labelDetection = new Feature();
-//                labelDetection.setType("LABEL_DETECTION");
-//                labelDetection.setMaxResults(MAX_LABEL_RESULTS);
-//                add(labelDetection);
-//            }});
             annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
                 Feature textDetection = new Feature();
                 textDetection.setType("TEXT_DETECTION");
@@ -389,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView imageDetail = activity.findViewById(R.id.image_details);
                 imageDetail.setText(result);
             }
+
             if (picErrCount == 1) {
                 descriptTxt.setVisibility(View.INVISIBLE);
                 Vibrate();
@@ -400,11 +405,9 @@ public class MainActivity extends AppCompatActivity {
                 Vibrate();
                 againTxt.setVisibility(View.VISIBLE);
                 photoBtn.setVisibility(View.VISIBLE);
-            }
-        }
 
-        public static void Vibrate() {
-            vb = true;
+                picErrCount = 0;
+            }
         }
     }
 
@@ -465,33 +468,25 @@ public class MainActivity extends AppCompatActivity {
 
                 store = label.getDescription();
 
-                //      * 훼스탈 처리 *
-//                if (label.getDescription().equals("훼스탈")) {
-//                    temp = "훼스탈";
-//                    System.out.println(temp);
-//                }
                 if (store.equals("골드") || store.equals("플러스") || store.equals("큐") || store.equals("Q") || store.equals("티")) {
                     if (temp.equals("훼스탈")) {
                         System.out.println(temp + store);
                         //백엔드로 훼스탈골드 전달 & -> 의약품 상세 페이지
+                        BackEndAndDetail();
                         break;
                     }
                     if (temp.equals("판피린")) {
                         System.out.println(temp + store);
                         //백엔드로 훼스탈골드 전달 & -> 의약품 상세 페이지
+                        BackEndAndDetail();
                         break;
                     }
                 }
-//                if (label.getDescription().equals("플러스")) {
-//                    if (temp.equals("훼스탈")) {
-//                        //백엔드로 훼스탈플러스 전달 & -> 의약품 상세 페이지
-//                        break;
-//                    }
-//                }
 
                 if (NameExtract(label.getDescription().toString()) == true){
                     System.out.println(temp + store);
                     //백엔드로 이름 전달 & -> 의약품 상세 페이지
+                    BackEndAndDetail();
                     break;
                 }
             }
@@ -538,11 +533,23 @@ public class MainActivity extends AppCompatActivity {
         return picErrCount;
     }
 
-    private class Vibration {
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        void Vibrate() {
-            Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-            vib.vibrate(VibrationEffect.createOneShot(1000, 100));
+    public static void Vibrate() {
+        if (picErrCount >= 1) {
+            vb = true;
         }
     }
+
+    public static void BackEndAndDetail() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                MainActivity md = new MainActivity();
+//                md.getClass();
+//                md.DetailPage();
+                ((MainActivity)MainActivity.context).DetailPage();
+            }
+        }, 0);
+    }
+
 }
