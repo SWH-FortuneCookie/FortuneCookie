@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
+import android.content.Intent;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -135,6 +136,37 @@ public class MainActivity extends AppCompatActivity {
             reverseTxt.setVisibility(View.GONE);
             photoBtn.setVisibility(View.GONE);
         });
+
+        // 뒤로가기 버튼
+        ImageButton backButton = findViewById(R.id.backbtn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        // 사용상 주의사항 보러가기 버튼
+        android.widget.Button drugWarningsButton = findViewById(R.id.drug_warningsbtn);
+        drugWarningsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, DrugWarningsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // 앱 시작 시 자동으로 팝업 액티비티 띄우기
+        showPopupActivity();
+    }
+
+    private void showPopupActivity() {
+        Intent intent = new Intent(MainActivity.this, PopupActivity.class);
+        startActivity(intent);
+
+        // 팝업 액티비티의 배경을 투명하게 설정
+        getWindow().setBackgroundDrawableResource(R.drawable.rounded_popup_background);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

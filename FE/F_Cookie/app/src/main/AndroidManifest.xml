@@ -43,6 +43,13 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
+        <activity android:name=".DrugWarningsActivity" />
+
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@style/PopupTheme"
+            android:label="Popup Activity">
+        </activity>
 
     </application>
 
