@@ -1,5 +1,6 @@
 package com.swh.medicine.domain.medicine.controller;
 
+import com.swh.medicine.domain.medicine.dto.response.CautionResponseDto;
 import com.swh.medicine.domain.medicine.dto.response.MedicineResponseDto;
 import com.swh.medicine.domain.medicine.service.MedicineService;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,11 @@ public class MedicineController {
     public ResponseEntity<MedicineResponseDto> getMedicine(@RequestParam String name) {
         MedicineResponseDto medicineResponseDto = medicineService.getMedicine(name);
         return ResponseEntity.ok().body(medicineResponseDto);
+    }
+
+    @GetMapping("/caution")
+    public ResponseEntity<CautionResponseDto> getCaution(@RequestParam String name) {
+        CautionResponseDto cautionResponseDto = medicineService.getCaution(name);
+        return ResponseEntity.ok().body(cautionResponseDto);
     }
 }

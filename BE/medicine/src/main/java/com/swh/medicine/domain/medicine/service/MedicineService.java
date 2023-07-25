@@ -6,6 +6,7 @@ import com.swh.medicine.domain.medicine.domain.entity.Medicine;
 import com.swh.medicine.domain.medicine.domain.repository.EfficacyRepository;
 import com.swh.medicine.domain.medicine.domain.repository.InformationRepository;
 import com.swh.medicine.domain.medicine.domain.repository.MedicineRepository;
+import com.swh.medicine.domain.medicine.dto.response.CautionResponseDto;
 import com.swh.medicine.domain.medicine.dto.response.MedicineResponseDto;
 import com.swh.medicine.global.exception.CustomException;
 import com.swh.medicine.global.exception.ErrorCode;
@@ -28,5 +29,10 @@ public class MedicineService {
         List<Information> informationList = informationRepository.findByMedicine(medicine);
 
         return MedicineResponseDto.of(medicine, efficacyList, informationList);
+    }
+
+    public CautionResponseDto getCaution(String name) {
+        Medicine medicine = medicineRepository.findByName(name).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
+        return CautionResponseDto.of(medicine);
     }
 }
