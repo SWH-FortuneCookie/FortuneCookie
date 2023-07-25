@@ -117,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
             builder.create().show();
         });
 
+        getManagBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ManageActivity.class);
+            startActivity(intent);
+        });
+
         detailLayout = findViewById(R.id.detailLayout);
         mImageDetails = findViewById(R.id.image_details);
         mMainImage = findViewById(R.id.main_image);

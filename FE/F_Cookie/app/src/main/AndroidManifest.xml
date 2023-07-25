@@ -32,6 +32,7 @@
                 android:value="" />
         </activity>
 
+        <activity android:name=".ManageActivity" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
