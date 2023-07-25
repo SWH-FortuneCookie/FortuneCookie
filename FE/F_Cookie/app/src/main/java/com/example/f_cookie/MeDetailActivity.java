@@ -16,14 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.flexbox.FlexboxLayout;
 
+import org.w3c.dom.Text;
+
 public class MeDetailActivity extends AppCompatActivity {
 
     ImageButton backBtn;
     Button drugWarningsButton;
     Button addMngBtn;
     TextView name, feature, usage, store;
-    TextView[] effect;
-    TextView[] component;
     ImageView looks;
     FlexboxLayout e_view, c_view;
 
@@ -33,14 +33,13 @@ public class MeDetailActivity extends AppCompatActivity {
         setContentView(R.layout.drug_detail);
 
         c_view = findViewById(R.id.c_view);
+        e_view = findViewById(R.id.e_view);
         backBtn = findViewById(R.id.d_backbtn);
         addMngBtn = findViewById(R.id.addlistButton);
         name = findViewById(R.id.drug_name);
         feature = findViewById(R.id.drug_featureinfo);
         usage = findViewById(R.id.drug_derections_info);
         store = findViewById(R.id.drug_storage_info);
-//        effect = findViewById(R.id.drug_uses_text);
-//        component = findViewById(R.id.drug_activeinformation_info);
         looks = findViewById(R.id.drug_featureimg);
 
         backBtn.setOnClickListener(view -> {
@@ -63,26 +62,17 @@ public class MeDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        TextView tv = new TextView(getApplicationContext());
-        tv.setText("테스트1");
-        tv.setTextSize(20);
-        tv.setId(0);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.topMargin = Math.round(5 * getResources().getDisplayMetrics().density);
-        tv.setLayoutParams(params);
+        TextView[] e_tv = new TextView[9];
+        for (int i = 1; i < 10; i++) {
+            int e_resId = getResources().getIdentifier("e_tv" + i, "id", "com.example.f_cookie");
+            e_tv[i - 1] = findViewById(e_resId);
+        }
 
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int size = Math.round(10 * dm.density);
-
-        tv.setPadding(size, size, size, size);
-        tv.setBackground(getResources().getDrawable(R.drawable.uses_design));
-        tv.setTypeface(null, Typeface.BOLD);
-        tv.setTextColor(Color.BLACK);
-        tv.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        c_view.addView(tv);
-
+        TextView[] c_tv = new TextView[11];
+        for (int i = 1; i < 12; i++) {
+            int c_resId = getResources().getIdentifier("c_tv" + i, "id", "com.example.f_cookie");
+            c_tv[i - 1] = findViewById(c_resId);
+        }
     }
 
         private void showPopupActivity() {
