@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#212121"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/backbtn"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_margin="15dp"
+                android:background="@drawable/circle_button"
+                android:src="@drawable/baseline_arrow_back_ios_new_black_24dp"
+                android:textSize="10sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#212121">
+
+                <TextView
+                    android:id="@+id/drug"
+                    android:layout_width="150dp"
+                    android:layout_height="33dp"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/text_style"
+                    android:gravity="center"
+                    android:text="사용상 주의사항"
+                    android:textColor="@color/white"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/drug_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/drug"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="DrugName"
+                    android:textColor="#E6E6E6"
+                    android:textSize="40dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/drug_warning"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/drug_name"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="information"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    tools:ignore="MissingConstraints" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,4 +17,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="PopupTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item><!-- 상단바 없애기 -->
+        <item name="android:windowBackground">@drawable/rounded_popup_background</item><!-- 모서리 둥글게 -->
+    </style>
+
+
 </resources>
