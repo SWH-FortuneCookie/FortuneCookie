@@ -22,7 +22,9 @@ public class Medicine {
     private String description;
     private String dosage;
     private String storage;
+    @Column(columnDefinition = "LONGTEXT")
     private String caution;
+    private String subName;
 
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
     private List<Efficacy> efficacyList = new ArrayList<>();
@@ -31,12 +33,13 @@ public class Medicine {
     private List<Information> informationList = new ArrayList<>();
 
     @Builder
-    public Medicine(String name, String shapeUrl, String description, String dosage, String storage, String caution) {
+    public Medicine(String name, String shapeUrl, String description, String dosage, String storage, String caution, String subName) {
         this.name = name;
         this.shapeUrl = shapeUrl;
         this.description = description;
         this.dosage = dosage;
         this.storage = storage;
         this.caution = caution;
+        this.subName = subName;
     }
 }
