@@ -118,7 +118,8 @@
                     android:id="@+id/drug_uses"
                     android:layout_width="94dp"
                     android:layout_height="33dp"
-                    android:layout_margin="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
                     android:background="@drawable/text_style"
                     android:gravity="center"
                     android:text="효능효과"
@@ -127,59 +128,145 @@
                     android:textStyle="bold"
                     tools:ignore="MissingConstraints" />
 
-                <TextView
-                    android:id="@+id/drug_uses_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/drug_uses"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/white"
-                    android:textSize="0dp"
-                    android:textStyle="bold"
-                    tools:ignore="MissingConstraints" />
-
-                <LinearLayout
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/e_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@id/drug_uses_info">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_below="@id/drug_uses"
+                    app:flexWrap="wrap">
+
                     <TextView
-                        android:id="@+id/drug_uses_text"
+                        android:visibility="gone"
+                        android:id="@+id/e_tv1"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:layout_below="@id/drug_uses_info"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="15dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:background="@drawable/uses_design"
-                        android:gravity="center"
-                        android:text="두통"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="테스트1"
                         android:textStyle="bold"
-                        tools:ignore="MissingConstraints" />
-                </LinearLayout>
-<!--                <TextView-->
-<!--                    android:id="@+id/drug_uses_text"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:layout_below="@id/drug_uses_info"-->
-<!--                    android:layout_marginStart="15dp"-->
-<!--                    android:layout_marginLeft="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:layout_marginBottom="15dp"-->
-<!--                    android:paddingStart="10dp"-->
-<!--                    android:paddingEnd="10dp"-->
-<!--                    android:background="@drawable/uses_design"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="두통"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="20dp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    tools:ignore="MissingConstraints" />-->
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+
+                </com.google.android.flexbox.FlexboxLayout>
 
             </RelativeLayout>
 
@@ -192,7 +279,8 @@
                     android:id="@+id/drug_activeinformation"
                     android:layout_width="94dp"
                     android:layout_height="33dp"
-                    android:layout_margin="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
                     android:background="@drawable/text_style"
                     android:gravity="center"
                     android:text="성분정보"
@@ -202,32 +290,173 @@
                     tools:ignore="MissingConstraints" />
 
 <!--                flexbox-->
-
-                <LinearLayout
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/c_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_below="@+id/drug_activeinformation"
-                    android:orientation="horizontal">
-                </LinearLayout>
+                    app:flexWrap="wrap">
 
-                <!--                <TextView-->
-                <!--                    android:id="@+id/drug_activeinformation_info"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="40dp"-->
-                <!--                    android:layout_below="@+id/drug_activeinformation"-->
-                <!--                    android:layout_marginStart="15dp"-->
-                <!--                    android:layout_marginLeft="5dp"-->
-                <!--                    android:layout_marginEnd="5dp"-->
-                <!--                    android:layout_marginBottom="15dp"-->
-                <!--                    android:paddingStart="10dp"-->
-                <!--                    android:paddingEnd="10dp"-->
-                <!--                    android:background="@drawable/uses_design"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:text="아세트아미노펜 325mg"-->
-                <!--                    android:textColor="@color/black"-->
-                <!--                    android:textSize="20dp"-->
-                <!--                    android:textStyle="bold"-->
-                <!--                    tools:ignore="MissingConstraints" />-->
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/c_tv11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+
+                </com.google.android.flexbox.FlexboxLayout>
 
             </RelativeLayout>
 
