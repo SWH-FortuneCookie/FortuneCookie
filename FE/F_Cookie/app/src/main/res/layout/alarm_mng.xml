@@ -15,7 +15,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageButton
-            android:id="@+id/backBtn"
+            android:id="@+id/backbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/backBtn"
-            android:layout_margin="25dp"
+            android:layout_margin="15dp"
             android:text="타이레놀 8시간이알서방정 325mg"
             android:textColor="#F2F2F2"
             android:textSize="35dp"
@@ -183,9 +183,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginStart="25dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="0dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/alarm_button"
                 android:gravity="center"
                 android:paddingStart="12dp"
@@ -197,6 +197,39 @@
                 tools:ignore="MissingConstraints" />
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/morning_button"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/day_night"
+                android:text="오전"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/afternoon_button"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/day_night"
+                android:text="오후"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -289,7 +322,7 @@
     <Button
         android:id="@+id/save"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="80dp"
         android:background="@drawable/save"
         android:text="저장하기"
         android:textColor="@color/white"
