@@ -1,6 +1,303 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#212121"
+    tools:context=".ManageActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="24dp"
+            android:src="@drawable/g1"
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:id="@+id/drug_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/backBtn"
+            android:layout_margin="25dp"
+            android:text="타이레놀 8시간이알서방정 325mg"
+            android:textColor="#F2F2F2"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/alarm_button"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="요일"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:gravity="center">
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rowCount="2"
+                android:columnCount="4"
+                android:alignmentMode="alignMargins"
+                android:layout_gravity="center"
+                android:columnOrderPreserved="false"
+                android:layoutDirection="ltr">
+
+                <Button
+                    android:id="@+id/buttonMonday"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="월"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/day_button" />
+
+                <Button
+                    android:id="@+id/buttonTuesday"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="화"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/day_button" />
+
+                <Button
+                    android:id="@+id/buttonWednesday"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="수"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/day_button" />
+
+                <Button
+                    android:id="@+id/buttonThursday"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="목"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/day_button" />
+
+                <Button
+                    android:id="@+id/buttonFriday"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="금"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/day_button" />
+
+                <Button
+                    android:id="@+id/buttonSaturday"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="토"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/day_button" />
+
+                <Button
+                    android:id="@+id/buttonSunday"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="일"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/day_button" />
+
+                <Button
+                    android:id="@+id/buttonEveryday"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="매일"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:background="@drawable/day_button" />
+
+            </GridLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/alarm_button"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="시간"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="110dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="#181818"
+                    app:cardElevation="8dp"
+                    app:cardCornerRadius="5dp">
+
+                    <EditText
+                        android:id="@+id/hourEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/time_button"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textSize="25dp"
+                        android:textAlignment="center"
+                        android:padding="10dp" />
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="20dp"
+                android:text="시"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="110dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="#181818"
+                    app:cardElevation="8dp"
+                    app:cardCornerRadius="5dp">
+
+                    <EditText
+                        android:id="@+id/minuteEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/time_button"
+                        android:inputType="number"
+                        android:textColor="@color/white"
+                        android:textSize="25dp"
+                        android:textAlignment="center"
+                        android:padding="10dp" />
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="분"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/save"
+        android:text="저장하기"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
