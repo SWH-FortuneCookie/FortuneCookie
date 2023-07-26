@@ -30,12 +30,12 @@ public class DetailTime {
         this.takingMedicine = takingMedicine;
     }
 
-    public static DetailTime of(TakingMedicine takingMedicine, int day, int hour, int minutes) {
+    public static DetailTime of(TakingMedicine takingMedicine, int day, int hour, int minute) {
         return DetailTime.builder()
                 .takingMedicine(takingMedicine)
                 .day(day)
                 .hour(hour)
-                .minute(minutes)
+                .minute(minute)
                 .build();
     }
 }

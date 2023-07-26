@@ -110,7 +110,7 @@ public class MedicineService {
         TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine);
         int[] days = alarmRequestDto.getDays();
         for(int day : days) {
-            detailTimeRepository.save(DetailTime.of(takingMedicine, day, alarmRequestDto.getHour(), alarmRequestDto.getMinutes()));
+            detailTimeRepository.save(DetailTime.of(takingMedicine, day, alarmRequestDto.getHour(), alarmRequestDto.getMinute()));
         }
         return "알람 설정 완료";
     }
@@ -142,7 +142,7 @@ public class MedicineService {
         // 새로운 상세 시간을 저장
         int[] days = alarmRequestDto.getDays();
         for(int day : days) {
-            detailTimeRepository.save(DetailTime.of(takingMedicine, day, alarmRequestDto.getHour(), alarmRequestDto.getMinutes()));
+            detailTimeRepository.save(DetailTime.of(takingMedicine, day, alarmRequestDto.getHour(), alarmRequestDto.getMinute()));
         }
         return "알람 수정 완료";
 
