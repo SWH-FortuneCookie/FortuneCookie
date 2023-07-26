@@ -32,4 +32,7 @@ public class MedicineController {
         String result = medicineService.takingMedicine(deviceId, takingRequestDto.getName());
         return ResponseEntity.ok().body(result);
     }
+//
+//    @GetMapping("/{deviceId}/taking")
+//    public
 }
