@@ -48,10 +48,16 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,19 +98,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_main);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar();
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(view -> {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//            builder
-//                    .setMessage("Choose a picture")
-//                    .setPositiveButton("Gallery", (dialog, which) -> startGalleryChooser())
-//                    .setNegativeButton("Camera", (dialog, which) -> startCamera());
-//            builder.create().show();
-//        });
 
         context = this;
 
@@ -113,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         divId = getDivId(MainActivity.this);
         System.out.println("디바이스 아이디 " + divId);
         //디바이스 아이디 전달
+        login();
 
         getInfoBtn = findViewById(R.id.infoBtn);
         getManagBtn = findViewById(R.id.manageBtn);
@@ -143,60 +137,61 @@ public class MainActivity extends AppCompatActivity {
             reverseTxt.setVisibility(View.GONE);
             photoBtn.setVisibility(View.GONE);
         });
-
-//        // 뒤로가기 버튼
-//        ImageButton backButton = findViewById(R.id.backbtn);
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-
-//        // 사용상 주의사항 보러가기 버튼
-//        android.widget.Button drugWarningsButton = findViewById(R.id.drug_warningsbtn);
-//        drugWarningsButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(MainActivity.this, DrugWarningsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        // 앱 시작 시 자동으로 팝업 액티비티 띄우기
-//        showPopupActivity();
     }
 
-//    private void showPopupActivity() {
-//        Intent intent = new Intent(MainActivity.this, PopupActivity.class);
-//        startActivity(intent);
-//
-//        // 팝업 액티비티의 배경을 투명하게 설정
-//        getWindow().setBackgroundDrawableResource(R.drawable.rounded_popup_background);
-//    }
-//
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    void checkErr(){
-//        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-//        vib.vibrate(VibrationEffect.createOneShot(1000, 100));
-//
-//        if (picErrCount == 1) {
-//            reverseTxt.setVisibility(View.VISIBLE);
-//            photoBtn.setVisibility(View.VISIBLE);
-//        }
-//        if (picErrCount == 2) {
-//            againTxt.setVisibility(View.VISIBLE);
-//            photoBtn.setVisibility(View.VISIBLE);
-//        }
-//
-//        photoBtn.setOnClickListener(view -> {
-//            startCamera();
-//            againTxt.setVisibility(View.GONE);
-//            reverseTxt.setVisibility(View.GONE);
-//            photoBtn.setVisibility(View.GONE);
-//        });
-//    }
+    void login() {
+        try{
+            CustomTask task = new CustomTask();
+            String result = task.execute(divId).get();
+
+            System.out.println("받은 값" + result);
+        } catch (Exception e) {
+
+        }
+    }
+
+    class CustomTask extends AsyncTask<String, Void, String> {
+        String sendMsg, receiveMsg;
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                String str;
+                URL url = new URL("http://43.202.15.83:8080/fortunecookie/device");
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("Content-Type", "application/problem+json");
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+
+                // 서버에 보낼 값 포함해 요청함.
+                OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
+
+                sendMsg = strings[0]; // GET방식으로 작성해 POST로 보냄 ex) "id=admin&pwd=1234";
+                osw.write(sendMsg);                           // OutputStreamWriter에 담아 전송
+                osw.flush();
+
+                // jsp와 통신이 잘 되고, 서버에서 보낸 값 받음.
+                if(connection.getResponseCode() == connection.HTTP_OK) {
+                    InputStreamReader tmp = new InputStreamReader(connection.getInputStream(), "UTF-8");
+                    BufferedReader reader = new BufferedReader(tmp);
+                    StringBuffer buffer = new StringBuffer();
+                    while ((str = reader.readLine()) != null) {
+                        buffer.append(str);
+                    }
+                    receiveMsg = buffer.toString();
+                } else {    // 통신이 실패한 이유를 찍기위한 로그
+                    Log.i("통신 결과", connection.getResponseCode() + "에러");
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return receiveMsg;
+        }
+    }
 
     public void DetailPage() {
         Intent intent = new Intent(this, MeDetailActivity.class);
