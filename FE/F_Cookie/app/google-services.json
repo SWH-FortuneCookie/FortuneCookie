@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "324028714603",
+    "project_id": "fortunecookie-88d3e",
+    "storage_bucket": "fortunecookie-88d3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324028714603:android:8e554d071987df14e3eb2e",
+        "android_client_info": {
+          "package_name": "com.example.f_cookie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324028714603-flr0m43rpnb2r173fi3blggs2h19p9ko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABp6zjSDtEJMDOODoxAzIslpUGogYCxrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324028714603-flr0m43rpnb2r173fi3blggs2h19p9ko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
