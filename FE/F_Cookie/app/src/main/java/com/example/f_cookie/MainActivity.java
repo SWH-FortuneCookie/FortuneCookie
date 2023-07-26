@@ -60,8 +60,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyCvsAkYUkIlKG7c4yiSjsKe9MHRrtjNE6M";
@@ -106,7 +113,32 @@ public class MainActivity extends AppCompatActivity {
         divId = getDivId(MainActivity.this);
         System.out.println("디바이스 아이디 " + divId);
         //디바이스 아이디 전달
-        login();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://43.202.15.83:8080")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+        HashMap<String, Object> input = new HashMap<>();
+        input.put("deviceId", divId);
+
+        retrofitAPI.postData(input).enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if (response.isSuccessful()) {
+                    Post data = response.body();
+                    System.out.println("Test Post 성공 " + data.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                System.out.println("실패");
+
+            }
+        });
+
 
         getInfoBtn = findViewById(R.id.infoBtn);
         getManagBtn = findViewById(R.id.manageBtn);
@@ -137,60 +169,6 @@ public class MainActivity extends AppCompatActivity {
             reverseTxt.setVisibility(View.GONE);
             photoBtn.setVisibility(View.GONE);
         });
-    }
-
-    void login() {
-        try{
-            CustomTask task = new CustomTask();
-            String result = task.execute(divId).get();
-
-            System.out.println("받은 값" + result);
-        } catch (Exception e) {
-
-        }
-    }
-
-    class CustomTask extends AsyncTask<String, Void, String> {
-        String sendMsg, receiveMsg;
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                String str;
-                URL url = new URL("http://43.202.15.83:8080/fortunecookie/device");
-
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Content-Type", "application/problem+json");
-                connection.setRequestMethod("POST");
-                connection.setDoOutput(true);
-
-                // 서버에 보낼 값 포함해 요청함.
-                OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
-
-                sendMsg = strings[0]; // GET방식으로 작성해 POST로 보냄 ex) "id=admin&pwd=1234";
-                osw.write(sendMsg);                           // OutputStreamWriter에 담아 전송
-                osw.flush();
-
-                // jsp와 통신이 잘 되고, 서버에서 보낸 값 받음.
-                if(connection.getResponseCode() == connection.HTTP_OK) {
-                    InputStreamReader tmp = new InputStreamReader(connection.getInputStream(), "UTF-8");
-                    BufferedReader reader = new BufferedReader(tmp);
-                    StringBuffer buffer = new StringBuffer();
-                    while ((str = reader.readLine()) != null) {
-                        buffer.append(str);
-                    }
-                    receiveMsg = buffer.toString();
-                } else {    // 통신이 실패한 이유를 찍기위한 로그
-                    Log.i("통신 결과", connection.getResponseCode() + "에러");
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return receiveMsg;
-        }
     }
 
     public void DetailPage() {
