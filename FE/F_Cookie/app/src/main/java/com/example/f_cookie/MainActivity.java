@@ -115,15 +115,20 @@ public class MainActivity extends AppCompatActivity {
         //디바이스 아이디 전달
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://43.202.15.83:8080")
+                .baseUrl("http://43.202.15.83:8080/fortunecookie/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-        HashMap<String, Object> input = new HashMap<>();
-        input.put("deviceId", divId);
+//        Post post = new Post();
+//        post.setDeviceId(divId);
 
-        retrofitAPI.postData(input).enqueue(new Callback<Post>() {
+//        HashMap<String, Object> input = new HashMap<>();
+//        input.put("deviceId", divId);
+//
+        Call<Post> call = retrofitAPI.getName(divId);
+
+        call.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.isSuccessful()) {
@@ -134,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                System.out.println("실패");
-
+                System.out.println("Test Post 실패 ");
             }
         });
+
 
 
         getInfoBtn = findViewById(R.id.infoBtn);
