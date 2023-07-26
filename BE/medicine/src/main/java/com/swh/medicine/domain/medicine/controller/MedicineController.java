@@ -1,5 +1,6 @@
 package com.swh.medicine.domain.medicine.controller;
 
+import com.swh.medicine.domain.medicine.dto.request.TakingRequestDto;
 import com.swh.medicine.domain.medicine.dto.response.CautionResponseDto;
 import com.swh.medicine.domain.medicine.dto.response.MedicineResponseDto;
 import com.swh.medicine.domain.medicine.service.MedicineService;
@@ -25,4 +26,13 @@ public class MedicineController {
         CautionResponseDto cautionResponseDto = medicineService.getCaution(name);
         return ResponseEntity.ok().body(cautionResponseDto);
     }
+
+    @PostMapping("/{deviceId}/taking")
+    public ResponseEntity<String> takingMedicine(@PathVariable String deviceId, @RequestBody TakingRequestDto takingRequestDto) {
+        String result = medicineService.takingMedicine(deviceId, takingRequestDto.getName());
+        return ResponseEntity.ok().body(result);
+    }
+//
+//    @GetMapping("/{deviceId}/taking")
+//    public
 }

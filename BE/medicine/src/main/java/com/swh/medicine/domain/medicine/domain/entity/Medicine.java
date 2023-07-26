@@ -25,6 +25,7 @@ public class Medicine {
     @Column(columnDefinition = "LONGTEXT")
     private String caution;
     private String subName;
+    private String count;
 
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
     private List<Efficacy> efficacyList = new ArrayList<>();
@@ -33,7 +34,7 @@ public class Medicine {
     private List<Information> informationList = new ArrayList<>();
 
     @Builder
-    public Medicine(String name, String shapeUrl, String description, String dosage, String storage, String caution, String subName) {
+    public Medicine(String name, String shapeUrl, String description, String dosage, String storage, String caution, String subName, String count) {
         this.name = name;
         this.shapeUrl = shapeUrl;
         this.description = description;
@@ -41,5 +42,6 @@ public class Medicine {
         this.storage = storage;
         this.caution = caution;
         this.subName = subName;
+        this.count = count;
     }
 }

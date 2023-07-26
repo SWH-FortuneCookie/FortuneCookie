@@ -12,7 +12,9 @@ public enum ErrorCode {
 
     DUPLICATE_RESOURCE(CONFLICT, "데이터가 이미 존재합니다"),
     DUPLICATE_CONTACT(CONFLICT, "연락처가 이미 존재합니다"),
+    DUPLICATE_TAKING(CONFLICT, "복용중인 약이 이미 존재합니다"),
     MEDICINE_NOT_FOUND(NOT_FOUND, "약을 찾을 수 없습니다"),
+    USER_NOT_FOUND(NOT_FOUND, "사용자를 찾을 수 없습니다"),
     DEVICE_NOT_FOUND(NOT_FOUND, "디바이스를 찾을 수 없습니다");
 
 

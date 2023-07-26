@@ -15,12 +15,10 @@ public class DrugWarningsActivity extends AppCompatActivity {
         setContentView(R.layout.drug_warning);
 
         // 뒤로가기 버튼
-        ImageButton backButton = findViewById(R.id.backbtn);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
+        ImageButton backButton = findViewById(R.id.w_backbtn);
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, MeDetailActivity.class);
+            startActivity(intent);
         });
 
     }
