@@ -17,7 +17,6 @@ public class TakingMedicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer count;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,8 +27,7 @@ public class TakingMedicine {
 
 
     @Builder
-    public TakingMedicine(Integer count, Users users) {
-        this.count = count;
+    public TakingMedicine(Users users) {
         this.users = users;
     }
 
