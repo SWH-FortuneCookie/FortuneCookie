@@ -48,14 +48,27 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyCvsAkYUkIlKG7c4yiSjsKe9MHRrtjNE6M";
@@ -92,19 +105,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_main);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar();
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(view -> {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//            builder
-//                    .setMessage("Choose a picture")
-//                    .setPositiveButton("Gallery", (dialog, which) -> startGalleryChooser())
-//                    .setNegativeButton("Camera", (dialog, which) -> startCamera());
-//            builder.create().show();
-//        });
 
         context = this;
 
@@ -113,6 +113,32 @@ public class MainActivity extends AppCompatActivity {
         divId = getDivId(MainActivity.this);
         System.out.println("디바이스 아이디 " + divId);
         //디바이스 아이디 전달
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://43.202.15.83:8080")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+        HashMap<String, Object> input = new HashMap<>();
+        input.put("deviceId", divId);
+
+        retrofitAPI.postData(input).enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if (response.isSuccessful()) {
+                    Post data = response.body();
+                    System.out.println("Test Post 성공 " + data.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                System.out.println("실패");
+
+            }
+        });
+
 
         getInfoBtn = findViewById(R.id.infoBtn);
         getManagBtn = findViewById(R.id.manageBtn);
@@ -143,60 +169,7 @@ public class MainActivity extends AppCompatActivity {
             reverseTxt.setVisibility(View.GONE);
             photoBtn.setVisibility(View.GONE);
         });
-
-//        // 뒤로가기 버튼
-//        ImageButton backButton = findViewById(R.id.backbtn);
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-
-//        // 사용상 주의사항 보러가기 버튼
-//        android.widget.Button drugWarningsButton = findViewById(R.id.drug_warningsbtn);
-//        drugWarningsButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(MainActivity.this, DrugWarningsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        // 앱 시작 시 자동으로 팝업 액티비티 띄우기
-//        showPopupActivity();
     }
-
-//    private void showPopupActivity() {
-//        Intent intent = new Intent(MainActivity.this, PopupActivity.class);
-//        startActivity(intent);
-//
-//        // 팝업 액티비티의 배경을 투명하게 설정
-//        getWindow().setBackgroundDrawableResource(R.drawable.rounded_popup_background);
-//    }
-//
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    void checkErr(){
-//        Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-//        vib.vibrate(VibrationEffect.createOneShot(1000, 100));
-//
-//        if (picErrCount == 1) {
-//            reverseTxt.setVisibility(View.VISIBLE);
-//            photoBtn.setVisibility(View.VISIBLE);
-//        }
-//        if (picErrCount == 2) {
-//            againTxt.setVisibility(View.VISIBLE);
-//            photoBtn.setVisibility(View.VISIBLE);
-//        }
-//
-//        photoBtn.setOnClickListener(view -> {
-//            startCamera();
-//            againTxt.setVisibility(View.GONE);
-//            reverseTxt.setVisibility(View.GONE);
-//            photoBtn.setVisibility(View.GONE);
-//        });
-//    }
 
     public void DetailPage() {
         Intent intent = new Intent(this, MeDetailActivity.class);

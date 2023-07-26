@@ -22,8 +22,11 @@ public class TakingMedicine {
     @ManyToOne(fetch = FetchType.LAZY)
     private Users users;
 
-    @OneToMany(mappedBy = "takingMedicine", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "takingMedicine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mapping> mappingList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "takingMedicine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetailTime> detailTimeList = new ArrayList<>();
 
 
     @Builder
