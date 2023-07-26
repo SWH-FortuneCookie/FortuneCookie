@@ -19,10 +19,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.medlist_mng);
 
         // 뒤로가기 버튼
-        ImageButton backButton = findViewById(R.id.backbtn);
+        ImageButton backButton = findViewById(R.id.backBtn);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
