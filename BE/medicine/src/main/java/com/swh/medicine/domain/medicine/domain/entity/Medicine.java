@@ -28,6 +28,9 @@ public class Medicine {
     private String count;
 
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
+    private List<TakingMedicine> takingMedicineList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
     private List<Efficacy> efficacyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
