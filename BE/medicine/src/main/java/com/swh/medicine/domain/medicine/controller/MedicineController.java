@@ -3,8 +3,10 @@ package com.swh.medicine.domain.medicine.controller;
 import com.swh.medicine.domain.medicine.dto.request.TakingRequestDto;
 import com.swh.medicine.domain.medicine.dto.response.CautionResponseDto;
 import com.swh.medicine.domain.medicine.dto.response.MedicineResponseDto;
+import com.swh.medicine.domain.medicine.dto.response.TakingListResponseDto;
 import com.swh.medicine.domain.medicine.service.MedicineService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,5 +36,8 @@ public class MedicineController {
     }
 //
 //    @GetMapping("/{deviceId}/taking")
-//    public
+//    public ResponseEntity<TakingListResponseDto> getTakingList(@PathVariable String deviceId) {
+//        TakingListResponseDto takingListResponseDto = medicineService.getTakingList(deviceId);
+//        return ResponseEntity.ok().body(takingListResponseDto);
+//    }
 }

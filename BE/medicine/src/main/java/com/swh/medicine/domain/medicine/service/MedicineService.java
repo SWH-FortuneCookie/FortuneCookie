@@ -4,6 +4,7 @@ import com.swh.medicine.domain.medicine.domain.entity.*;
 import com.swh.medicine.domain.medicine.domain.repository.*;
 import com.swh.medicine.domain.medicine.dto.response.CautionResponseDto;
 import com.swh.medicine.domain.medicine.dto.response.MedicineResponseDto;
+import com.swh.medicine.domain.medicine.dto.response.TakingListResponseDto;
 import com.swh.medicine.domain.users.domain.Users;
 import com.swh.medicine.domain.users.domain.UsersRepository;
 import com.swh.medicine.global.exception.CustomException;
@@ -41,10 +42,12 @@ public class MedicineService {
     public String takingMedicine(String deviceId, String name) {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Medicine medicine = medicineRepository.findByName(name).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
-        TakingMedicine istakingMedicine = takingMedicineRepository.findByUsers(users);
-        Mapping mapping = mappingRepository.findByTakingMedicineAndMedicine(istakingMedicine, medicine);
-        if(mapping != null) {
-            throw new CustomException(ErrorCode.DUPLICATE_TAKING);
+        List<TakingMedicine> isTakingMedicine = takingMedicineRepository.findByUsers(users);
+        for (TakingMedicine tm : isTakingMedicine) {
+            Mapping mapping = mappingRepository.findByTakingMedicineAndMedicine(tm, medicine);
+            if(mapping != null) {
+                throw new CustomException(ErrorCode.DUPLICATE_TAKING);
+            }
         }
         TakingMedicine takingMedicine = TakingMedicine.of(users);
         takingMedicineRepository.save(takingMedicine); // 사용자 복약 생성
@@ -54,4 +57,8 @@ public class MedicineService {
     }
 
 
+//    public TakingListResponseDto getTakingList(String deviceId) {
+//        Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+//        List<TakingMedicine> takingMedicineList = takingMedicineRepository.findByUsers(users);
+//    }
 }
