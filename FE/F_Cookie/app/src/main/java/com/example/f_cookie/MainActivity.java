@@ -47,6 +47,8 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -114,11 +116,24 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("디바이스 아이디 " + divId);
         //디바이스 아이디 전달
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://43.202.15.83:8080/fortunecookie/")
-                .addConverterFactory(GsonConverterFactory.create())
+//        retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
+//                .baseUrl("https://jsonplaceholder.typicode.com/")    // baseUrl 등록
+//                .addConverterFactory(GsonConverterFactory.create())  // Gson 변환기 등록
+//                .build();
+
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit =  new Retrofit.Builder()
+                .baseUrl("http://43.202.15.83:8080/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("https://jsonplaceholder.typicode.com/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
 //        Post post = new Post();
 //        post.setDeviceId(divId);
@@ -126,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
 //        HashMap<String, Object> input = new HashMap<>();
 //        input.put("deviceId", divId);
 //
+//        Call<Post> call = retrofitAPI.getName(divId);
+
         Call<Post> call = retrofitAPI.getName(divId);
 
         call.enqueue(new Callback<Post>() {
@@ -133,13 +150,14 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.isSuccessful()) {
                     Post data = response.body();
-                    System.out.println("Test Post 성공 " + data.toString());
+
+                    System.out.println("Test 성공 " + data);
                 }
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                System.out.println("Test Post 실패 ");
+                System.out.println("Test 실패 ");
             }
         });
 

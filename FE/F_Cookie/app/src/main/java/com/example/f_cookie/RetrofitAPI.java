@@ -25,6 +25,15 @@ public interface RetrofitAPI {
 //    @POST("/fortunecookie/device")
 //    Call<Post> postData(@Body Post post);
 
-    @GET("/device")
-    Call<Post> getName(@Path("deviceId") String post);
+    @POST("/fortunecookie/device")
+    Call<Post> getName(@Body String string);
+
+//    @GET("/fortunecookie/medicine?name=")
+//    Call<Post> getName(@Query("name") String name);
+
+//    @GET("posts/{id}")  // 모든 유저의 id값만 받아오는 메서드(id 중복체크를 위해)
+//    Call<Post> getName(@Path("id") String post);
+
+//    @GET("fortunecookie/medicine?name=")
+//    Call<Post> getName(@Path())
 }
