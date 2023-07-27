@@ -17,7 +17,7 @@ public class DetailTime {
 
     private int hour; // 1-24
     private int minute; // 0-59
-    private int day; // 1-7
+    private int day; // 0-6
 
     @ManyToOne(fetch = FetchType.LAZY)
     private TakingMedicine takingMedicine;
@@ -28,5 +28,14 @@ public class DetailTime {
         this.minute = minute;
         this.day = day;
         this.takingMedicine = takingMedicine;
+    }
+
+    public static DetailTime of(TakingMedicine takingMedicine, int day, int hour, int minute) {
+        return DetailTime.builder()
+                .takingMedicine(takingMedicine)
+                .day(day)
+                .hour(hour)
+                .minute(minute)
+                .build();
     }
 }
