@@ -15,4 +15,6 @@ public interface DetailTimeRepository extends JpaRepository<DetailTime, Long> {
 
     @Query("SELECT d.day FROM DetailTime d WHERE d.takingMedicine = :takingMedicine")
     List<Integer> findDays(@Param("takingMedicine") TakingMedicine takingMedicine);
+
+    List<DetailTime> findByHourAndMinuteAndDay(int currentHour, int currentMinute, int currentDay);
 }

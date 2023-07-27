@@ -10,5 +10,5 @@ public class AlarmRequestDto {
     private String name;
     private int[] days;
     private int hour;
-    private int minutes;
+    private int minute;
 }
