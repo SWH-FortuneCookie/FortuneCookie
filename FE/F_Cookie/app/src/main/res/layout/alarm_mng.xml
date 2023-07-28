@@ -28,7 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/backBtn"
-            android:layout_margin="15dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:text="타이레놀 8시간이알서방정 325mg"
             android:textColor="#F2F2F2"
             android:textSize="35dp"
@@ -206,10 +209,10 @@
 
             <Button
                 android:id="@+id/morning_button"
-                android:layout_width="170dp"
-                android:layout_height="60dp"
+                android:layout_width="177dp"
+                android:layout_height="80dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="4dp"
                 android:background="@drawable/day_night"
                 android:text="오전"
                 android:textColor="@color/white"
@@ -218,9 +221,9 @@
 
             <Button
                 android:id="@+id/afternoon_button"
-                android:layout_width="170dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="10dp"
+                android:layout_width="177dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="4dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/day_night"
                 android:text="오후"
@@ -330,7 +333,5 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
