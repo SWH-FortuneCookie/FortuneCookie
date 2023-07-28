@@ -25,7 +25,7 @@ public class UsersService {
         if(users.isPresent()) {
             return;
         }
-        usersRepository.save(Users.of(deviceRequestDto.getDevice()));
+        usersRepository.save(Users.of(deviceRequestDto.getDevice(), deviceRequestDto.getFcmToken()));
     }
 
 //    @Transactional

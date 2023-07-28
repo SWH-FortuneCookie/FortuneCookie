@@ -23,20 +23,22 @@ public class TakingMedicine {
     private Users users;
 
     @OneToMany(mappedBy = "takingMedicine", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Mapping> mappingList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "takingMedicine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetailTime> detailTimeList = new ArrayList<>();
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Medicine medicine;
+
     @Builder
-    public TakingMedicine(Users users) {
+    public TakingMedicine(Users users, Medicine medicine) {
         this.users = users;
+        this.medicine = medicine;
     }
 
-    public static TakingMedicine of(Users users) {
+    public static TakingMedicine of(Users users, Medicine medicine) {
         return TakingMedicine.builder()
                 .users(users)
+                .medicine(medicine)
                 .build();
     }
 }

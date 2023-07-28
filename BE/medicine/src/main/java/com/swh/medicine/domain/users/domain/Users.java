@@ -16,16 +16,19 @@ public class Users {
     private Long id;
     private String device;
     private String guardianPhone;
+    private String fcmToken;
 
     @Builder
-    public Users(String device, String guardianPhone) {
+    public Users(String device, String guardianPhone, String fcmToken) {
         this.device = device;
         this.guardianPhone = guardianPhone;
+        this.fcmToken = fcmToken;
     }
 
-    public static Users of(String device) {
+    public static Users of(String device, String fcmToken) {
         return Users.builder()
                 .device(device)
+                .fcmToken(fcmToken)
                 .build();
     }
 
