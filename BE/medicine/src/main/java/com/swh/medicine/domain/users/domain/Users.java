@@ -17,12 +17,14 @@ public class Users {
     private String device;
     private String guardianPhone;
     private String fcmToken;
+    private String name;
 
     @Builder
-    public Users(String device, String guardianPhone, String fcmToken) {
+    public Users(String device, String guardianPhone, String fcmToken, String name) {
         this.device = device;
         this.guardianPhone = guardianPhone;
         this.fcmToken = fcmToken;
+        this.name = name;
     }
 
     public static Users of(String device, String fcmToken) {
@@ -32,7 +34,8 @@ public class Users {
                 .build();
     }
 
-    public void addGuardianPhone(String guardianPhone) {
+    public void addNameAndGuardian(String name, String guardianPhone) {
+        this.name = name;
         this.guardianPhone = guardianPhone;
     }
 }
