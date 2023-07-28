@@ -1,9 +1,8 @@
 package com.swh.medicine.domain.users.controller;
 
 import com.swh.medicine.domain.users.dto.request.DeviceRequestDto;
-import com.swh.medicine.domain.users.dto.request.PhoneRequestDto;
+import com.swh.medicine.domain.users.dto.request.SmsRequestDto;
 import com.swh.medicine.domain.users.service.UsersService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +20,12 @@ public class UsersController {
         return ResponseEntity.ok().body("디바이스 등록 성공");
     }
 
-//    @PostMapping("{deviceId}/phone")
-//    public ResponseEntity<String> addGuardianPhone(
-//            @PathVariable String deviceId,
-//            @RequestBody PhoneRequestDto phoneRequestDto) {
-//        String result = usersService.addGuardianPhone(deviceId, phoneRequestDto);
-//        return ResponseEntity.ok().body(result);
-//    }
+    @PostMapping("/{deviceId}/sms")
+    public ResponseEntity<String> sendSms(
+            @PathVariable String deviceId,
+            @RequestBody SmsRequestDto SmsRequestDto) {
+        String result = usersService.sendSms(deviceId, SmsRequestDto);
+        return ResponseEntity.ok().body(result);
+    }
 
 }
