@@ -35,25 +35,8 @@ public class FCMService {
     private final String[] weekdays = {"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"};
     private final TakingMedicineRepository takingMedicineRepository;
     private final MedicineRepository medicineRepository;
-    private final DetailTimeRepository detailTimeRepository;
     private final UsersRepository usersRepository;
 
-    @Value("${project.properties.firebase-create-scoped}")
-    String fireBaseCreateScoped;
-
-    private FirebaseMessaging instance;
-
-    @PostConstruct
-    public void initialize() throws IOException {
-
-        GoogleCredentials googleCredentials = GoogleCredentials.fromStream(new ClassPathResource("firebase/fortunecookie-88d3e-firebase-adminsdk-84uy6-acc1066e57.json").getInputStream())
-                .createScoped((Arrays.asList(fireBaseCreateScoped)));
-        FirebaseOptions secondaryAppConfig = FirebaseOptions.builder()
-                .setCredentials(googleCredentials)
-                .build();
-        FirebaseApp app = FirebaseApp.initializeApp(secondaryAppConfig);
-        this.instance = FirebaseMessaging.getInstance(app);
-    }
 
     // @Transactional 붙었었는데 일단 안붙이고 하고 싶어서 엔티티 직접 꺼냈다!
     // 해커톤 끝나고 리팩토링 필수!!!!!!
@@ -90,7 +73,7 @@ public class FCMService {
                 .build();
 
         try{
-            String messageResponse = this.instance.send(message);
+            String messageResponse = FirebaseMessaging.getInstance().send(message);
             log.info("메시지 전송 성공 : {}", messageResponse);
         }catch (Exception e) {
             throw new IllegalStateException("알림 전송에 실패하였습니다.");
