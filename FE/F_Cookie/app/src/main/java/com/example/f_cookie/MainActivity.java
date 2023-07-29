@@ -32,6 +32,8 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -47,8 +49,8 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.firebase.iid.FirebaseInstanceIdReceiver;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -116,53 +118,30 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("디바이스 아이디 " + divId);
         //디바이스 아이디 전달
 
-//        retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
-//                .baseUrl("https://jsonplaceholder.typicode.com/")    // baseUrl 등록
-//                .addConverterFactory(GsonConverterFactory.create())  // Gson 변환기 등록
-//                .build();
-
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit =  new Retrofit.Builder()
-                .baseUrl("http://43.202.15.83:8080/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://43.202.15.83:8080")
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-        Post post = new Post();
-        post.setDeviceId(divId);
-        post.setfcmToken("");
+        HashMap<String, Object> input = new HashMap<>();
+        input.put("deviceId", divId);
 
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("https://jsonplaceholder.typicode.com/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-
-//        Post post = new Post();
-//        post.setDeviceId(divId);
-
-//        HashMap<String, Object> input = new HashMap<>();
-//        input.put("deviceId", divId);
-
-        Call<Post> call = retrofitAPI.postData(post);
-
-        call.enqueue(new Callback<Post>() {
+        retrofitAPI.postData(input).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.isSuccessful()) {
                     Post data = response.body();
-
-                    System.out.println("Test 성공 " + data);
+                    System.out.println("Test Post 성공 " + data.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                System.out.println("Test 실패 ");
+                System.out.println("실패");
+
             }
         });
-
 
 
         getInfoBtn = findViewById(R.id.infoBtn);
@@ -194,6 +173,25 @@ public class MainActivity extends AppCompatActivity {
             reverseTxt.setVisibility(View.GONE);
             photoBtn.setVisibility(View.GONE);
         });
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void DetailPage() {
