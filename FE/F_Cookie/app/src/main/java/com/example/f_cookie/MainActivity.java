@@ -129,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
+        Post post = new Post();
+        post.setDeviceId(divId);
+        post.setfcmToken("");
+
 //        Retrofit retrofit = new Retrofit.Builder()
 //                .baseUrl("https://jsonplaceholder.typicode.com/")
 //                .addConverterFactory(GsonConverterFactory.create())
@@ -140,10 +144,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        HashMap<String, Object> input = new HashMap<>();
 //        input.put("deviceId", divId);
-//
-//        Call<Post> call = retrofitAPI.getName(divId);
 
-        Call<Post> call = retrofitAPI.getName(divId);
+        Call<Post> call = retrofitAPI.postData(post);
 
         call.enqueue(new Callback<Post>() {
             @Override

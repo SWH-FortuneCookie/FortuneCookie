@@ -4,8 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 public class Post {
 
-    @SerializedName("deviceId")
-    public String deviceId;
+    @SerializedName("device")
+    public String device;
+
+    public void setDeviceId(String deviceId) {
+        this.device = deviceId;
+    }
+
+    @SerializedName("fcmToken")
+    public String fcmToken;
+
+    public void setfcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
+
+    public String getDeviceId() {
+        return device;
+    }
 
 //
 //    @SerializedName("description")
@@ -21,9 +36,9 @@ public class Post {
 ////        return mediName;
 ////    }
 //
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
+//    public void setDeviceId(String deviceId) {
+//        this.deviceId = deviceId;
+//    }
 ////    public void setMediName(String mediName) {
 ////        this.mediName = mediName;
 ////    }

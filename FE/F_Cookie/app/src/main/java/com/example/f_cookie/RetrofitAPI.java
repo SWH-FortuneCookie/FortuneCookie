@@ -13,20 +13,24 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitAPI {
-    @GET("/posts")
-    Call<List<Post>> getData(@Query("deviceId") String id);
+    @POST("/fortunecookie/device") // 서버의 실제 엔드포인트 URL을 여기에 입력합니다.
+    Call<Post> postData(@Body Post post);
 
-    @FormUrlEncoded
-    @POST("/device")
-    Call<Post> postData(@FieldMap HashMap<String, Object> param);
+//    @GET("/posts")
+//    Call<List<Post>> getData(@Query("deviceId") String id);
+
+//    @FormUrlEncoded
+//    @POST("/device")
+//    Call<Post> postData(@FieldMap HashMap<String, Object> param);
+
 //    @POST("/device")
 //    Call<Post> postId(@FieldMap HashMap<String, Object> param);
 
 //    @POST("/fortunecookie/device")
 //    Call<Post> postData(@Body Post post);
 
-    @POST("/fortunecookie/device")
-    Call<Post> getName(@Body String string);
+//    @POST("/fortunecookie/device")
+//    Call<Post> getName(@Body String string);
 
 //    @GET("/fortunecookie/medicine?name=")
 //    Call<Post> getName(@Query("name") String name);
