@@ -1,63 +1,59 @@
 package com.example.f_cookie;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Post {
-
-    @SerializedName("device")
-    public String device;
-
-    public void setDeviceId(String deviceId) {
-        this.device = deviceId;
+    @SerializedName("subName")
+    public String subName;
+    public String getSubName() {
+        return subName;
     }
 
-    @SerializedName("fcmToken")
-    public String fcmToken;
-
-    public void setfcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
+    @SerializedName("description")
+    public String description;
+    public String getDescription() {
+        return description;
     }
 
-    public String getDeviceId() {
-        return device;
+    @SerializedName("shapeUrl")
+    public String shapeUrl;
+    public String getshapeUrl() {
+        return shapeUrl;
     }
 
-//
-//    @SerializedName("description")
-//    public String description;
-//
-////    @SerializedName("name")
-////    private String mediName;
-//
-////    public String getDeviceId() {
-////        return deviceId;
-////    }
-////    public String getMediName() {
-////        return mediName;
-////    }
-//
-//    public void setDeviceId(String deviceId) {
-//        this.deviceId = deviceId;
-//    }
-////    public void setMediName(String mediName) {
-////        this.mediName = mediName;
-////    }
+    @SerializedName("dosage")
+    public String dosage;
+    public String getdosage() {
+        return dosage;
+    }
 
+    @SerializedName("storage")
+    public String storage;
+    public String getstorage() {
+        return storage;
+    }
 
-//    // @SerializedName으로 일치시켜 주지않을 경우엔 클래스 변수명이 일치해야함
-//    @SerializedName("title")
-//    public String title;
-//
-//    @SerializedName("body")
-//    public String body;
-//
-//
-//    // toString()을 Override 해주지 않으면 객체 주소값을 출력함
-//    @Override
-//    public String toString() {
-//        return "PostResult{" +
-//                "name=" + title +
-//                ", nickname=" + body + '\'' +
-//                '}';
+    @SerializedName("efficacy")
+    public List<EfficacyData> efficacy;
+    public List getEfficacy() {
+        return efficacy;
+    }
+
+    // toString()을 Override 해주지 않으면 객체 주소값을 출력함 -> 해결 안됨.
+    @Override
+    public String toString() {
+        return "PostResult{" +
+                "subName=" + subName +
+                ", efficacy=" + efficacy + '\'' +
+                '}';
+    }
+
+//    @SerializedName("information")
+//    public String information;
+//    public String getinformation() {
+//        return information;
 //    }
 }

@@ -5,29 +5,38 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitAPI {
-    @POST("/fortunecookie/device") // 서버의 실제 엔드포인트 URL을 여기에 입력합니다.
-    Call<Post> postData(@Body Post post);
+//    @FormUrlEncoded
+//    @POST("device")
+//    Call<Post> postUserData(@Field("device") String device, @Field("fcmToken") String fcmToken);
+
+    @GET("medicine?")
+    Call<Post> getMedicine(@Query("name") String mediName);
+
+    @Headers("Content-Type: application/json")
+    @POST("device") // 서버의 실제 엔드포인트 URL을 여기에 입력합니다.
+    Call<Post> postUserData(@Body Post post);
 
 //    @GET("/posts")
 //    Call<List<Post>> getData(@Query("deviceId") String id);
 
+//    @Headers("Content-Type: application/json")
 //    @FormUrlEncoded
-//    @POST("/device")
-//    Call<Post> postData(@FieldMap HashMap<String, Object> param);
+//    @POST("device")
+//    Call<Post> postUserData(@FieldMap HashMap<String, String> param);
 
-//    @POST("/device")
-//    Call<Post> postId(@FieldMap HashMap<String, Object> param);
-
-//    @POST("/fortunecookie/device")
-//    Call<Post> postData(@Body Post post);
+//    @Headers("Content-Type: application/json")
+//    @POST("device")
+//    Call<Void> postUserData(@Body Post post);
 
 //    @POST("/fortunecookie/device")
 //    Call<Post> getName(@Body String string);
