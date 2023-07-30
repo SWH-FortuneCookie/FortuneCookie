@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
     public static String medicine = "";
     public static boolean meCheck = false;
 
+    LoginRequest loginRequest;
+
     public static Gson gson = new GsonBuilder().setLenient().create();
 
     public static Retrofit retrofit = new Retrofit.Builder()
@@ -149,6 +151,29 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("디바이스 아이디 " + divId);
         //디바이스 아이디 전달
 
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        token = task.getResult();
+
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        saveToken(token);
+                    }
+                });
+//        System.out.println("왜 없냐" + token);
+        //loginRequest = new LoginRequest(divId, token);
+//        System.out.println("확인" + loginRequest.device + "토큰" + loginRequest.fcmToken);
+
         getInfoBtn = findViewById(R.id.infoBtn);
         getManagBtn = findViewById(R.id.manageBtn);
 
@@ -178,27 +203,13 @@ public class MainActivity extends AppCompatActivity {
             reverseTxt.setVisibility(View.GONE);
             photoBtn.setVisibility(View.GONE);
         });
+    }
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
+    public void saveToken(String tk) {
+        token = tk;
 
-                        // Get new FCM registration token
-                        token = task.getResult();
-
-                        // Log and toast
-                        String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, msg);
-                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        LoginRequest loginRequest = new LoginRequest(divId, token);
+        loginRequest = new LoginRequest(divId, token);
+        System.out.println("확인" + loginRequest.device + "토큰" + loginRequest.fcmToken);
 
         RetrofitClient retrofitClient = RetrofitClient.getInstance();
         initMyApi initMyApi = RetrofitClient.getRetrofitInterface();
@@ -224,30 +235,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("실패 " + call + "\n티는 " + t);
             }
         });
-
-//        initMyApi.getMedicine("타이레놀8시간이알서방정").enqueue(new Callback<Post>() {
-//            @Override
-//            public void onResponse(Call<Post> call, Response<Post> response) {
-//                if (response.isSuccessful()) {
-//                    Post data = response.body();
-//                    System.out.println("Test Post 성공 " + data.getSubName() + " " + data.getDescription());
-//                }
-//                else {
-//                    try {
-//                        String body = response.errorBody().string();
-//                        Log.e(TAG, " <2> error - body : " + body);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Post> call, Throwable t) {
-//                System.out.println("실패");
-//
-//            }
-//        });
     }
 
     public void DetailPage() {
