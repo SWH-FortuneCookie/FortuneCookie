@@ -2,6 +2,7 @@ package com.swh.medicine.domain.users.controller;
 
 import com.swh.medicine.domain.users.dto.request.DeviceRequestDto;
 import com.swh.medicine.domain.users.dto.request.SmsRequestDto;
+import com.swh.medicine.domain.users.dto.response.SmsResponseDto;
 import com.swh.medicine.domain.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +29,10 @@ public class UsersController {
         return ResponseEntity.ok().body(result);
     }
 
+    @GetMapping("/{deviceId}/sms")
+    public ResponseEntity<SmsResponseDto> getSms(
+            @PathVariable String deviceId) {
+        SmsResponseDto result = usersService.getSms(deviceId);
+        return ResponseEntity.ok().body(result);
+    }
 }
