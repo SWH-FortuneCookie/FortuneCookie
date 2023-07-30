@@ -112,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
     public String token = "";
     public static String medicine = "";
-    public static boolean meCheck = false;
+
+    public static String subName, shapeUrl, description, dosage, storage;
+    //efficacy, information 처리
 
     LoginRequest loginRequest;
 
@@ -170,9 +172,6 @@ public class MainActivity extends AppCompatActivity {
                         saveToken(token);
                     }
                 });
-//        System.out.println("왜 없냐" + token);
-        //loginRequest = new LoginRequest(divId, token);
-//        System.out.println("확인" + loginRequest.device + "토큰" + loginRequest.fcmToken);
 
         getInfoBtn = findViewById(R.id.infoBtn);
         getManagBtn = findViewById(R.id.manageBtn);
@@ -239,6 +238,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void DetailPage() {
         Intent intent = new Intent(this, MeDetailActivity.class);
+        intent.putExtra("subName", subName);
+        intent.putExtra("shapeUrl", shapeUrl);
+        intent.putExtra("description", description);
+        intent.putExtra("dosage", dosage);
+        intent.putExtra("storage", storage);
+
         startActivity(intent);
     }
 
@@ -608,18 +613,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static String subName, shapeUrl, description, dosage, storage;
-    //efficacy, information 처리
+//    static boolean getInfo = false;
 
     public static void BackEndAndDetail() {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ((MainActivity)MainActivity.context).DetailPage();
-            }
-        }, 0);
-
         retrofitAPI.getMedicine(medicine).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
@@ -628,13 +624,20 @@ public class MainActivity extends AppCompatActivity {
 
                     System.out.println(data.toString());
 
-                    subName = data.getSubName();
-                    shapeUrl = data.getshapeUrl();
-                    description = data.getDescription();
-                    dosage = data.getdosage();
-                    storage = data.getstorage();
+                    saveInfo(data.getSubName(), data.getshapeUrl(), data.getDescription(),
+                            data.getdosage(), data.getstorage());
+
                     //efficacy, information 처리
 
+                    medicine = "";
+
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((MainActivity)MainActivity.context).DetailPage();
+                        }
+                    }, 0);
                 }
                 else {
                     try {
@@ -651,7 +654,15 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("실패");
             }
         });
+    }
 
-        medicine = "";
+    static void saveInfo(String name, String url, String des, String use, String store) {
+        subName = name;
+        shapeUrl = url;
+        description = des;
+        dosage = use;
+        storage = store;
+
+        //efficacy, information 처리
     }
 }

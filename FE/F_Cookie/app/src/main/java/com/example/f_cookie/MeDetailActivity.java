@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayout;
 
 import org.w3c.dom.Text;
@@ -27,10 +28,19 @@ public class MeDetailActivity extends AppCompatActivity {
     ImageView looks;
     FlexboxLayout e_view, c_view;
 
+    String subName, shapeUrl, description, dosage, storage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drug_detail);
+
+        Intent getIntent = getIntent();
+        subName = getIntent.getStringExtra("subName");
+        shapeUrl = getIntent.getStringExtra("shapeUrl");
+        description = getIntent.getStringExtra("description");
+        dosage = getIntent.getStringExtra("dosage");
+        storage = getIntent.getStringExtra("storage");
 
         c_view = findViewById(R.id.c_view);
         e_view = findViewById(R.id.e_view);
@@ -41,6 +51,8 @@ public class MeDetailActivity extends AppCompatActivity {
         usage = findViewById(R.id.drug_derections_info);
         store = findViewById(R.id.drug_storage_info);
         looks = findViewById(R.id.drug_featureimg);
+
+        GetMedicineInfo();
 
         backBtn.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -75,11 +87,28 @@ public class MeDetailActivity extends AppCompatActivity {
         }
     }
 
-        private void showPopupActivity() {
+    private void showPopupActivity() {
         Intent intent = new Intent(this, PopupActivity.class);
         startActivity(intent);
 
         // 팝업 액티비티의 배경을 투명하게 설정
         getWindow().setBackgroundDrawableResource(R.drawable.rounded_popup_background);
+    }
+
+    void GetMedicineInfo() {
+        //이름
+        subName = subName.replace("&", "\n");
+        name.setText(subName);
+        //생김새
+        Glide.with(this).load(shapeUrl).into(looks);
+        //생김새정보
+        feature.setText(description);
+        //용법용량
+        usage.setText(dosage);
+        //저장방법
+        store.setText(storage);
+        //성분정보
+
+        //효능효과
     }
 }
