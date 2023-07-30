@@ -112,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
     public String token = "";
     public static String medicine = "";
-    public static boolean meCheck = false;
+
+    public static String subName, shapeUrl, description, dosage, storage;
+    //efficacy, information 처리
 
     LoginRequest loginRequest;
 
@@ -170,9 +172,6 @@ public class MainActivity extends AppCompatActivity {
                         saveToken(token);
                     }
                 });
-//        System.out.println("왜 없냐" + token);
-        //loginRequest = new LoginRequest(divId, token);
-//        System.out.println("확인" + loginRequest.device + "토큰" + loginRequest.fcmToken);
 
         getInfoBtn = findViewById(R.id.infoBtn);
         getManagBtn = findViewById(R.id.manageBtn);
@@ -239,6 +238,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void DetailPage() {
         Intent intent = new Intent(this, MeDetailActivity.class);
+        intent.putExtra("subName", subName);
+        intent.putExtra("shapeUrl", shapeUrl);
+        intent.putExtra("description", description);
+        intent.putExtra("dosage", dosage);
+        intent.putExtra("storage", storage);
+
         startActivity(intent);
     }
 
@@ -529,7 +534,32 @@ public class MainActivity extends AppCompatActivity {
 
                 if (NameExtract(label.getDescription().toString()) == true){
                     System.out.println(temp + store);
-                    medicine = temp + store;
+//                    medicine = temp + store;
+                    if ((temp+store).equals("타이레놀")) {
+                        medicine = "타이레놀8시간이알서방정";
+                    }
+                    if ((temp+store).equals("케토톱")) {
+                        medicine = "케토톱플라스타";
+                    }
+                    if ((temp+store).equals("인사돌")) {
+                        medicine = "인사돌정";
+                    }
+                    if ((temp+store).equals("임팩타민")) {
+                        medicine = "임팩타민정";
+                    }
+                    if ((temp+store).equals("활명수")) {
+                        medicine = "활명수";
+                    }
+                    if ((temp+store).equals("이모튼")) {
+                        medicine = "이모튼캡슐";
+                    }
+                    if ((temp+store).equals("판콜")) {
+                        medicine = "판콜에이내복액";
+                    }
+                    if ((temp+store).equals("베아제")) {
+                        medicine = "닥터베아제정";
+                    }
+
                     BackEndAndDetail();
                     break;
                 }
@@ -583,23 +613,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void BackEndAndDetail() {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ((MainActivity)MainActivity.context).DetailPage();
-            }
-        }, 0);
+//    static boolean getInfo = false;
 
+    public static void BackEndAndDetail() {
         retrofitAPI.getMedicine(medicine).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.isSuccessful()) {
                     Post data = response.body();
-//                    System.out.println("Test Get 성공 " + data.getSubName() + " " + data.getDescription()
-//                    + " " + data.getshapeUrl() + " " + data.getdosage() + " " + data.getstorage() + data.getEfficacy().toString());
+
                     System.out.println(data.toString());
+
+                    saveInfo(data.getSubName(), data.getshapeUrl(), data.getDescription(),
+                            data.getdosage(), data.getstorage());
+
+                    //efficacy, information 처리
+
+                    medicine = "";
+
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((MainActivity)MainActivity.context).DetailPage();
+                        }
+                    }, 0);
                 }
                 else {
                     try {
@@ -616,5 +654,15 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("실패");
             }
         });
+    }
+
+    static void saveInfo(String name, String url, String des, String use, String store) {
+        subName = name;
+        shapeUrl = url;
+        description = des;
+        dosage = use;
+        storage = store;
+
+        //efficacy, information 처리
     }
 }

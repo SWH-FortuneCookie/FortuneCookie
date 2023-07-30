@@ -22,9 +22,9 @@ public interface RetrofitAPI {
     @GET("medicine?")
     Call<Post> getMedicine(@Query("name") String mediName);
 
-    @Headers("Content-Type: application/json")
-    @POST("device") // 서버의 실제 엔드포인트 URL을 여기에 입력합니다.
-    Call<Post> postUserData(@Body Post post);
+//    @Headers("Content-Type: application/json")
+//    @POST("device") // 서버의 실제 엔드포인트 URL을 여기에 입력합니다.
+//    Call<Post> postUserData(@Body Post post);
 
 //    @GET("/posts")
 //    Call<List<Post>> getData(@Query("deviceId") String id);
