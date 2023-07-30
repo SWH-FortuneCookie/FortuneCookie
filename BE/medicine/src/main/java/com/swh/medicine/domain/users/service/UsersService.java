@@ -4,6 +4,7 @@ import com.swh.medicine.domain.users.domain.Users;
 import com.swh.medicine.domain.users.domain.UsersRepository;
 import com.swh.medicine.domain.users.dto.request.DeviceRequestDto;
 import com.swh.medicine.domain.users.dto.request.SmsRequestDto;
+import com.swh.medicine.domain.users.dto.response.SmsResponseDto;
 import com.swh.medicine.global.exception.CustomException;
 import com.swh.medicine.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,10 @@ public class UsersService {
 
 
         return "문자 보내기 성공";
+    }
+
+    public SmsResponseDto getSms(String deviceId) {
+        Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        return SmsResponseDto.of(users.getName(), users.getGuardianPhone());
     }
 }
