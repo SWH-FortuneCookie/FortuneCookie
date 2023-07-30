@@ -10,6 +10,6 @@ public interface initMyApi {
     @POST("device")
     Call<Void> getLoginResponse(@Body LoginRequest loginRequest);
 
-    @GET("medicine?")
-    Call<Post> getMedicine(@Query("name") String mediName);
+//    @GET("medicine?")
+//    Call<Post> getMedicine(@Query("name") String mediName);
 }

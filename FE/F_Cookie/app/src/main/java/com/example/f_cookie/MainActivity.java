@@ -529,7 +529,32 @@ public class MainActivity extends AppCompatActivity {
 
                 if (NameExtract(label.getDescription().toString()) == true){
                     System.out.println(temp + store);
-                    medicine = temp + store;
+//                    medicine = temp + store;
+                    if ((temp+store).equals("타이레놀")) {
+                        medicine = "타이레놀8시간이알서방정";
+                    }
+                    if ((temp+store).equals("케토톱")) {
+                        medicine = "케토톱플라스타";
+                    }
+                    if ((temp+store).equals("인사돌")) {
+                        medicine = "인사돌정";
+                    }
+                    if ((temp+store).equals("임팩타민")) {
+                        medicine = "임팩타민정";
+                    }
+                    if ((temp+store).equals("활명수")) {
+                        medicine = "활명수";
+                    }
+                    if ((temp+store).equals("이모튼")) {
+                        medicine = "이모튼캡슐";
+                    }
+                    if ((temp+store).equals("판콜")) {
+                        medicine = "판콜에이내복액";
+                    }
+                    if ((temp+store).equals("베아제")) {
+                        medicine = "닥터베아제정";
+                    }
+
                     BackEndAndDetail();
                     break;
                 }
@@ -583,6 +608,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static String subName, shapeUrl, description, dosage, storage;
+    //efficacy, information 처리
+
     public static void BackEndAndDetail() {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -597,9 +625,16 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.isSuccessful()) {
                     Post data = response.body();
-//                    System.out.println("Test Get 성공 " + data.getSubName() + " " + data.getDescription()
-//                    + " " + data.getshapeUrl() + " " + data.getdosage() + " " + data.getstorage() + data.getEfficacy().toString());
+
                     System.out.println(data.toString());
+
+                    subName = data.getSubName();
+                    shapeUrl = data.getshapeUrl();
+                    description = data.getDescription();
+                    dosage = data.getdosage();
+                    storage = data.getstorage();
+                    //efficacy, information 처리
+
                 }
                 else {
                     try {
@@ -616,5 +651,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("실패");
             }
         });
+
+        medicine = "";
     }
 }
