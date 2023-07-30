@@ -1,12 +1,20 @@
 package com.swh.medicine.domain.users.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.swh.medicine.domain.users.dto.request.DeviceRequestDto;
-import com.swh.medicine.domain.users.dto.request.SmsRequestDto;
-import com.swh.medicine.domain.users.dto.response.SmsResponseDto;
+import com.swh.medicine.domain.users.dto.request.InformationRequestDto;
+import com.swh.medicine.domain.users.dto.response.InformationResponseDto;
 import com.swh.medicine.domain.users.service.UsersService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,17 +30,17 @@ public class UsersController {
     }
 
     @PostMapping("/{deviceId}/sms")
-    public ResponseEntity<String> sendSms(
+    public ResponseEntity<String> sendSms (
             @PathVariable String deviceId,
-            @RequestBody SmsRequestDto SmsRequestDto) {
+            @RequestBody InformationRequestDto SmsRequestDto) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
         String result = usersService.sendSms(deviceId, SmsRequestDto);
         return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/{deviceId}/sms")
-    public ResponseEntity<SmsResponseDto> getSms(
+    public ResponseEntity<InformationResponseDto> getSms(
             @PathVariable String deviceId) {
-        SmsResponseDto result = usersService.getSms(deviceId);
+        InformationResponseDto result = usersService.getSms(deviceId);
         return ResponseEntity.ok().body(result);
     }
 }
