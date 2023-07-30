@@ -111,169 +111,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#212121">
-
-                <TextView
-                    android:id="@+id/drug_uses"
-                    android:layout_width="94dp"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/text_style"
-                    android:gravity="center"
-                    android:text="효능효과"
-                    android:textColor="@color/white"
-                    android:textSize="19dp"
-                    android:textStyle="bold"
-                    tools:ignore="MissingConstraints" />
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/e_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_below="@id/drug_uses"
-                    app:flexWrap="wrap">
-
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="8dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/e_tv9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="테스트1"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
-                        android:gravity="center"
-                        android:padding="10dp"
-                        android:background="@drawable/uses_design"/>
-
-                </com.google.android.flexbox.FlexboxLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#181818">
+                android:background="#212121">
 
                 <TextView
                     android:id="@+id/drug_activeinformation"
@@ -462,6 +301,167 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#181818">
+
+                <TextView
+                    android:id="@+id/drug_uses"
+                    android:layout_width="94dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/text_style"
+                    android:gravity="center"
+                    android:text="효능효과"
+                    android:textColor="@color/white"
+                    android:textSize="19dp"
+                    android:textStyle="bold"
+                    tools:ignore="MissingConstraints" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/e_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_below="@id/drug_uses"
+                    app:flexWrap="wrap">
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="8dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#212121">
 
@@ -541,13 +541,13 @@
                     android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="25dp"
                     android:background="@drawable/button_style"
                     android:gravity="center"
-                    android:text="사용상 주의사항 보러가기 클릭"
-                    android:textColor="@color/black"
+                    android:text="사용상 주의사항 보러가기 터치"
+                    android:textColor="#0396A6"
                     android:textSize="19dp"
                     android:textStyle="bold"
                     tools:ignore="MissingConstraints" />

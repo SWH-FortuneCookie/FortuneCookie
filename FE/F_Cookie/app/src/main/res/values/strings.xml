@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">F_Cookie</string>
+    <string name="app_name">보약</string>
     <string name="addlist">내 복약관리에 추가</string>
     <string name="msg_token_fmt">FCM 토큰: %1$s</string>
     <string name="default_notification_channel_id" />
