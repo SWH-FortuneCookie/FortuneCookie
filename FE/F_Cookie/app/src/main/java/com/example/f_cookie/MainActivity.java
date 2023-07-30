@@ -51,6 +51,8 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 import com.google.firebase.iid.FirebaseInstanceIdReceiver;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -67,12 +69,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.POST;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyCvsAkYUkIlKG7c4yiSjsKe9MHRrtjNE6M";
@@ -105,10 +110,38 @@ public class MainActivity extends AppCompatActivity {
 
     public static Context context;
 
+    public String token = "";
+    public static String medicine = "";
+    public static boolean meCheck = false;
+
+    LoginRequest loginRequest;
+
+    public static Gson gson = new GsonBuilder().setLenient().create();
+
+    public static Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://43.202.15.83:8080/fortunecookie/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+    public static RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_main);
+
+//        Gson gson = new GsonBuilder().setLenient().create();
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://43.202.15.83:8080/fortunecookie/")
+//                .addConverterFactory(GsonConverterFactory.create(gson))
+//                .build();
+//
+//        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+//
+////        Post post = new Post();
+//
+//        HashMap<String, String> input = new HashMap<>();
 
         context = this;
 
@@ -118,31 +151,28 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("디바이스 아이디 " + divId);
         //디바이스 아이디 전달
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://43.202.15.83:8080")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
 
-        HashMap<String, Object> input = new HashMap<>();
-        input.put("deviceId", divId);
+                        // Get new FCM registration token
+                        token = task.getResult();
 
-        retrofitAPI.postData(input).enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                if (response.isSuccessful()) {
-                    Post data = response.body();
-                    System.out.println("Test Post 성공 " + data.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                System.out.println("실패");
-
-            }
-        });
-
+                        // Log and toast
+                        String msg = getString(R.string.msg_token_fmt, token);
+                        Log.d(TAG, msg);
+                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        saveToken(token);
+                    }
+                });
+//        System.out.println("왜 없냐" + token);
+        //loginRequest = new LoginRequest(divId, token);
+//        System.out.println("확인" + loginRequest.device + "토큰" + loginRequest.fcmToken);
 
         getInfoBtn = findViewById(R.id.infoBtn);
         getManagBtn = findViewById(R.id.manageBtn);
@@ -173,25 +203,38 @@ public class MainActivity extends AppCompatActivity {
             reverseTxt.setVisibility(View.GONE);
             photoBtn.setVisibility(View.GONE);
         });
+    }
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
+    public void saveToken(String tk) {
+        token = tk;
 
-                        // Get new FCM registration token
-                        String token = task.getResult();
+        loginRequest = new LoginRequest(divId, token);
+        System.out.println("확인" + loginRequest.device + "토큰" + loginRequest.fcmToken);
 
-                        // Log and toast
-                        String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+        RetrofitClient retrofitClient = RetrofitClient.getInstance();
+        initMyApi initMyApi = RetrofitClient.getRetrofitInterface();
+
+        initMyApi.getLoginResponse(loginRequest).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("Test Post 성공 " + response.body());
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <1> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("실패 " + call + "\n티는 " + t);
+            }
+        });
     }
 
     public void DetailPage() {
@@ -467,13 +510,18 @@ public class MainActivity extends AppCompatActivity {
                 if (store.equals("골드") || store.equals("플러스") || store.equals("큐") || store.equals("Q") || store.equals("티")) {
                     if (temp.equals("훼스탈")) {
                         System.out.println(temp + store);
-                        //백엔드로 훼스탈골드 전달 & -> 의약품 상세 페이지
+                        medicine = temp+store+"정";
                         BackEndAndDetail();
                         break;
                     }
                     if (temp.equals("판피린")) {
                         System.out.println(temp + store);
-                        //백엔드로 훼스탈골드 전달 & -> 의약품 상세 페이지
+                        if((temp+store).equals("판피린티")) {
+                            medicine = "판피린티정";
+                        }
+                        if((temp+store).equals("판피린큐") || (temp+store).equals("판피린Q")) {
+                            medicine = "판피린건조시럽";
+                        }
                         BackEndAndDetail();
                         break;
                     }
@@ -481,7 +529,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (NameExtract(label.getDescription().toString()) == true){
                     System.out.println(temp + store);
-                    //백엔드로 이름 전달 & -> 의약품 상세 페이지
+                    medicine = temp + store;
                     BackEndAndDetail();
                     break;
                 }
@@ -540,12 +588,33 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                MainActivity md = new MainActivity();
-//                md.getClass();
-//                md.DetailPage();
                 ((MainActivity)MainActivity.context).DetailPage();
             }
         }, 0);
-    }
 
+        retrofitAPI.getMedicine(medicine).enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if (response.isSuccessful()) {
+                    Post data = response.body();
+//                    System.out.println("Test Get 성공 " + data.getSubName() + " " + data.getDescription()
+//                    + " " + data.getshapeUrl() + " " + data.getdosage() + " " + data.getstorage() + data.getEfficacy().toString());
+                    System.out.println(data.toString());
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <2> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                System.out.println("실패");
+            }
+        });
+    }
 }
