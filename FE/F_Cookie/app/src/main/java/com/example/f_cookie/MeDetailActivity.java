@@ -19,6 +19,9 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MeDetailActivity extends AppCompatActivity {
 
     ImageButton backBtn;
@@ -29,6 +32,7 @@ public class MeDetailActivity extends AppCompatActivity {
     FlexboxLayout e_view, c_view;
 
     String subName, shapeUrl, description, dosage, storage;
+    String[] efficacy, information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,11 @@ public class MeDetailActivity extends AppCompatActivity {
         description = getIntent.getStringExtra("description");
         dosage = getIntent.getStringExtra("dosage");
         storage = getIntent.getStringExtra("storage");
+
+        efficacy = getIntent.getStringArrayExtra("efficacy");
+        System.out.println("받는거 확인 " + efficacy);
+        information = getIntent.getStringArrayExtra("information");
+        System.out.println("받는거 확인 info " + efficacy);
 
         c_view = findViewById(R.id.c_view);
         e_view = findViewById(R.id.e_view);
@@ -74,16 +83,20 @@ public class MeDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        TextView[] e_tv = new TextView[9];
-        for (int i = 1; i < 10; i++) {
+        TextView[] e_tv = new TextView[efficacy.length];
+        for (int i = 1; i < efficacy.length; i++) {
             int e_resId = getResources().getIdentifier("e_tv" + i, "id", "com.example.f_cookie");
             e_tv[i - 1] = findViewById(e_resId);
+            e_tv[i - 1].setVisibility(View.VISIBLE);
+            e_tv[i - 1].setText(efficacy[i-1].toString());
         }
 
-        TextView[] c_tv = new TextView[11];
-        for (int i = 1; i < 12; i++) {
+        TextView[] c_tv = new TextView[information.length];
+        for (int i = 1; i < information.length; i++) {
             int c_resId = getResources().getIdentifier("c_tv" + i, "id", "com.example.f_cookie");
             c_tv[i - 1] = findViewById(c_resId);
+            c_tv[i - 1].setVisibility(View.VISIBLE);
+            c_tv[i - 1].setText(information[i - 1].toString());
         }
     }
 
