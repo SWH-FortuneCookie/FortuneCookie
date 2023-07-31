@@ -1,10 +1,13 @@
 package com.example.f_cookie;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,11 +19,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MeDetailActivity extends AppCompatActivity {
 
@@ -30,9 +42,21 @@ public class MeDetailActivity extends AppCompatActivity {
     TextView name, feature, usage, store;
     ImageView looks;
     FlexboxLayout e_view, c_view;
-//약 이름
-    String subName, shapeUrl, description, dosage, storage;
+
+    String divId, subName, shapeUrl, description, dosage, storage;
     String[] efficacy, information;
+
+    //백엔드 GET 설정 관련 ->
+    public static Gson gson = new GsonBuilder().setLenient().create();
+    public static Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("http://43.202.15.83:8080/fortunecookie/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build();
+    public static RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+    AddTaking addTaking;
+
+    // <- 백엔드 GET 설정 관련
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +64,7 @@ public class MeDetailActivity extends AppCompatActivity {
         setContentView(R.layout.drug_detail);
 
         Intent getIntent = getIntent();
+        divId = getIntent.getStringExtra("divId");
         subName = getIntent.getStringExtra("subName");
         shapeUrl = getIntent.getStringExtra("shapeUrl");
         description = getIntent.getStringExtra("description");
@@ -79,6 +104,31 @@ public class MeDetailActivity extends AppCompatActivity {
         showPopupActivity();
 
         addMngBtn.setOnClickListener(view -> {
+            String name = subName.replace("\n", "");
+            addTaking = new AddTaking(name);
+
+            retrofitAPI.postTaking(divId, addTaking).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("AddTaking Post 성공 " + response.body());
+                    }
+                    else {
+                        try {
+                            String body = response.errorBody().string();
+                            Log.e(TAG, " <4> error - body : " + body);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    System.out.println("<4> 실패 " + call + "\n티는 " + t);
+                }
+            });
+
             Intent intent = new Intent(this, ManageActivity.class);
             startActivity(intent);
         });

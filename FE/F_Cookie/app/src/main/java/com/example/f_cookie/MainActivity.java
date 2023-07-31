@@ -243,6 +243,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void DetailPage() {
         Intent intent = new Intent(this, MeDetailActivity.class);
+
+        intent.putExtra("divId", divId);
+
         intent.putExtra("subName", subName);
         intent.putExtra("shapeUrl", shapeUrl);
         intent.putExtra("description", description);
@@ -251,15 +254,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("보내는 거 확인 " + efficacy);
         intent.putExtra("efficacy", efficacy);
         intent.putExtra("information", information);
-
-//        ArrayList<List> eff = new ArrayList<>();
-//        eff.add(efficacy);
-//        intent.putExtra("efficacy", (CharSequence) efficacy);
-//        intent.putParcelableArrayListExtra("efficacy", eff);
-//
-//        ArrayList<List> info = new ArrayList<>();
-//        info.add(information);
-//        intent.putExtra("information", (CharSequence) information);
 
         startActivity(intent);
     }

@@ -20,7 +20,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.List;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ManageActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,6 +37,22 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private Button afternoonButton;
     private boolean isMorningSelected = false;
     private boolean isAfternoonSelected = false;
+
+    //백엔드에서 가져온 데이터 저장용 변수 선언
+    String mediName;    //약_이름
+    String mediImg;     //약_생김새이미지
+    String mediAmt;     //약_복용량
+    boolean mediArm;    //복용_알림설정여부
+    String mediMsg;     //복용_알림설정경우_메시지(ex: 매일 12:30에 1정투여)
+
+    //백엔드 GET 설정 관련 ->
+    public static Gson gson = new GsonBuilder().setLenient().create();
+    public static Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("http://43.202.15.83:8080/fortunecookie/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build();
+    public static RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+    // <- 백엔드 GET 설정 관련
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
