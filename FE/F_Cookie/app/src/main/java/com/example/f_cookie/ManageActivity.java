@@ -1,5 +1,7 @@
 package com.example.f_cookie;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +13,7 @@ import android.widget.ImageButton;
 import android.content.Intent;
 import android.graphics.Color;
 
+import java.io.IOException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +28,9 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -37,6 +43,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private Button afternoonButton;
     private boolean isMorningSelected = false;
     private boolean isAfternoonSelected = false;
+
+    String divId;
 
     //백엔드에서 가져온 데이터 저장용 변수 선언
     String mediName;    //약_이름
@@ -58,6 +66,16 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.medlist_mng);
+
+        Intent getIntent = getIntent();
+        divId = getIntent.getStringExtra("divId");
+
+        //복약관리 데이터 할당 함수
+        Allocating();
+        // -> 이제 리사이클러뷰에서 약 이름 텍스트 설정할 때 그냥 예를 들어 textView.setText(mediName); 이런식으로 사용하시면 돼요~!
+        // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
+        // 이거 참고하시면 될 것 같아요 여기서 shapeUrl -> mediImg / looks -> 리사이클러 뷰의 이미지뷰 이거 두개만 바꾸시면 돼요!
+
 
         View alarmMngLayout = findViewById(R.id.alarmLayout);
         alarmMngLayout.setVisibility(View.VISIBLE);
@@ -153,6 +171,41 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
         }
 
+    }
+
+    void Allocating() {
+        retrofitAPI.getTaking(divId).enqueue(new Callback<TakeMedicine>() {
+            @Override
+            public void onResponse(Call<TakeMedicine> call, Response<TakeMedicine> response) {
+                if (response.isSuccessful()) {
+                    TakeMedicine data = response.body();
+                    System.out.println(data.toString());
+
+                    saveInfo(data.getSubName(), data.getShapeUrl(), data.getAmount(), data.getMessage(), data.getAlarm());
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <5> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TakeMedicine> call, Throwable t) {
+                System.out.println("<5> 실패" + call + "\n티는 " + t);
+            }
+        });
+    }
+
+    void saveInfo(String name, String url, String amt, String msg, boolean arm) {
+        mediName = name;
+        mediImg = url;
+        mediAmt = amt;
+        mediMsg = msg;
+        mediArm = arm;
     }
 }
 

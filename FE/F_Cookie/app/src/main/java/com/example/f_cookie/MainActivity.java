@@ -676,22 +676,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static String getOnlyKorean(String str){
-
-        StringBuffer sb=new StringBuffer();
-
-        if(str!=null && str.length()!=0){
-            Pattern p = Pattern.compile("[가-힣]");
-            Matcher m = p.matcher(str);
-
-            while(m.find()){
-                sb.append(m.group());
-            }
-        }
-
-        return sb.toString();
-    }
-
     static void saveInfo(String name, String url, String des, String use, String store, String[] eff, String[] info) {
         subName = name;
         shapeUrl = url;

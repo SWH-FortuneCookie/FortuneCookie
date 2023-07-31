@@ -130,6 +130,7 @@ public class MeDetailActivity extends AppCompatActivity {
             });
 
             Intent intent = new Intent(this, ManageActivity.class);
+            intent.putExtra("divId", divId);
             startActivity(intent);
         });
 
