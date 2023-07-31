@@ -31,6 +31,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private Button afternoonButton;
     private boolean isMorningSelected = false;
     private boolean isAfternoonSelected = false;
+    Button setBtn;
+    Button modifyBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,15 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         morningButton.setOnClickListener(this);
         afternoonButton.setOnClickListener(this);
+
+        // 알람 설정하기 버튼 초기화
+        setBtn = findViewById(R.id.setBtn);
+        setBtn.setOnClickListener(this);
+
+        // 수정하기 버튼 초기화
+        modifyBtn = findViewById(R.id.modifyBtn);
+        modifyBtn.setOnClickListener(this);
+        modifyBtn.setVisibility(View.GONE); // 일단 숨김 처리
 
     }
 
@@ -131,10 +142,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
         }
 
+        // 알람을 설정한 후에는 '수정하기' 버튼을 보이도록 설정
+        setBtn.setVisibility(View.GONE);
+        modifyBtn.setVisibility(View.VISIBLE);
+
     }
 }
-
-// 우선 지금까지 구현한 부분은 알람 설정 페이지하고 요일버튼 눌렀을 때 색상변경, 매일누르면 모두 선택되고 매일 또 누르면 전체 해제되는 부분과
-// 오전, 오후 버튼 클릭했을 때 한 가지 버튼만 선택할 수 있도록 구현했습니다. 앞으로 구현해야 하는것은 요일 버튼, 오전/오후 버튼, edittext로 입력받은
-// 시간을 api 호출해서 데이터를 백엔드로 넘겨주고, 백엔드에서 다시 데이터를 받아온 후 medist_mng.xml에 구현해논 리스트 양식에 맞게 삽입되는 부분입니다.
-// 이렇게 부탁드려서 죄송하고 감사합니다..ㅠㅠㅠㅠ 저는 medist_mng와 관련된 기능을 ManageActivity에 구현하는 작업을 진행하겠습니다.
