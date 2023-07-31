@@ -15,38 +15,15 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitAPI {
-//    @FormUrlEncoded
-//    @POST("device")
-//    Call<Post> postUserData(@Field("device") String device, @Field("fcmToken") String fcmToken);
-
     @GET("medicine?")
     Call<Post> getMedicine(@Query("name") String mediName);
 
-//    @Headers("Content-Type: application/json")
-//    @POST("device") // 서버의 실제 엔드포인트 URL을 여기에 입력합니다.
-//    Call<Post> postUserData(@Body Post post);
+    //복약관리 데이터 추가하기
+    @POST("{deviceId}/taking")
+    Call<Void> postTaking(@Path("deviceId") String deviceId, @Body AddTaking addTaking);
 
-//    @GET("/posts")
-//    Call<List<Post>> getData(@Query("deviceId") String id);
+    //복약관리 데이터 불러오기
+    @GET("{deviceId}/taking")
+    Call<TakeMedicine> getTaking(@Path("deviceId") String deviceId);
 
-//    @Headers("Content-Type: application/json")
-//    @FormUrlEncoded
-//    @POST("device")
-//    Call<Post> postUserData(@FieldMap HashMap<String, String> param);
-
-//    @Headers("Content-Type: application/json")
-//    @POST("device")
-//    Call<Void> postUserData(@Body Post post);
-
-//    @POST("/fortunecookie/device")
-//    Call<Post> getName(@Body String string);
-
-//    @GET("/fortunecookie/medicine?name=")
-//    Call<Post> getName(@Query("name") String name);
-
-//    @GET("posts/{id}")  // 모든 유저의 id값만 받아오는 메서드(id 중복체크를 위해)
-//    Call<Post> getName(@Path("id") String post);
-
-//    @GET("fortunecookie/medicine?name=")
-//    Call<Post> getName(@Path())
 }
