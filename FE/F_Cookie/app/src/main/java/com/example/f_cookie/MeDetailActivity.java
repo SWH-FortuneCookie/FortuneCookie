@@ -30,7 +30,7 @@ public class MeDetailActivity extends AppCompatActivity {
     TextView name, feature, usage, store;
     ImageView looks;
     FlexboxLayout e_view, c_view;
-
+//약 이름
     String subName, shapeUrl, description, dosage, storage;
     String[] efficacy, information;
 
@@ -83,21 +83,8 @@ public class MeDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        TextView[] e_tv = new TextView[efficacy.length];
-        for (int i = 1; i < efficacy.length; i++) {
-            int e_resId = getResources().getIdentifier("e_tv" + i, "id", "com.example.f_cookie");
-            e_tv[i - 1] = findViewById(e_resId);
-            e_tv[i - 1].setVisibility(View.VISIBLE);
-            e_tv[i - 1].setText(efficacy[i-1].toString());
-        }
-
-        TextView[] c_tv = new TextView[information.length];
-        for (int i = 1; i < information.length; i++) {
-            int c_resId = getResources().getIdentifier("c_tv" + i, "id", "com.example.f_cookie");
-            c_tv[i - 1] = findViewById(c_resId);
-            c_tv[i - 1].setVisibility(View.VISIBLE);
-            c_tv[i - 1].setText(information[i - 1].toString());
-        }
+        setEffData();
+        setInfoData();
     }
 
     private void showPopupActivity() {
@@ -106,6 +93,30 @@ public class MeDetailActivity extends AppCompatActivity {
 
         // 팝업 액티비티의 배경을 투명하게 설정
         getWindow().setBackgroundDrawableResource(R.drawable.rounded_popup_background);
+    }
+
+    void setEffData() {
+        TextView[] e_tv = new TextView[efficacy.length];
+        for (int i = 1; i < efficacy.length; i++) {
+            int e_resId = getResources().getIdentifier("e_tv" + i, "id", "com.example.f_cookie");
+            e_tv[i - 1] = findViewById(e_resId);
+            e_tv[i - 1].setVisibility(View.VISIBLE);
+            System.out.println("비지빌리티 확인 : " + e_tv[i - 1].getVisibility());
+            e_tv[i - 1].setText(efficacy[i-1].toString());
+        }
+    }
+
+    void setInfoData() {
+        System.out.println("info for문 insert 확인");
+        TextView[] c_tv = new TextView[information.length];
+        System.out.println("확인 " + information.length + " 확인 " + c_tv.toString());
+        for (int i = 1; i < information.length; i++) {
+            int c_resId = getResources().getIdentifier("c_tv" + i, "id", "com.example.f_cookie");
+            c_tv[i - 1] = findViewById(c_resId);
+            c_tv[i - 1].setVisibility(View.VISIBLE);
+//            System.out.println("비지빌리티 확인 : " + c_tv[i - 1].getVisibility());
+            c_tv[i - 1].setText(information[i - 1].toString());
+        }
     }
 
     void GetMedicineInfo() {
@@ -120,8 +131,5 @@ public class MeDetailActivity extends AppCompatActivity {
         usage.setText(dosage);
         //저장방법
         store.setText(storage);
-        //성분정보
-
-        //효능효과
     }
 }

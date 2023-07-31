@@ -16,8 +16,6 @@ public class EfficacyData {
 
     @Override
     public String toString() {
-        return "PostResult{" +
-                "type=" + type +
-                '}';
+        return type;
     }
 }
