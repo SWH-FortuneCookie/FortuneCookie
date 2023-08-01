@@ -171,6 +171,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             clickedButton.setTextColor(isDaySelected[index] ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
             // "매일" 버튼 텍스트 색상 변경
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
+
         }
 
         // 알람을 설정한 후에는 '수정하기' 버튼을 보이도록 설정
