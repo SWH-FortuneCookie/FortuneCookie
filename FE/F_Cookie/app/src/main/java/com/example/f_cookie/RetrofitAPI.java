@@ -22,8 +22,12 @@ public interface RetrofitAPI {
     @POST("{deviceId}/taking")
     Call<Void> postTaking(@Path("deviceId") String deviceId, @Body AddTaking addTaking);
 
+//    //복약관리 데이터 불러오기
+//    @GET("{deviceId}/taking")
+//    Call<TakeMedicine> getTaking(@Path("deviceId") String deviceId);
+
     //복약관리 데이터 불러오기
     @GET("{deviceId}/taking")
-    Call<TakeMedicine> getTaking(@Query("deviceId") String deviceId);
+    Call<List<TakeMedicine>> getTaking(@Path("deviceId") String deviceId);
 
 }
