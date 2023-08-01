@@ -16,8 +16,6 @@ public class InfoData {
 
     @Override
     public String toString() {
-        return "PostResult{" +
-                "ingredient=" + ingredient +
-                '}';
+        return ingredient;
     }
 }

@@ -61,6 +61,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -70,6 +71,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -114,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
     public static String medicine = "";
 
     public static String subName, shapeUrl, description, dosage, storage;
+    public static String[] efficacy;
+    public static String[] information;
     //efficacy, information 처리
 
     LoginRequest loginRequest;
@@ -238,11 +243,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void DetailPage() {
         Intent intent = new Intent(this, MeDetailActivity.class);
+
+        intent.putExtra("divId", divId);
+
         intent.putExtra("subName", subName);
         intent.putExtra("shapeUrl", shapeUrl);
         intent.putExtra("description", description);
         intent.putExtra("dosage", dosage);
         intent.putExtra("storage", storage);
+        System.out.println("보내는 거 확인 " + efficacy);
+        intent.putExtra("efficacy", efficacy);
+        intent.putExtra("information", information);
 
         startActivity(intent);
     }
@@ -624,10 +635,19 @@ public class MainActivity extends AppCompatActivity {
 
                     System.out.println(data.toString());
 
-                    saveInfo(data.getSubName(), data.getshapeUrl(), data.getDescription(),
-                            data.getdosage(), data.getstorage());
+                    List<String> e_list = Arrays.asList(data.getEfficacy().toString().split(","));
+                    System.out.println("길이 " + e_list.size());
+                    String[] eArrays = e_list.toArray(new String[e_list.size()]);
 
-                    //efficacy, information 처리
+                    System.out.println("확인확인 " + eArrays[4]);
+
+                    List<String> i_list = Arrays.asList(data.getInformation().toString());
+                    String[] iArrays = i_list.toArray(new String[i_list.size()]);
+
+//                    System.out.println("확인 " + e_list.get(0));
+
+                    saveInfo(data.getSubName(), data.getshapeUrl(), data.getDescription(),
+                            data.getdosage(), data.getstorage(), eArrays, iArrays);
 
                     medicine = "";
 
@@ -656,13 +676,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    static void saveInfo(String name, String url, String des, String use, String store) {
+    static void saveInfo(String name, String url, String des, String use, String store, String[] eff, String[] info) {
         subName = name;
         shapeUrl = url;
         description = des;
         dosage = use;
         storage = store;
-
+        efficacy = eff;
+        information = info;
+//        System.out.println("어떻게" + efficacy);
         //efficacy, information 처리
     }
 }
