@@ -68,10 +68,12 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.medlist_mng);
 
         Intent getIntent = getIntent();
-        divId = getIntent.getStringExtra("divId");
+        divId = getIntent.getStringExtra("MainToDivId");
+        System.out.println("매니지 액티비티 확인 " + divId);
 
         //복약관리 데이터 할당 함수
         Allocating();
+
         // -> 이제 리사이클러뷰에서 약 이름 텍스트 설정할 때 그냥 예를 들어 textView.setText(mediName); 이런식으로 사용하시면 돼요~!
         // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
         // 이거 참고하시면 될 것 같아요 여기서 shapeUrl -> mediImg / looks -> 리사이클러 뷰의 이미지뷰 이거 두개만 바꾸시면 돼요!

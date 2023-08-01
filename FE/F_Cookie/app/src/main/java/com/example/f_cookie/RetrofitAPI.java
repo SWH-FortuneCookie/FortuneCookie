@@ -24,6 +24,6 @@ public interface RetrofitAPI {
 
     //복약관리 데이터 불러오기
     @GET("{deviceId}/taking")
-    Call<TakeMedicine> getTaking(@Path("deviceId") String deviceId);
+    Call<TakeMedicine> getTaking(@Query("deviceId") String deviceId);
 
 }
