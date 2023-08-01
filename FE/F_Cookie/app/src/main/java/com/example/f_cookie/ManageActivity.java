@@ -18,7 +18,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,13 +40,21 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private String selectedDay = ""; // 선택한 요일을 저장하는 변수
 
     String divId;
+    int count;
 
     //백엔드에서 가져온 데이터 저장용 변수 선언
-    String mediName;    //약_이름
-    String mediImg;     //약_생김새이미지
-    String mediAmt;     //약_복용량
+    String[] mediName;    //약_이름
+    String[] mediImg;     //약_생김새이미지
+    String[] mediAmt;     //약_복용량
     boolean mediArm;    //복용_알림설정여부
-    String mediMsg;     //복용_알림설정경우_메시지(ex: 매일 12:30에 1정투여)
+    String[] mediMsg;     //복용_알림설정경우_메시지(ex: 매일 12:30에 1정투여)
+
+    //테스트용으로 써주세요!
+    String name;
+    String img;
+    String amt;
+    String arm;
+    String msg;
 
     //백엔드 GET 설정 관련 ->
     public static Gson gson = new GsonBuilder().setLenient().create();
@@ -61,10 +71,12 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.medlist_mng);
 
         Intent getIntent = getIntent();
-        divId = getIntent.getStringExtra("divId");
+        divId = getIntent.getStringExtra("MainToDivId");
+        System.out.println("매니지 액티비티 확인 " + divId);
 
         //복약관리 데이터 할당 함수
         Allocating();
+
         // -> 이제 리사이클러뷰에서 약 이름 텍스트 설정할 때 그냥 예를 들어 textView.setText(mediName); 이런식으로 사용하시면 돼요~!
         // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
         // 이거 참고하시면 될 것 같아요 여기서 shapeUrl -> mediImg / looks -> 리사이클러 뷰의 이미지뷰 이거 두개만 바꾸시면 돼요!
@@ -211,14 +223,21 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     void Allocating() {
-        retrofitAPI.getTaking(divId).enqueue(new Callback<TakeMedicine>() {
+        retrofitAPI.getTaking(divId).enqueue(new Callback<List<TakeMedicine>>() {
             @Override
-            public void onResponse(Call<TakeMedicine> call, Response<TakeMedicine> response) {
+            public void onResponse(Call<List<TakeMedicine>> call, Response<List<TakeMedicine>> response) {
                 if (response.isSuccessful()) {
-                    TakeMedicine data = response.body();
+                    List<TakeMedicine> data = response.body();
                     System.out.println(data.toString());
 
-                    saveInfo(data.getSubName(), data.getShapeUrl(), data.getAmount(), data.getMessage(), data.getAlarm());
+                    List<String> oldList = Arrays.asList(data.toString().split(","));
+                    String[] mArrays = oldList.toArray(new String[oldList.size()]);
+
+                    count = mArrays.length;
+//                    System.out.println(count + "개수");
+                    saveInfo(count, mArrays);
+
+//                    saveInfo(data.getSubName(), data.getShapeUrl(), data.getAmount(), data.getMessage(), data.getAlarm());
                 }
                 else {
                     try {
@@ -231,18 +250,27 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             @Override
-            public void onFailure(Call<TakeMedicine> call, Throwable t) {
+            public void onFailure(Call<List<TakeMedicine>> call, Throwable t) {
                 System.out.println("<5> 실패" + call + "\n티는 " + t);
             }
         });
     }
 
-    void saveInfo(String name, String url, String amt, String msg, boolean arm) {
-        mediName = name;
-        mediImg = url;
-        mediAmt = amt;
-        mediMsg = msg;
-        mediArm = arm;
+    void saveInfo(int count, String[] arry) {
+        mediName = new String[count/5];
+        mediImg = new String[count/5];
+        mediAmt = new String[count/5];
+        mediMsg = new String[count/5];
+//        mediArm
+
+        for (int i = 0; i < count / 5; i++) {
+            mediName[i] = arry[i*5];
+            mediImg[i] = arry[i*5+1];
+            mediAmt[i] = arry[i*5+2];
+            mediMsg[i] = arry[i*5+3];
+            //알람여부
+        }
+//        System.out.println("확인 " + mediName[1]);
     }
 }
 

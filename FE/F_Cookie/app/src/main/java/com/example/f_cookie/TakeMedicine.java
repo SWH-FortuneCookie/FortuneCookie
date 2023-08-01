@@ -1,9 +1,11 @@
 package com.example.f_cookie;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class TakeMedicine {
     @SerializedName("subName")
+    @Expose
     public String subName;
     public String getSubName() {
         return subName;
@@ -13,6 +15,7 @@ public class TakeMedicine {
     }
 
     @SerializedName("shapeUrl")
+    @Expose
     public String shapeUrl;
     public String getShapeUrl() {
         return shapeUrl;
@@ -22,6 +25,7 @@ public class TakeMedicine {
     }
 
     @SerializedName("amount")
+    @Expose
     public String amount;
     public String getAmount() {
         return amount;
@@ -31,6 +35,7 @@ public class TakeMedicine {
     }
 
     @SerializedName("message")
+    @Expose
     public String message;
     public String getMessage() {
         return message;
@@ -40,6 +45,7 @@ public class TakeMedicine {
     }
 
     @SerializedName("alarm")
+    @Expose
     public boolean alarm;
     public boolean getAlarm() {
         return alarm;
@@ -50,10 +56,6 @@ public class TakeMedicine {
 
     @Override
     public String toString() {
-        return "TakeMedi{" +
-                "subName=" + subName +
-                ", shapeUrl=" + shapeUrl + '\'' +
-                ", amount=" + amount + '\'' +
-                '}';
+        return subName + "," + shapeUrl + "," + amount + "," + message + "," + alarm;
     }
 }
