@@ -97,6 +97,7 @@ public class MeDetailActivity extends AppCompatActivity {
         drugWarningsButton = findViewById(R.id.drug_warningsbtn);
         drugWarningsButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, DrugWarningsActivity.class);
+            intent.putExtra("name", subName);
             startActivity(intent);
         });
 
