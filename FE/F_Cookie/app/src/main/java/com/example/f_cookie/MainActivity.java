@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
         getManagBtn.setOnClickListener(view -> {
             Intent intent = new Intent(this, ManageActivity.class);
+            intent.putExtra("MainToDivId", divId);
             startActivity(intent);
         });
 
