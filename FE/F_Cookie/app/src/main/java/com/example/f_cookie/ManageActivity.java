@@ -1,38 +1,24 @@
 package com.example.f_cookie;
 
-<<<<<<< HEAD
-import android.graphics.Color;
-=======
+
 import static android.content.ContentValues.TAG;
 
->>>>>>> main
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-<<<<<<< HEAD
-=======
-import android.content.Intent;
-import android.graphics.Color;
-
-import java.io.IOException;
-import java.text.BreakIterator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import android.graphics.drawable.ColorDrawable;
->>>>>>> main
 
 import androidx.appcompat.app.AppCompatActivity;
 
-<<<<<<< HEAD
-import java.util.Arrays;
-=======
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.List;
->>>>>>> main
+import java.io.IOException;
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -187,13 +173,41 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
         }
 
-<<<<<<< HEAD
         // 알람을 설정한 후에는 '수정하기' 버튼을 보이도록 설정
         Button setBtn = findViewById(R.id.setBtn);
         Button modifyBtn = findViewById(R.id.modifyBtn);
         setBtn.setVisibility(View.GONE);
         modifyBtn.setVisibility(View.VISIBLE);
-=======
+
+        // 시와 분을 가져와서 변수로 저장
+        EditText editTextHour = findViewById(R.id.hourEditText);
+        EditText editTextMinute = findViewById(R.id.minuteEditText);
+
+        int hour = 0;
+        int minute = 0;
+
+        if (!editTextHour.getText().toString().isEmpty()) {
+            hour = Integer.parseInt(editTextHour.getText().toString());
+        }
+
+        if (!editTextMinute.getText().toString().isEmpty()) {
+            minute = Integer.parseInt(editTextMinute.getText().toString());
+        }
+
+        if (v.getId() == R.id.setBtn || v.getId() == R.id.modifyBtn) {
+            selectedDay = ""; // 기존에 저장된 요일 초기화
+            if (isEverydaySelected) {
+                selectedDay = "매일";
+            } else {
+                String[] dayOfWeek = {"월", "화", "수", "목", "금", "토", "일"};
+                for (int i = 0; i < isDaySelected.length; i++) {
+                    if (isDaySelected[i]) {
+                        selectedDay += dayOfWeek[i] + " ";
+                    }
+                }
+            }
+        }
+
     }
 
     void Allocating() {
@@ -231,35 +245,4 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         mediArm = arm;
     }
 }
->>>>>>> main
 
-        // 시와 분을 가져와서 변수로 저장
-        EditText editTextHour = findViewById(R.id.hourEditText);
-        EditText editTextMinute = findViewById(R.id.minuteEditText);
-
-        int hour = 0;
-        int minute = 0;
-
-        if (!editTextHour.getText().toString().isEmpty()) {
-            hour = Integer.parseInt(editTextHour.getText().toString());
-        }
-
-        if (!editTextMinute.getText().toString().isEmpty()) {
-            minute = Integer.parseInt(editTextMinute.getText().toString());
-        }
-
-        if (v.getId() == R.id.setBtn || v.getId() == R.id.modifyBtn) {
-            selectedDay = ""; // 기존에 저장된 요일 초기화
-            if (isEverydaySelected) {
-                selectedDay = "매일";
-            } else {
-                String[] dayOfWeek = {"월", "화", "수", "목", "금", "토", "일"};
-                for (int i = 0; i < isDaySelected.length; i++) {
-                    if (isDaySelected[i]) {
-                        selectedDay += dayOfWeek[i] + " ";
-                    }
-                }
-            }
-        }
-    }
-}
