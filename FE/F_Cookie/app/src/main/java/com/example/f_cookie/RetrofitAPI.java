@@ -5,6 +5,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -31,4 +32,7 @@ public interface RetrofitAPI {
     @GET("{deviceId}/taking")
     Call<List<TakeMedicine>> getTaking(@Path("deviceId") String deviceId);
 
+    //복약관리 데이터 삭제
+    @DELETE("{deviceId}/taking")
+    Call<Void> deleteTake(@Path("deviceId") String deviceId, @Body deleteTaking deleteTaking);
 }
