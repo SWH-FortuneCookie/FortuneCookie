@@ -143,7 +143,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv1"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="8dp"
                         android:text="테스트1"
@@ -158,7 +158,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv2"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -172,7 +172,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv3"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -186,7 +186,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv4"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -200,7 +200,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv5"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -214,7 +214,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv6"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -228,7 +228,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv7"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -242,7 +242,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv8"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -256,7 +256,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv9"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -270,7 +270,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv10"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -284,7 +284,7 @@
                         android:visibility="gone"
                         android:id="@+id/c_tv11"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginLeft="15dp"
                         android:text="테스트1"
@@ -318,15 +318,38 @@
                     android:textStyle="bold"
                     tools:ignore="MissingConstraints" />
 
+                <TextView
+                    android:id="@+id/effectTx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="효능효과 테스트"
+                    android:textColor="@color/white"
+                    android:textSize="22dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_below="@id/drug_uses"/>
+
                 <com.google.android.flexbox.FlexboxLayout
                     android:id="@+id/e_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginLeft="18dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_below="@id/drug_uses"
+                    android:layout_below="@id/effectTx"
+                    android:background="#262626"
                     app:flexWrap="wrap">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="다음의 증상이 있을 때 사용하세요."
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center"
+                        android:textSize="21dp"
+                        android:textColor="#D6E0E1"/>
 
                     <TextView
                         android:visibility="gone"
@@ -455,6 +478,24 @@
                         android:gravity="center"
                         android:padding="10dp"
                         android:background="@drawable/uses_design"/>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/e_tv10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="15dp"
+                        android:text="테스트1"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:background="@drawable/uses_design"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"/>
 
                 </com.google.android.flexbox.FlexboxLayout>
 
