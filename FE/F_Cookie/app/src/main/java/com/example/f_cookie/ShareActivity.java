@@ -136,26 +136,38 @@ public class ShareActivity extends AppCompatActivity {
         medicine = medicine.replace("\n", "");
         postSMS = new postSMS(userName, medicine, userNum);
 
-        retrofitAPI.postSMS(divId, postSMS).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("postSMS 성공 " + response.body());
-                }
-                else {
-                    try {
-                        String body = response.errorBody().string();
-                        Log.e(TAG, " <11> error - body : " + body);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        shareBtn.setOnClickListener(view -> {
+            retrofitAPI.postSMS(divId, postSMS).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("postSMS 성공 " + response.body());
+
+                        Popup();
+                    }
+                    else {
+                        try {
+                            String body = response.errorBody().string();
+                            Log.e(TAG, " <11> error - body : " + body);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                System.out.println("<11> 실패 " + call + "\n티는 " + t);
-            }
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    System.out.println("<11> 실패 " + call + "\n티는 " + t);
+                }
+            });
         });
     }
+
+    void Popup() {
+        Intent popIntent = new Intent(this, SmsPopup.class);
+
+        startActivity(popIntent);
+        getWindow().setBackgroundDrawableResource(R.drawable.rounded_popup_background);
+    }
+
 }

@@ -98,9 +98,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         //복약관리 데이터 할당 함수
         Allocating();
 
-<<<<<<< HEAD
         // medlist_mng = visible / alarm_mng = gone
-=======
+
         //삭제하기 버튼 리스너 안에 할당할 함수
         Delete();
 
@@ -108,8 +107,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
         // 이거 참고하시면 될 것 같아요 여기서 shapeUrl -> mediImg / looks -> 리사이클러 뷰의 이미지뷰 이거 두개만 바꾸시면 돼요!
 
-
->>>>>>> main
         View alarmMngLayout = findViewById(R.id.alarmLayout);
         alarmMngLayout.setVisibility(View.VISIBLE);
 

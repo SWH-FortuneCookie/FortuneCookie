@@ -112,9 +112,6 @@ public class MeDetailActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         getSMS data = response.body();
 
-//                        saveSMS(data.getName(), data.getPhone());
-                        System.out.println("sms 확인 " + data.getName());
-
                         if (data.getName() != null && data.getPhone() != null) {
                             goIntent.putExtra("userName", data.getName());
                             goIntent.putExtra("userNum", data.getPhone());
@@ -137,20 +134,6 @@ public class MeDetailActivity extends AppCompatActivity {
                     System.out.println("<10> 실패 " + call + "\n티는 " + t);
                 }
             });
-
-//            System.out.println("sms 확인 " + userName);
-//
-//            Intent goIntent = new Intent(this, ShareActivity.class);
-//
-//            goIntent.putExtra("divId", divId);
-//            goIntent.putExtra("medicine", subName);
-//
-//            if (userName != null && userNum != null) {
-//                goIntent.putExtra("userName", userName);
-//                goIntent.putExtra("userNum", userNum);
-//            }
-//
-//            startActivity(goIntent);
         });
 
         // 사용상 주의사항 보러가기 버튼
