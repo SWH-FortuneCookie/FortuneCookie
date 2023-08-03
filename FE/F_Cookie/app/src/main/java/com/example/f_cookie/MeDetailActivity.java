@@ -39,7 +39,7 @@ public class MeDetailActivity extends AppCompatActivity {
     ImageButton backBtn;
     Button drugWarningsButton;
     Button addMngBtn;
-    TextView name, feature, usage, store;
+    TextView name, feature, usage, store, effectTx;
     ImageView looks;
     FlexboxLayout e_view, c_view;
 
@@ -74,7 +74,7 @@ public class MeDetailActivity extends AppCompatActivity {
         efficacy = getIntent.getStringArrayExtra("efficacy");
         System.out.println("받는거 확인 " + efficacy);
         information = getIntent.getStringArrayExtra("information");
-        System.out.println("받는거 확인 info " + efficacy);
+        System.out.println("받는거 확인 info " + information);
 
         c_view = findViewById(R.id.c_view);
         e_view = findViewById(R.id.e_view);
@@ -85,6 +85,7 @@ public class MeDetailActivity extends AppCompatActivity {
         usage = findViewById(R.id.drug_derections_info);
         store = findViewById(R.id.drug_storage_info);
         looks = findViewById(R.id.drug_featureimg);
+        effectTx = findViewById(R.id.effectTx);
 
         GetMedicineInfo();
 
@@ -97,6 +98,7 @@ public class MeDetailActivity extends AppCompatActivity {
         drugWarningsButton = findViewById(R.id.drug_warningsbtn);
         drugWarningsButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, DrugWarningsActivity.class);
+            intent.putExtra("name", subName);
             startActivity(intent);
         });
 
@@ -147,26 +149,36 @@ public class MeDetailActivity extends AppCompatActivity {
     }
 
     void setEffData() {
+//        System.out.println("효능효과 개수 " + efficacy.length);
         TextView[] e_tv = new TextView[efficacy.length];
-        for (int i = 1; i < efficacy.length; i++) {
+        for (int i = 1; i <= efficacy.length; i++) {
             int e_resId = getResources().getIdentifier("e_tv" + i, "id", "com.example.f_cookie");
             e_tv[i - 1] = findViewById(e_resId);
             e_tv[i - 1].setVisibility(View.VISIBLE);
-            System.out.println("비지빌리티 확인 : " + e_tv[i - 1].getVisibility());
-            e_tv[i - 1].setText(efficacy[i-1].toString());
+//            System.out.println("비지빌리티 확인 : " + e_tv[i - 1].getVisibility());
+            if (i == 1) {
+                String t = efficacy[0].replace("[", "");
+//                e_tv[0].setText(t);
+                e_tv[0].setVisibility(View.GONE);
+                effectTx.setText(t);
+            }
+            else {
+                e_tv[i - 1].setText((efficacy[i-1]).replace("]", ""));
+            }
         }
     }
 
     void setInfoData() {
-        System.out.println("info for문 insert 확인");
+//        System.out.println("성분정보 개수 " + information.length);
         TextView[] c_tv = new TextView[information.length];
-        System.out.println("확인 " + information.length + " 확인 " + c_tv.toString());
-        for (int i = 1; i < information.length; i++) {
+        for (int i = 1; i <= information.length; i++) {
             int c_resId = getResources().getIdentifier("c_tv" + i, "id", "com.example.f_cookie");
             c_tv[i - 1] = findViewById(c_resId);
             c_tv[i - 1].setVisibility(View.VISIBLE);
 //            System.out.println("비지빌리티 확인 : " + c_tv[i - 1].getVisibility());
-            c_tv[i - 1].setText(information[i - 1].toString());
+            String t = information[i-1].replace("[", "");
+            t = t.replace("]", "");
+            c_tv[i - 1].setText(t);
         }
     }
 

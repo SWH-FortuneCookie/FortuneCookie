@@ -642,7 +642,7 @@ public class MainActivity extends AppCompatActivity {
 
                     System.out.println("확인확인 " + eArrays[4]);
 
-                    List<String> i_list = Arrays.asList(data.getInformation().toString());
+                    List<String> i_list = Arrays.asList(data.getInformation().toString().split(","));
                     String[] iArrays = i_list.toArray(new String[i_list.size()]);
 
 //                    System.out.println("확인 " + e_list.get(0));

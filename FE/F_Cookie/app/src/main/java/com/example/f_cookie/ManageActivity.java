@@ -98,7 +98,18 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         //복약관리 데이터 할당 함수
         Allocating();
 
+<<<<<<< HEAD
         // medlist_mng = visible / alarm_mng = gone
+=======
+        //삭제하기 버튼 리스너 안에 할당할 함수
+        Delete();
+
+        // -> 이제 리사이클러뷰에서 약 이름 텍스트 설정할 때 그냥 예를 들어 textView.setText(mediName); 이런식으로 사용하시면 돼요~!
+        // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
+        // 이거 참고하시면 될 것 같아요 여기서 shapeUrl -> mediImg / looks -> 리사이클러 뷰의 이미지뷰 이거 두개만 바꾸시면 돼요!
+
+
+>>>>>>> main
         View alarmMngLayout = findViewById(R.id.alarmLayout);
         alarmMngLayout.setVisibility(View.VISIBLE);
 
@@ -300,6 +311,66 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<List<TakeMedicine>> call, Throwable t) {
                 System.out.println("<5> 실패" + call + "\n티는 " + t);
+            }
+        });
+    }
+
+    void Delete() {
+        String name = "";
+
+        //일단 복약관리 5개까지만 커버..
+        if (count == 5) {
+            name = mediName[0].replace("\n", "");
+        }
+        if (count == 10) {
+            name = mediName[1].replace("\n", "");
+        }
+        if (count == 15) {
+            name = mediName[2].replace("\n", "");
+        }
+        if (count == 20) {
+            name = mediName[3].replace("\n", "");
+        }
+        if (count == 25) {
+            name = mediName[4].replace("\n", "");
+        }
+        if (count == 30) {
+            name = mediName[5].replace("\n", "");
+        }
+        if (count == 35) {
+            name = mediName[6].replace("\n", "");
+        }
+        if (count == 40) {
+            name = mediName[7].replace("\n", "");
+        }
+        if (count == 45) {
+            name = mediName[8].replace("\n", "");
+        }
+        if (count == 50) {
+            name = mediName[9].replace("\n", "");
+        }
+
+        deleteTaking deleteTaking = new deleteTaking(name);
+
+        retrofitAPI.deleteTake(divId, deleteTaking).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("taking delete 성공 " + response.body());
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <9> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("<9> 실패 " + call + "\n티는 " + t);
             }
         });
     }
