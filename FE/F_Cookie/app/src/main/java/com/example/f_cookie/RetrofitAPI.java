@@ -35,4 +35,12 @@ public interface RetrofitAPI {
     //복약관리 데이터 삭제
     @DELETE("{deviceId}/taking")
     Call<Void> deleteTake(@Path("deviceId") String deviceId, @Body deleteTaking deleteTaking);
+
+    //sms 정보 가져오기 /fortunecookie/{deviceId}/sms
+    @GET("{deviceId}/sms")
+    Call<getSMS> getSMS(@Path("deviceId") String deviceId);
+
+    //sms 전송하기
+    @POST("{deviceId}/sms")
+    Call<Void> postSMS(@Path("deviceId") String deviceId, @Body postSMS postSMS);
 }
