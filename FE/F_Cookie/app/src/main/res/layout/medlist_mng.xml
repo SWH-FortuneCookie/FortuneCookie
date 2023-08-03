@@ -7,7 +7,7 @@
 
     <include layout="@layout/alarm_mng"
         android:id="@+id/alarmLayout"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ImageButton
         android:id="@+id/backBtn"

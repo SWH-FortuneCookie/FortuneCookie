@@ -8,12 +8,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -38,6 +44,11 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private boolean isMorningSelected = false;
     private boolean isAfternoonSelected = false;
     private String selectedDay = ""; // 선택한 요일을 저장하는 변수
+    private Button save;
+    // 리사이클러뷰와 어댑터 관련 멤버 변수
+    private RecyclerView recyclerView;
+    private MedicineAdapter adapter;
+    private List<MedicineItem> medicineList;
 
     String divId;
     int count;
@@ -50,11 +61,21 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     String[] mediMsg;     //복용_알림설정경우_메시지(ex: 매일 12:30에 1정투여)
 
     //테스트용으로 써주세요!
-    String name;
-    String img;
-    String amt;
-    String arm;
-    String msg;
+    public class MedicineItem {
+        String name;  //약 이름
+        String img;   //약 생김새이미지
+        String amt;   //약 복용량
+        String arm;   //복용 알림설정여부
+        String msg;   //복용 알림설정경우 메시지
+
+        public MedicineItem(String subName, String shapeUrl, String amount, String message, boolean alarm) {
+            this.name = subName;
+            this.img = shapeUrl;
+            this.amt = amount;
+            this.msg = message;
+            this.arm = String.valueOf(alarm);
+        }
+    }
 
     //백엔드 GET 설정 관련 ->
     public static Gson gson = new GsonBuilder().setLenient().create();
@@ -77,13 +98,12 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         //복약관리 데이터 할당 함수
         Allocating();
 
-        // -> 이제 리사이클러뷰에서 약 이름 텍스트 설정할 때 그냥 예를 들어 textView.setText(mediName); 이런식으로 사용하시면 돼요~!
-        // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
-        // 이거 참고하시면 될 것 같아요 여기서 shapeUrl -> mediImg / looks -> 리사이클러 뷰의 이미지뷰 이거 두개만 바꾸시면 돼요!
-
-
+        // medlist_mng = visible / alarm_mng = gone
         View alarmMngLayout = findViewById(R.id.alarmLayout);
         alarmMngLayout.setVisibility(View.VISIBLE);
+
+        View alarmScrollview = findViewById(R.id.alarm_scroll);
+        alarmScrollview.setVisibility(View.GONE);
 
         // 뒤로가기 버튼
         ImageButton backButton = findViewById(R.id.backbtn);
@@ -114,15 +134,31 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         morningButton.setOnClickListener(this);
         afternoonButton.setOnClickListener(this);
 
-        // 알람 설정하기 버튼 초기화
+        // 리사이클러뷰 초기화
+        recyclerView = findViewById(R.id.mediListView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        medicineList = new ArrayList<>();
+        adapter = new MedicineAdapter(medicineList);
+        recyclerView.setAdapter(adapter);
+
+        // 저장하기 버튼 초기화 및 클릭 리스너 설정
+        Button save = findViewById(R.id.save);
+        save.setOnClickListener(this);
+
+    }
+
+    private void setAlarm() {
         Button setBtn = findViewById(R.id.setBtn);
-        setBtn.setOnClickListener(this);
-
-        // 수정하기 버튼 초기화
         Button modifyBtn = findViewById(R.id.modifyBtn);
-        modifyBtn.setOnClickListener(this);
-        modifyBtn.setVisibility(View.GONE); // 일단 숨김 처리
+        View alarmScrollview = findViewById(R.id.alarm_scroll);
 
+        // 알람 설정 버튼 클릭 시 alarm_mng 스크롤뷰 보이기
+        setBtn.setOnClickListener(view -> {
+            alarmScrollview.setVisibility(View.VISIBLE);
+        });
+        modifyBtn.setOnClickListener(view -> {
+        });
+        modifyBtn.setVisibility(View.GONE);
     }
 
     @Override
@@ -139,8 +175,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButtons[7].setSelected(isEverydaySelected);
             // "매일" 버튼 텍스트 색상 변경
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
-        }
-        else if (v.getId() == R.id.morning_button) {
+        } else if (v.getId() == R.id.morning_button) {
             isMorningSelected = !isMorningSelected;
             morningButton.setSelected(isMorningSelected);
             morningButton.setTextColor(isMorningSelected ? Color.BLACK : Color.WHITE);
@@ -156,6 +191,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             isMorningSelected = false;
             morningButton.setSelected(false);
             morningButton.setTextColor(Color.WHITE);
+        } else if (v.getId() == R.id.save) {
+            addNewItem();
         }
         else {
             Button clickedButton = findViewById(v.getId());
@@ -186,12 +223,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         }
 
-        // 알람을 설정한 후에는 '수정하기' 버튼을 보이도록 설정
-        Button setBtn = findViewById(R.id.setBtn);
-        Button modifyBtn = findViewById(R.id.modifyBtn);
-        setBtn.setVisibility(View.GONE);
-        modifyBtn.setVisibility(View.VISIBLE);
-
         // 시와 분을 가져와서 변수로 저장
         EditText editTextHour = findViewById(R.id.hourEditText);
         EditText editTextMinute = findViewById(R.id.minuteEditText);
@@ -207,6 +238,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             minute = Integer.parseInt(editTextMinute.getText().toString());
         }
 
+        // 선택한 요일을 가져와서 변수로 저장
         if (v.getId() == R.id.setBtn || v.getId() == R.id.modifyBtn) {
             selectedDay = ""; // 기존에 저장된 요일 초기화
             if (isEverydaySelected) {
@@ -239,8 +271,23 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                     saveInfo(count, mArrays);
 
 //                    saveInfo(data.getSubName(), data.getShapeUrl(), data.getAmount(), data.getMessage(), data.getAlarm());
-                }
-                else {
+
+                    // 받아온 데이터를 MedicineItem으로 변환하여 medicineList에 추가
+                    medicineList.clear();
+                    for (TakeMedicine medicine : data) {
+                        MedicineItem item = new MedicineItem(
+                                medicine.getSubName(),
+                                medicine.getShapeUrl(),
+                                medicine.getAmount(),
+                                medicine.getMessage(),
+                                medicine.getAlarm()
+                        );
+                        medicineList.add(item);
+                    }
+                    // 어댑터 갱신
+                    adapter.notifyDataSetChanged();
+
+                } else {
                     try {
                         String body = response.errorBody().string();
                         Log.e(TAG, " <5> error - body : " + body);
@@ -258,20 +305,85 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     void saveInfo(int count, String[] arry) {
-        mediName = new String[count/5];
-        mediImg = new String[count/5];
-        mediAmt = new String[count/5];
-        mediMsg = new String[count/5];
+        mediName = new String[count / 5];
+        mediImg = new String[count / 5];
+        mediAmt = new String[count / 5];
+        mediMsg = new String[count / 5];
 //        mediArm
 
         for (int i = 0; i < count / 5; i++) {
-            mediName[i] = arry[i*5];
-            mediImg[i] = arry[i*5+1];
-            mediAmt[i] = arry[i*5+2];
-            mediMsg[i] = arry[i*5+3];
+            mediName[i] = arry[i * 5];
+            mediImg[i] = arry[i * 5 + 1];
+            mediAmt[i] = arry[i * 5 + 2];
+            mediMsg[i] = arry[i * 5 + 3];
             //알람여부
         }
 //        System.out.println("확인 " + mediName[1]);
+    }
+
+    // 리사이클러뷰 어댑터 클래스
+    private class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHolder> {
+
+        private List<MedicineItem> items;
+
+        public MedicineAdapter(List<MedicineItem> items) {
+            this.items = items;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = getLayoutInflater().inflate(R.layout.item_medi, parent, false);
+            return new ViewHolder(view);
+        }
+
+        // 이름이랑 복용량 변수 할당한 부분이 밑에 부분입니다..!
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            MedicineItem item = items.get(position);
+
+            // 약 생김새 이미지
+            Glide.with(holder.itemView.getContext()).load(mediImg).into(holder.shapeImageView);
+
+            // 약 이름 설정
+            String mediName = item.name.replace("&", "\n");
+            holder.mediNameTextView.setText(mediName);
+
+            // 약 복용량 설정
+            holder.mediAmtTextView.setText(item.amt);
+
+            // 복용 알림설정 경우 메시지 설정
+            holder.medimsgTextView.setText(item.msg);
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView shapeImageView;
+            TextView mediNameTextView;
+            TextView mediAmtTextView;
+            TextView medimsgTextView;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                shapeImageView = itemView.findViewById(R.id.medi_shape);
+                mediNameTextView = itemView.findViewById(R.id.medi_name);
+                mediAmtTextView = itemView.findViewById(R.id.medi_amt);
+                medimsgTextView = itemView.findViewById(R.id.alarm_msg);
+            }
+        }
+    }
+    private void addNewItem() {
+        // 새로운 아이템 생성 및 리스트에 추가
+        MedicineItem newItem = new MedicineItem("New Medicine", "url_new_medi_Image", "New Amount", "New Message", true);
+        medicineList.add(newItem);
+
+        // 어댑터에 변경 사항 알림
+        adapter.notifyDataSetChanged();
     }
 }
 

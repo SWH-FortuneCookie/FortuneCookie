@@ -78,7 +78,7 @@ public class MeDetailActivity extends AppCompatActivity {
 
         c_view = findViewById(R.id.c_view);
         e_view = findViewById(R.id.e_view);
-        backBtn = findViewById(R.id.backbtn);
+        backBtn = findViewById(R.id.d_backbtn);
         addMngBtn = findViewById(R.id.addlistButton);
         name = findViewById(R.id.drug_name);
         feature = findViewById(R.id.drug_featureinfo);
