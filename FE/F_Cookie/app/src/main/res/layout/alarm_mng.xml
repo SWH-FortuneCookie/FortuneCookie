@@ -9,6 +9,7 @@
     tools:context=".ManageActivity">
 
     <ScrollView
+        android:id="@+id/alarm_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -324,20 +325,20 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/save"
+            android:text="저장하기"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     </LinearLayout>
 
     </ScrollView>
-
-    <Button
-        android:id="@+id/save"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/save"
-        android:text="저장하기"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
