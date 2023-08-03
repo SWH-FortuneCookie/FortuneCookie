@@ -45,6 +45,9 @@
 
         <activity android:name=".ManageActivity" />
         <activity android:name=".MeDetailActivity"/>
+        <activity android:name=".SmsPopup"
+            android:theme="@style/PopupTheme"/>
+        <activity android:name=".ShareActivity"/>
         <activity android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
