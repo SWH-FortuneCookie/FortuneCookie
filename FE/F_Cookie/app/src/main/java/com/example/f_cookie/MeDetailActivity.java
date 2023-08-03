@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,13 +41,15 @@ public class MeDetailActivity extends AppCompatActivity {
 
     ImageButton backBtn;
     Button drugWarningsButton;
-    Button addMngBtn;
+    Button addMngBtn, shareBtn;
     TextView name, feature, usage, store, effectTx;
     ImageView looks;
     FlexboxLayout e_view, c_view;
 
     String divId, subName, shapeUrl, description, dosage, storage;
     String[] efficacy, information;
+
+    String userName, userNum;
 
     //백엔드 GET 설정 관련 ->
     public static Gson gson = new GsonBuilder().setLenient().create();
@@ -79,6 +84,7 @@ public class MeDetailActivity extends AppCompatActivity {
         c_view = findViewById(R.id.c_view);
         e_view = findViewById(R.id.e_view);
         backBtn = findViewById(R.id.d_backbtn);
+        shareBtn = findViewById(R.id.shareBtn);
         addMngBtn = findViewById(R.id.addlistButton);
         name = findViewById(R.id.drug_name);
         feature = findViewById(R.id.drug_featureinfo);
@@ -92,6 +98,59 @@ public class MeDetailActivity extends AppCompatActivity {
         backBtn.setOnClickListener(view -> {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+        });
+
+        shareBtn.setOnClickListener(view -> {
+            Intent goIntent = new Intent(this, ShareActivity.class);
+
+            goIntent.putExtra("divId", divId);
+            goIntent.putExtra("medicine", subName);
+
+            retrofitAPI.getSMS(divId).enqueue(new Callback<getSMS>() {
+                @Override
+                public void onResponse(Call<getSMS> call, Response<getSMS> response) {
+                    if (response.isSuccessful()) {
+                        getSMS data = response.body();
+
+//                        saveSMS(data.getName(), data.getPhone());
+                        System.out.println("sms 확인 " + data.getName());
+
+                        if (data.getName() != null && data.getPhone() != null) {
+                            goIntent.putExtra("userName", data.getName());
+                            goIntent.putExtra("userNum", data.getPhone());
+                        }
+
+                        startActivity(goIntent);
+                    }
+                    else {
+                        try {
+                            String body = response.errorBody().string();
+                            Log.e(TAG, " <10> error - body : " + body);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<getSMS> call, Throwable t) {
+                    System.out.println("<10> 실패 " + call + "\n티는 " + t);
+                }
+            });
+
+//            System.out.println("sms 확인 " + userName);
+//
+//            Intent goIntent = new Intent(this, ShareActivity.class);
+//
+//            goIntent.putExtra("divId", divId);
+//            goIntent.putExtra("medicine", subName);
+//
+//            if (userName != null && userNum != null) {
+//                goIntent.putExtra("userName", userName);
+//                goIntent.putExtra("userNum", userNum);
+//            }
+//
+//            startActivity(goIntent);
         });
 
         // 사용상 주의사항 보러가기 버튼
@@ -194,5 +253,10 @@ public class MeDetailActivity extends AppCompatActivity {
         usage.setText(dosage);
         //저장방법
         store.setText(storage);
+    }
+
+    void saveSMS(String userName, String userNum) {
+        this.userName = userName;
+        this.userNum = userNum;
     }
 }
