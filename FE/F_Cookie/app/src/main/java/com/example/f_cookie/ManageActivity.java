@@ -49,6 +49,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private RecyclerView recyclerView;
     private MedicineAdapter adapter;
     private List<MedicineItem> medicineList;
+    private EditText hourEditText;
+    private EditText minuteEditText;
 
     String divId;
     int count;
@@ -110,9 +112,34 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         View alarmMngLayout = findViewById(R.id.alarmLayout);
         alarmMngLayout.setVisibility(View.VISIBLE);
 
-        View alarmScrollview = findViewById(R.id.alarm_scroll);
-        alarmScrollview.setVisibility(View.GONE);
+//        View alarmScrollview = findViewById(R.id.alarm_scroll);
+//        alarmScrollview.setVisibility(View.VISIBLE);
 
+        // 시, 분 edittext 배경 활성화
+        hourEditText = findViewById(R.id.hourEditText);
+        minuteEditText = findViewById(R.id.minuteEditText);
+
+        hourEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    hourEditText.setBackgroundResource(R.drawable.time_button); // 포커스를 받을 때 배경 변경
+                } else {
+                    hourEditText.setBackgroundResource(R.drawable.time_button); // 포커스를 잃을 때 배경 변경
+                }
+            }
+        });
+
+        minuteEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    minuteEditText.setBackgroundResource(R.drawable.time_button); // 포커스를 받을 때 배경 변경
+                } else {
+                    minuteEditText.setBackgroundResource(R.drawable.time_button_inactive); // 포커스를 잃을 때 배경 변경
+                }
+            }
+        });
         // 뒤로가기 버튼
         ImageButton backButton = findViewById(R.id.backBtn);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +226,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             isMorningSelected = false;
             morningButton.setSelected(false);
             morningButton.setTextColor(Color.WHITE);
-        } else if (v.getId() == R.id.save) {
+        }
+        else if (v.getId() == R.id.save) {
             addNewItem();
         }
         else {
