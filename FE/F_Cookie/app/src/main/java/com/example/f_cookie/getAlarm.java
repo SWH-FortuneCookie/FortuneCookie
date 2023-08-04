@@ -2,6 +2,8 @@ package com.example.f_cookie;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class getAlarm {
     @SerializedName("name")
     public String name;
@@ -12,7 +14,37 @@ public class getAlarm {
         this.name = name;
     }
 
-    public getAlarm(String name) {
+    @SerializedName("days")
+    public List days;
+    public List getDays() {
+        return days;
+    }
+    public void setDays(List days) {
+        this.days = days;
+    }
+
+    @SerializedName("hour")
+    public int hour;
+    public int getHour() {
+        return hour;
+    }
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    @SerializedName("minute")
+    public int minute;
+    public int getMinute() {
+        return minute;
+    }
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public getAlarm(String name, List days, int hour, int minute) {
         this.name = name;
+        this.days = days;
+        this.hour = hour;
+        this.minute = minute;
     }
 }

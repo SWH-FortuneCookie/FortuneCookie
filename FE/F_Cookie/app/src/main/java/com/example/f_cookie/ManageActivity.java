@@ -173,6 +173,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             alarmScrollview.setVisibility(View.VISIBLE);
         });
         modifyBtn.setOnClickListener(view -> {
+            getAlarm();
         });
         modifyBtn.setVisibility(View.GONE);
     }
@@ -519,7 +520,38 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 System.out.println("<6> 실패 " + call + "\n티는 " + t);
+            }
+        });
+    }
 
+    void getAlarm() {
+        retrofitAPI.getAlarm(divId).enqueue(new Callback<getAlarm>() {
+            @Override
+            public void onResponse(Call<getAlarm> call, Response<getAlarm> response) {
+                if(response.isSuccessful()) {
+                    getAlarm data = response.body();
+
+                    String name = data.getName();
+                    List days = data.getDays();
+                    int hour = data.getHour(); //24시간제로 저장됨
+                    int minute = data.getMinute();
+
+                    System.out.println("수정하기 눌렀을 때 저장될 데이터 테스트\n" + name +"\n" + days + "\n" +
+                            hour + "시 " + minute + "분");
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <7> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<getAlarm> call, Throwable t) {
+                System.out.println("<7> 실패 " + call + "\n티는 " + t);
             }
         });
     }
