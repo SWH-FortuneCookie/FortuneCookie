@@ -95,6 +95,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         Intent getIntent = getIntent();
         divId = getIntent.getStringExtra("MainToDivId");
+        if (divId == null) {
+            divId = getIntent.getStringExtra("divId");
+        }
         medicine = getIntent.getStringExtra("medicine");
         System.out.println("매니지 액티비티 확인 " + divId);
 
