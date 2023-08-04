@@ -52,8 +52,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private EditText hourEditText;
     private EditText minuteEditText;
 
-    String divId;
+    String divId, medicine;
     int count;
+
+    int hour, minute;
 
     //백엔드에서 가져온 데이터 저장용 변수 선언
     String[] mediName;    //약_이름
@@ -95,6 +97,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         Intent getIntent = getIntent();
         divId = getIntent.getStringExtra("MainToDivId");
+        if (divId == null) {
+            divId = getIntent.getStringExtra("divId");
+        }
+        medicine = getIntent.getStringExtra("medicine");
         System.out.println("매니지 액티비티 확인 " + divId);
 
         //복약관리 데이터 할당 함수
@@ -178,7 +184,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // 저장하기 버튼 초기화 및 클릭 리스너 설정
         Button save = findViewById(R.id.save);
-        save.setOnClickListener(this);
+        save.setOnClickListener(view -> {
+            postAlarm();
+        });
 
     }
 
@@ -192,6 +200,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             alarmScrollview.setVisibility(View.VISIBLE);
         });
         modifyBtn.setOnClickListener(view -> {
+            getAlarm();
         });
         modifyBtn.setVisibility(View.GONE);
     }
@@ -263,8 +272,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         EditText editTextHour = findViewById(R.id.hourEditText);
         EditText editTextMinute = findViewById(R.id.minuteEditText);
 
-        int hour = 0;
-        int minute = 0;
+        hour = 0;
+        minute = 0;
 
         if (!editTextHour.getText().toString().isEmpty()) {
             hour = Integer.parseInt(editTextHour.getText().toString());
@@ -343,7 +352,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     void Delete() {
         String name = "";
 
-        //일단 복약관리 5개까지만 커버..
         if (count == 5) {
             name = mediName[0].replace("\n", "");
         }
@@ -480,6 +488,169 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // 어댑터에 변경 사항 알림
         adapter.notifyDataSetChanged();
+    }
+
+    void postAlarm() {
+        //name - string / days - list / hour - int / minute - int
+
+        //상세 페이지에서 넘어왔을 때
+        String name = medicine;
+
+        //메인에서 들어왔을 때
+//        String item_name =
+
+        //요일 가공
+        int[] arr = { };
+        List<int[]> day = Arrays.asList(arr);
+        if (selectedDay.equals("매일")) {
+            for (int i = 0; i < 7; i++) {
+                arr[i] = i;
+            }
+        }
+        else {
+            selectedDay = selectedDay.replace("일", "0");
+            selectedDay = selectedDay.replace("월", "1");
+            selectedDay = selectedDay.replace("화", "2");
+            selectedDay = selectedDay.replace("수", "3");
+            selectedDay = selectedDay.replace("목", "4");
+            selectedDay = selectedDay.replace("금", "5");
+            selectedDay = selectedDay.replace("토", "6");
+            String d[] = selectedDay.split(" ");
+
+            arr = new int[d.length];
+            for (int i = 0; i < d.length; i++) {
+                arr[i] = Integer.parseInt(d[i]);
+            }
+        }
+
+        //시간 가공
+        if (isAfternoonSelected == true) {
+            hour = hour + 12;
+        }
+
+        postAlarm postAlarm = new postAlarm(medicine, day, hour, minute);
+        retrofitAPI.postAlarm(divId, postAlarm).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("postAlarm 성공 " + response.body());
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <6> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("<6> 실패 " + call + "\n티는 " + t);
+            }
+        });
+    }
+
+    void getAlarm() {
+        retrofitAPI.getAlarm(divId).enqueue(new Callback<getAlarm>() {
+            @Override
+            public void onResponse(Call<getAlarm> call, Response<getAlarm> response) {
+                if(response.isSuccessful()) {
+                    getAlarm data = response.body();
+
+                    String name = data.getName();
+                    List days = data.getDays();
+                    int hour = data.getHour(); //24시간제로 저장됨
+                    int minute = data.getMinute();
+
+                    System.out.println("수정하기 눌렀을 때 저장될 데이터 테스트\n" + name +"\n" + days + "\n" +
+                            hour + "시 " + minute + "분");
+
+                    //알림 설정 페이지에 받아와진 데이터 표시
+
+
+
+                    modifyAlarm();
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <7> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<getAlarm> call, Throwable t) {
+                System.out.println("<7> 실패 " + call + "\n티는 " + t);
+            }
+        });
+    }
+
+    void modifyAlarm() {
+        //name - string / days - list / hour - int / minute - int
+
+        //상세 페이지에서 넘어왔을 때
+        String name = medicine;
+
+        //메인에서 들어왔을 때
+//        String item_name =
+
+        //요일 가공
+        int[] arr = { };
+        List<int[]> day = Arrays.asList(arr);
+        if (selectedDay.equals("매일")) {
+            for (int i = 0; i < 7; i++) {
+                arr[i] = i;
+            }
+        }
+        else {
+            selectedDay = selectedDay.replace("일", "0");
+            selectedDay = selectedDay.replace("월", "1");
+            selectedDay = selectedDay.replace("화", "2");
+            selectedDay = selectedDay.replace("수", "3");
+            selectedDay = selectedDay.replace("목", "4");
+            selectedDay = selectedDay.replace("금", "5");
+            selectedDay = selectedDay.replace("토", "6");
+            String d[] = selectedDay.split(" ");
+
+            arr = new int[d.length];
+            for (int i = 0; i < d.length; i++) {
+                arr[i] = Integer.parseInt(d[i]);
+            }
+        }
+
+        //시간 가공
+        if (isAfternoonSelected == true) {
+            hour = hour + 12;
+        }
+
+        putAlarm putAlarm = new putAlarm(medicine, day, hour, minute);
+
+        retrofitAPI.putAlarm(divId, putAlarm).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("putAlarm 성공 " + response.body());
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <8> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("<8> 실패 " + call + "\n티는 " + t);
+            }
+        });
     }
 }
 
