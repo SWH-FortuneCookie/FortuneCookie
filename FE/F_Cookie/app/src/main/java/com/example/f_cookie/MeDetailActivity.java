@@ -175,6 +175,7 @@ public class MeDetailActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, ManageActivity.class);
             intent.putExtra("divId", divId);
+            intent.putExtra("medicine", subName);
             startActivity(intent);
         });
 
