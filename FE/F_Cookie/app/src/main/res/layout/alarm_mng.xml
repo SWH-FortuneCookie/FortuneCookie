@@ -19,7 +19,7 @@
         tools:ignore="MissingConstraints">
 
         <ImageButton
-            android:id="@+id/backBtn"
+            android:id="@+id/mng_backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

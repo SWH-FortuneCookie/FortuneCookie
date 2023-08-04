@@ -52,6 +52,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private List<MedicineItem> medicineList;
     private EditText hourEditText;
     private EditText minuteEditText;
+    View alarmLayout;
+    TextView manTxt;
+    ImageButton backButton, mngBack;
 
     String divId, medicine;
     int count;
@@ -104,6 +107,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         medicine = getIntent.getStringExtra("medicine");
         System.out.println("매니지 액티비티 확인 " + divId);
 
+        alarmLayout = findViewById(R.id.alarmLayout);
+
         //복약관리 데이터 할당 함수
         Allocating();
 
@@ -148,12 +153,19 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
         // 뒤로가기 버튼
-        ImageButton backButton = findViewById(R.id.backBtn);
+        backButton = findViewById(R.id.backBtn);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
+        });
+        mngBack = findViewById(R.id.mng_backBtn);
+        mngBack.setOnClickListener(view -> {
+            backButton.setVisibility(View.VISIBLE);
+            manTxt.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+            alarmLayout.setVisibility(View.GONE);
         });
 
         dayButtons = new Button[8];
@@ -170,6 +182,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButton.setOnClickListener(this);
         }
 
+        manTxt = findViewById(R.id.manTxt);
         morningButton = findViewById(R.id.morning_button);
         afternoonButton = findViewById(R.id.afternoon_button);
 
@@ -192,18 +205,12 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setAlarm() {
-        Button setBtn = findViewById(R.id.setBtn);
-        Button modifyBtn = findViewById(R.id.modifyBtn);
-        View alarmScrollview = findViewById(R.id.alarm_scroll);
+        System.out.println("알림매니지 페이지 확인");
+        backButton.setVisibility(View.GONE);
+        manTxt.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        alarmLayout.setVisibility(View.VISIBLE);
 
-        // 알람 설정 버튼 클릭 시 alarm_mng 스크롤뷰 보이기
-        setBtn.setOnClickListener(view -> {
-            alarmScrollview.setVisibility(View.VISIBLE);
-        });
-        modifyBtn.setOnClickListener(view -> {
-            getAlarm();
-        });
-        modifyBtn.setVisibility(View.GONE);
     }
 
     @Override
@@ -268,34 +275,34 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
 
             // '삭제하기' 버튼을 눌렀을 때 GONE 설정
-            if (v.getId() == R.id.deleteBtn) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
-
-                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
-
-                alertDialogBuilder.setView(dialogView);
-                AlertDialog alertDialog = alertDialogBuilder.create();
-
-                dialogDeleteButton.setOnClickListener(view -> {
-                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
-                    int position = recyclerView.getChildAdapterPosition(v);
-                    if (position != RecyclerView.NO_POSITION) {
-                        MedicineItem item = medicineList.get(position);
-                        View itemView = recyclerView.getChildAt(position);
-                        if (itemView != null) {
-                            itemView.setVisibility(View.GONE);
-                        }
-                        medicineList.remove(position);
-                        adapter.notifyItemRemoved(position);
-
-                        Delete();
-                    }
-                    alertDialog.dismiss();
-                });
-
-                alertDialog.show();
-            }
+//            if (v.getId() == R.id.deleteBtn) {
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
+//
+//                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
+//
+//                alertDialogBuilder.setView(dialogView);
+//                AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//                dialogDeleteButton.setOnClickListener(view -> {
+//                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
+//                    int position = recyclerView.getChildAdapterPosition(v);
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        MedicineItem item = medicineList.get(position);
+//                        View itemView = recyclerView.getChildAt(position);
+//                        if (itemView != null) {
+//                            itemView.setVisibility(View.GONE);
+//                        }
+//                        medicineList.remove(position);
+//                        adapter.notifyItemRemoved(position);
+//
+//                        Delete();
+//                    }
+//                    alertDialog.dismiss();
+//                });
+//
+//                alertDialog.show();
+//            }
 
         }
 
@@ -378,6 +385,35 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                 System.out.println("<5> 실패" + call + "\n티는 " + t);
             }
         });
+    }
+
+    void deletePopup() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
+
+        Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
+
+        alertDialogBuilder.setView(dialogView);
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        dialogDeleteButton.setOnClickListener(view -> {
+            // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
+            int position = recyclerView.getChildAdapterPosition(dialogDeleteButton);
+            if (position != RecyclerView.NO_POSITION) {
+                MedicineItem item = medicineList.get(position);
+                View itemView = recyclerView.getChildAt(position);
+                if (itemView != null) {
+                    itemView.setVisibility(View.GONE);
+                }
+                medicineList.remove(position);
+                adapter.notifyItemRemoved(position);
+
+                Delete();
+            }
+            alertDialog.dismiss();
+        });
+
+        alertDialog.show();
     }
 
     void Delete() {
@@ -489,6 +525,38 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
             // 복용 알림설정 경우 메시지 설정
             holder.medimsgTextView.setText(item.msg);
+
+            holder.setBtn.setOnClickListener(view -> {
+                setAlarm();
+
+//                putAlarm putAlarm = new putAlarm(mediName, day, hour, minute);
+//
+//                retrofitAPI.putAlarm(divId, putAlarm).enqueue(new Callback<Void>() {
+//                    @Override
+//                    public void onResponse(Call<Void> call, Response<Void> response) {
+//                        if (response.isSuccessful()) {
+//                            System.out.println("putAlarm 성공 " + response.body());
+//                        }
+//                        else {
+//                            try {
+//                                String body = response.errorBody().string();
+//                                Log.e(TAG, " <8> error - body : " + body);
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Void> call, Throwable t) {
+//                        System.out.println("<8> 실패 " + call + "\n티는 " + t);
+//                    }
+//                });
+            });
+
+            holder.deleteBtn.setOnClickListener(view -> {
+                deletePopup();
+            });
         }
 
         @Override
@@ -502,6 +570,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             TextView mediNameTextView;
             TextView mediAmtTextView;
             TextView medimsgTextView;
+            Button setBtn, deleteBtn;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -509,6 +578,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                 mediNameTextView = itemView.findViewById(R.id.medi_name);
                 mediAmtTextView = itemView.findViewById(R.id.medi_amt);
                 medimsgTextView = itemView.findViewById(R.id.alarm_msg);
+                setBtn = itemView.findViewById(R.id.setBtn);
+                deleteBtn = itemView.findViewById(R.id.deleteBtn);
             }
         }
     }
@@ -625,10 +696,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         //name - string / days - list / hour - int / minute - int
 
         //상세 페이지에서 넘어왔을 때
-        String name = medicine;
+//        String name = medicine;
 
         //메인에서 들어왔을 때
-//        String item_name =
+//        String item_name =d
 
         //요일 가공
         int[] arr = { };
@@ -646,6 +717,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             selectedDay = selectedDay.replace("목", "4");
             selectedDay = selectedDay.replace("금", "5");
             selectedDay = selectedDay.replace("토", "6");
+            System.out.println("선택 요일 확인 " + selectedDay);
             String d[] = selectedDay.split(" ");
 
             arr = new int[d.length];

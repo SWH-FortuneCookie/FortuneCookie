@@ -15,6 +15,7 @@
         android:background="@android:color/transparent"/>
 
     <TextView
+        android:id="@+id/manTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="내 복약 관리"
