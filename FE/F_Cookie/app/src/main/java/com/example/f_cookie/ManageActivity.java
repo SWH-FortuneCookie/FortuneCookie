@@ -50,8 +50,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private MedicineAdapter adapter;
     private List<MedicineItem> medicineList;
 
-    String divId;
+    String divId, medicine;
     int count;
+
+    int hour, minute;
 
     //백엔드에서 가져온 데이터 저장용 변수 선언
     String[] mediName;    //약_이름
@@ -93,6 +95,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         Intent getIntent = getIntent();
         divId = getIntent.getStringExtra("MainToDivId");
+        medicine = getIntent.getStringExtra("medicine");
         System.out.println("매니지 액티비티 확인 " + divId);
 
         //복약관리 데이터 할당 함수
@@ -151,7 +154,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // 저장하기 버튼 초기화 및 클릭 리스너 설정
         Button save = findViewById(R.id.save);
-        save.setOnClickListener(this);
+        save.setOnClickListener(view -> {
+            postAlarm();
+        });
 
     }
 
@@ -235,8 +240,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         EditText editTextHour = findViewById(R.id.hourEditText);
         EditText editTextMinute = findViewById(R.id.minuteEditText);
 
-        int hour = 0;
-        int minute = 0;
+        hour = 0;
+        minute = 0;
 
         if (!editTextHour.getText().toString().isEmpty()) {
             hour = Integer.parseInt(editTextHour.getText().toString());
@@ -315,7 +320,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     void Delete() {
         String name = "";
 
-        //일단 복약관리 5개까지만 커버..
         if (count == 5) {
             name = mediName[0].replace("\n", "");
         }
@@ -452,6 +456,29 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // 어댑터에 변경 사항 알림
         adapter.notifyDataSetChanged();
+    }
+
+    void postAlarm() {
+        //name - string / days - list / hour - int / minute - int
+
+        //상세 페이지에서 넘어왔을 때
+        String name = medicine;
+
+        //요일 가공
+        int[] arr = { };
+        List<int[]> day = Arrays.asList(arr);
+        if (isEverydaySelected == true) {
+            for (int i = 0; i < 7; i++) {
+                arr[i] = i;
+            }
+        }
+        else {
+            for (int i = 0; i < 7; i++) {
+//                dayButtons[i]
+            }
+        }
+
+//        retrofitAPI.postAlarm(name, )
     }
 }
 
