@@ -67,6 +67,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private boolean[] isButtonClicked;
 
     EditText editTextHour, editTextMinute;
+    String tempName;
 
     //백엔드에서 가져온 데이터 저장용 변수 선언
     String[] mediName;    //약_이름
@@ -220,7 +221,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         alarmLayout.setVisibility(View.VISIBLE);
 
         drugName.setText(name);
-
+        nameStore(name);
 
 //        //시간 가공
 //        if (isAfternoonSelected == true) {
@@ -230,9 +231,14 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 //        sendData(name, day, hour, minute);
     }
 
-    void sendData(String name, List days, int hour, int min) {
+    void nameStore(String n) {
+        tempName = n.replace("\n", "");
+    }
+
+    void sendData(List days, int hour, int min) {
+        System.out.println("check " + tempName);
         save.setOnClickListener(view -> {
-            postAlarm postAlarm = new postAlarm(name, days, hour, min);
+            postAlarm postAlarm = new postAlarm(tempName, days, hour, min);
             retrofitAPI.postAlarm(divId, postAlarm).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -324,7 +330,12 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         minute = 0;
 
         if (!editTextHour.getText().toString().isEmpty()) {
-            hour = Integer.parseInt(editTextHour.getText().toString());
+            if (isAfternoonSelected == true) {
+                hour = Integer.parseInt(editTextHour.getText().toString()) + 12;
+            }
+            else {
+                hour = Integer.parseInt(editTextHour.getText().toString());
+            }
         }
 
         if (!editTextMinute.getText().toString().isEmpty()) {
@@ -336,16 +347,22 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             selectedDay = ""; // 기존에 저장된 요일 초기화
             if (isEverydaySelected) {
                 selectedDay = "매일";
+                for (int i = 0; i < 7; i++) {
+                    integerList.add(i);
+                }
             } else {
+                integerList.clear();
                 String[] dayOfWeek = {"월", "화", "수", "목", "금", "토", "일"};
                 for (int i = 0; i < isDaySelected.length; i++) {
                     if (isDaySelected[i]) {
                         selectedDay += dayOfWeek[i] + " ";
+                        integerList.add(i+1);
                     }
                 }
             }
         }
 
+        sendData(integerList, hour, minute);
     }
 
     void Allocating() {
