@@ -279,7 +279,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
                 dialogDeleteButton.setOnClickListener(view -> {
                     // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
-                    int position = recyclerView.getChildAdapterPosition(v);
+                    int position = recyclerView.getChildAdapterPosition(dialogDeleteButton);
                     if (position != RecyclerView.NO_POSITION) {
                         MedicineItem item = medicineList.get(position);
                         View itemView = recyclerView.getChildAt(position);
