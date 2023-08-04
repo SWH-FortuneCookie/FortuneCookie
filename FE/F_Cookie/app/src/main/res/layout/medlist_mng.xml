@@ -5,10 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <include layout="@layout/alarm_mng"
-        android:id="@+id/alarmLayout"
-        android:visibility="visible"/>
-
     <ImageButton
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
@@ -27,6 +23,10 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="24dp"
         android:textColor="@color/white" />
+
+    <include layout="@layout/alarm_mng"
+        android:id="@+id/alarmLayout"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mediListView"
