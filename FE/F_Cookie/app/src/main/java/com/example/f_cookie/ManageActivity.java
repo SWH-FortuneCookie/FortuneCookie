@@ -211,19 +211,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         recyclerView.setVisibility(View.GONE);
         alarmLayout.setVisibility(View.VISIBLE);
 
-
-//        Button setBtn = findViewById(R.id.setBtn);
-//        Button modifyBtn = findViewById(R.id.modifyBtn);
-//        View alarmScrollview = findViewById(R.id.alarm_scroll);
-//
-//        // 알람 설정 버튼 클릭 시 alarm_mng 스크롤뷰 보이기
-//        setBtn.setOnClickListener(view -> {
-//            alarmScrollview.setVisibility(View.VISIBLE);
-//        });
-//        modifyBtn.setOnClickListener(view -> {
-//            getAlarm();
-//        });
-//        modifyBtn.setVisibility(View.GONE);
     }
 
     @Override
@@ -288,34 +275,34 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
 
             // '삭제하기' 버튼을 눌렀을 때 GONE 설정
-            if (v.getId() == R.id.deleteBtn) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
-
-                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
-
-                alertDialogBuilder.setView(dialogView);
-                AlertDialog alertDialog = alertDialogBuilder.create();
-
-                dialogDeleteButton.setOnClickListener(view -> {
-                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
-                    int position = recyclerView.getChildAdapterPosition(v);
-                    if (position != RecyclerView.NO_POSITION) {
-                        MedicineItem item = medicineList.get(position);
-                        View itemView = recyclerView.getChildAt(position);
-                        if (itemView != null) {
-                            itemView.setVisibility(View.GONE);
-                        }
-                        medicineList.remove(position);
-                        adapter.notifyItemRemoved(position);
-
-                        Delete();
-                    }
-                    alertDialog.dismiss();
-                });
-
-                alertDialog.show();
-            }
+//            if (v.getId() == R.id.deleteBtn) {
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
+//
+//                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
+//
+//                alertDialogBuilder.setView(dialogView);
+//                AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//                dialogDeleteButton.setOnClickListener(view -> {
+//                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
+//                    int position = recyclerView.getChildAdapterPosition(v);
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        MedicineItem item = medicineList.get(position);
+//                        View itemView = recyclerView.getChildAt(position);
+//                        if (itemView != null) {
+//                            itemView.setVisibility(View.GONE);
+//                        }
+//                        medicineList.remove(position);
+//                        adapter.notifyItemRemoved(position);
+//
+//                        Delete();
+//                    }
+//                    alertDialog.dismiss();
+//                });
+//
+//                alertDialog.show();
+//            }
 
         }
 
@@ -398,6 +385,35 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                 System.out.println("<5> 실패" + call + "\n티는 " + t);
             }
         });
+    }
+
+    void deletePopup() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
+
+        Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
+
+        alertDialogBuilder.setView(dialogView);
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        dialogDeleteButton.setOnClickListener(view -> {
+            // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
+            int position = recyclerView.getChildAdapterPosition(dialogDeleteButton);
+            if (position != RecyclerView.NO_POSITION) {
+                MedicineItem item = medicineList.get(position);
+                View itemView = recyclerView.getChildAt(position);
+                if (itemView != null) {
+                    itemView.setVisibility(View.GONE);
+                }
+                medicineList.remove(position);
+                adapter.notifyItemRemoved(position);
+
+                Delete();
+            }
+            alertDialog.dismiss();
+        });
+
+        alertDialog.show();
     }
 
     void Delete() {
@@ -537,6 +553,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 //                    }
 //                });
             });
+
+            holder.deleteBtn.setOnClickListener(view -> {
+                deletePopup();
+            });
         }
 
         @Override
@@ -550,7 +570,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             TextView mediNameTextView;
             TextView mediAmtTextView;
             TextView medimsgTextView;
-            Button setBtn;
+            Button setBtn, deleteBtn;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -559,6 +579,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                 mediAmtTextView = itemView.findViewById(R.id.medi_amt);
                 medimsgTextView = itemView.findViewById(R.id.alarm_msg);
                 setBtn = itemView.findViewById(R.id.setBtn);
+                deleteBtn = itemView.findViewById(R.id.deleteBtn);
             }
         }
     }
