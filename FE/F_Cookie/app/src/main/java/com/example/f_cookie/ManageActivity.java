@@ -538,6 +538,12 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
                     System.out.println("수정하기 눌렀을 때 저장될 데이터 테스트\n" + name +"\n" + days + "\n" +
                             hour + "시 " + minute + "분");
+
+                    //알림 설정 페이지에 받아와진 데이터 표시
+
+
+
+                    modifyAlarm();
                 }
                 else {
                     try {
@@ -552,6 +558,69 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<getAlarm> call, Throwable t) {
                 System.out.println("<7> 실패 " + call + "\n티는 " + t);
+            }
+        });
+    }
+
+    void modifyAlarm() {
+        //name - string / days - list / hour - int / minute - int
+
+        //상세 페이지에서 넘어왔을 때
+        String name = medicine;
+
+        //메인에서 들어왔을 때
+//        String item_name =
+
+        //요일 가공
+        int[] arr = { };
+        List<int[]> day = Arrays.asList(arr);
+        if (selectedDay.equals("매일")) {
+            for (int i = 0; i < 7; i++) {
+                arr[i] = i;
+            }
+        }
+        else {
+            selectedDay = selectedDay.replace("일", "0");
+            selectedDay = selectedDay.replace("월", "1");
+            selectedDay = selectedDay.replace("화", "2");
+            selectedDay = selectedDay.replace("수", "3");
+            selectedDay = selectedDay.replace("목", "4");
+            selectedDay = selectedDay.replace("금", "5");
+            selectedDay = selectedDay.replace("토", "6");
+            String d[] = selectedDay.split(" ");
+
+            arr = new int[d.length];
+            for (int i = 0; i < d.length; i++) {
+                arr[i] = Integer.parseInt(d[i]);
+            }
+        }
+
+        //시간 가공
+        if (isAfternoonSelected == true) {
+            hour = hour + 12;
+        }
+
+        putAlarm putAlarm = new putAlarm(medicine, day, hour, minute);
+
+        retrofitAPI.putAlarm(divId, putAlarm).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    System.out.println("putAlarm 성공 " + response.body());
+                }
+                else {
+                    try {
+                        String body = response.errorBody().string();
+                        Log.e(TAG, " <8> error - body : " + body);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("<8> 실패 " + call + "\n티는 " + t);
             }
         });
     }
