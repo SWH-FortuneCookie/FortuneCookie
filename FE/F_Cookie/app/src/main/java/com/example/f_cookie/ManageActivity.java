@@ -100,8 +100,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // medlist_mng = visible / alarm_mng = gone
 
-        //삭제하기 버튼 리스너 안에 할당할 함수
-        Delete();
+        // ******* 삭제하기 버튼 리스너 안에 할당할 함수 *******
+        //Delete();
 
         // -> 이제 리사이클러뷰에서 약 이름 텍스트 설정할 때 그냥 예를 들어 textView.setText(mediName); 이런식으로 사용하시면 돼요~!
         // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
