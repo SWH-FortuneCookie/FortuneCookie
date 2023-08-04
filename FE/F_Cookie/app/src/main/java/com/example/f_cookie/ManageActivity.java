@@ -471,6 +471,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             TextView mediNameTextView;
             TextView mediAmtTextView;
             TextView medimsgTextView;
+            Button setBtn;
 
             public ViewHolder(View itemView) {
                 super(itemView);
