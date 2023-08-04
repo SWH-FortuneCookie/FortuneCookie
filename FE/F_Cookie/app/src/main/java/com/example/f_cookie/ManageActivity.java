@@ -117,7 +117,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         alarmScrollview.setVisibility(View.GONE);
 
         // 뒤로가기 버튼
-        ImageButton backButton = findViewById(R.id.backbtn);
+        ImageButton backButton = findViewById(R.id.backBtn);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
