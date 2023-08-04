@@ -24,10 +24,6 @@
         android:layout_marginLeft="24dp"
         android:textColor="@color/white" />
 
-    <include layout="@layout/alarm_mng"
-        android:id="@+id/alarmLayout"
-        android:visibility="gone"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mediListView"
         android:layout_width="match_parent"
@@ -36,5 +32,10 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         tools:listitem="@layout/item_medi"/>
+
+    <include layout="@layout/alarm_mng"
+        android:id="@+id/alarmLayout"
+        android:visibility="gone"/>
+
 
 </LinearLayout>
