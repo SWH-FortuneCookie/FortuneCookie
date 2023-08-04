@@ -1,21 +1,31 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="350dp"
-    android:layout_height="300dp"
-    android:background="@drawable/rounded_popup_background"
-    >
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_marginBottom="12dp"
+    android:id="@+id/drugdetail_popup">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:background="@drawable/rounded_popup_background"
+        android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp"
         android:text="인식이 완료되었습니다."
-        android:textColor="#0396A6"
-        android:textSize="30dp"
+        android:textColor="#0093A7"
+        android:textSize="27dp"
         android:textStyle="bold" />
 
     <TextView
@@ -24,28 +34,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dialog_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:text="해당 서비스의 원활한\n이용을 위해 약 상자와 함께\n보관해주세요."
         android:textColor="@color/black"
-        android:textSize="25dp"
+        android:textSize="24dp"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/closeButton"
+        android:id="@+id/closeBtn"
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/messageTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/pop_button"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/g6"
         android:text="확인"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:textStyle="bold" />
-</RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -9,54 +9,71 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/g12">
+        android:background="@drawable/rounded_popup_background"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:orientation="vertical">
 
         <TextView
-        android:id="@+id/delte_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="알람을 삭제하시겠습니까?"
-        android:textColor="#0396A6"
-        android:textSize="27dp"
-        android:textStyle="bold" />
+            android:id="@+id/delte_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:text="알람을 삭제하시겠습니까?"
+            android:textColor="#0093A7"
+            android:textSize="27dp"
+            android:textStyle="bold" />
 
-        <TextView
-        android:id="@+id/messageTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/delte_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="삭제 알람"
-        android:textColor="@color/black"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="left">
 
+            <TextView
+                android:id="@+id/messageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/delte_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp" android:layout_marginEnd="20dp"
+                android:layout_marginBottom="5dp"
+                android:text="삭제 알람"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/alarm_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/messageTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="토요일 17:00에 1정 투여"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
 
         <Button
-        android:id="@+id/closeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/messageTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/g6"
-        android:text="확인"
-        android:textColor="@color/white"
-        android:textSize="27dp"
-        android:textStyle="bold" />
+            android:id="@+id/closeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/g6"
+            android:text="확인"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
