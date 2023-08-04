@@ -237,7 +237,6 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -328,17 +327,12 @@
             android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@drawable/save"
-            android:text="저장하기"
-            android:textColor="@color/white"
-            android:textSize="30dp"
-            android:textStyle="bold"
+            android:background="@drawable/save_inactive"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     </LinearLayout>
 
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -125,7 +126,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 //        alarmMngLayout.setVisibility(View.VISIBLE);
 
 //        View alarmScrollview = findViewById(R.id.alarm_scroll);
-//        alarmScrollview.setVisibility(View.GONE);
+//        alarmScrollview.setVisibility(View.VISIBLE);
 
         // 시, 분 edittext 배경 활성화
         hourEditText = findViewById(R.id.hourEditText);
@@ -202,6 +203,15 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             postAlarm();
         });
 
+        LinearLayout noneDrugLayout = findViewById(R.id.none_drug);
+
+        // 아이템이 없을 때 noneDrugLayout을 보여주고, 아이템이 추가될 때 숨김
+        if (medicineList.isEmpty()) {
+            noneDrugLayout.setVisibility(View.VISIBLE);
+        } else {
+            noneDrugLayout.setVisibility(View.GONE);
+        }
+
     }
 
     private void setAlarm() {
@@ -275,7 +285,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
 
             // '삭제하기' 버튼을 눌렀을 때 GONE 설정
-<<<<<<< HEAD
             if (v.getId() == R.id.deleteBtn) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
@@ -304,7 +313,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
                 alertDialog.show();
             }
-=======
 //            if (v.getId() == R.id.deleteBtn) {
 //                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 //                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
@@ -333,7 +341,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 //
 //                alertDialog.show();
 //            }
->>>>>>> main
 
         }
 
@@ -365,6 +372,14 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }
             }
+        }
+
+        // 시간, 요일이 모두 선택되었을 경우 '저장하기' 버튼의 배경을 변경
+        Button saveButton = findViewById(R.id.save);
+        if (!selectedDay.isEmpty() && (isMorningSelected || isAfternoonSelected) && (hour > 0 && hour <= 12) && (minute >= 0 && minute < 60)) {
+            saveButton.setBackgroundResource(R.drawable.save_active); // 저장 가능한 상태
+        } else {
+            saveButton.setBackgroundResource(R.drawable.save_inactive); // 저장 불가능한 상태
         }
 
     }
@@ -418,7 +433,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    void deletePopup() {
+    void deletePopup(int position) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
 
@@ -429,7 +444,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         dialogDeleteButton.setOnClickListener(view -> {
             // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
-            int position = recyclerView.getChildAdapterPosition(dialogDeleteButton);
+
             if (position != RecyclerView.NO_POSITION) {
                 MedicineItem item = medicineList.get(position);
                 View itemView = recyclerView.getChildAt(position);
@@ -586,7 +601,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             });
 
             holder.deleteBtn.setOnClickListener(view -> {
-                deletePopup();
+                deletePopup(position);
             });
         }
 
@@ -621,6 +636,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // 어댑터에 변경 사항 알림
         adapter.notifyDataSetChanged();
+
+        // 아이템이 추가된 후에 noneDrugLayout을 숨김
+        LinearLayout noneDrugLayout = findViewById(R.id.none_drug);
+        noneDrugLayout.setVisibility(View.GONE);
     }
 
     void postAlarm() {
