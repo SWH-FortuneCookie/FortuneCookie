@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -124,7 +125,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 //        alarmMngLayout.setVisibility(View.VISIBLE);
 
 //        View alarmScrollview = findViewById(R.id.alarm_scroll);
-//        alarmScrollview.setVisibility(View.VISIBLE);
+//        alarmScrollview.setVisibility(View.GONE);
 
         // 시, 분 edittext 배경 활성화
         hourEditText = findViewById(R.id.hourEditText);
@@ -285,6 +286,36 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             clickedButton.setTextColor(isDaySelected[index] ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
             // "매일" 버튼 텍스트 색상 변경
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
+
+            // '삭제하기' 버튼을 눌렀을 때 GONE 설정
+            if (v.getId() == R.id.deleteBtn) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
+
+                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
+
+                alertDialogBuilder.setView(dialogView);
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                dialogDeleteButton.setOnClickListener(view -> {
+                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
+                    int position = recyclerView.getChildAdapterPosition(v);
+                    if (position != RecyclerView.NO_POSITION) {
+                        MedicineItem item = medicineList.get(position);
+                        View itemView = recyclerView.getChildAt(position);
+                        if (itemView != null) {
+                            itemView.setVisibility(View.GONE);
+                        }
+                        medicineList.remove(position);
+                        adapter.notifyItemRemoved(position);
+
+                        Delete();
+                    }
+                    alertDialog.dismiss();
+                });
+
+                alertDialog.show();
+            }
 
         }
 
