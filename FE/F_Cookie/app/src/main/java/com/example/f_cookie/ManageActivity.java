@@ -115,8 +115,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
         // 이거 참고하시면 될 것 같아요 여기서 shapeUrl -> mediImg / looks -> 리사이클러 뷰의 이미지뷰 이거 두개만 바꾸시면 돼요!
 
-        View alarmMngLayout = findViewById(R.id.alarmLayout);
-        alarmMngLayout.setVisibility(View.VISIBLE);
+//        View alarmMngLayout = findViewById(R.id.alarmLayout);
+//        alarmMngLayout.setVisibility(View.VISIBLE);
 
 //        View alarmScrollview = findViewById(R.id.alarm_scroll);
 //        alarmScrollview.setVisibility(View.VISIBLE);
