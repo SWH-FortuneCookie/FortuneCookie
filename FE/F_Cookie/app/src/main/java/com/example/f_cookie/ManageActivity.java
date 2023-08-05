@@ -215,7 +215,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setAlarm() {
-        System.out.println("알림매니지 페이지 확인");
         backButton.setVisibility(View.GONE);
         manTxt.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
@@ -313,35 +312,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
                 alertDialog.show();
             }
-//            if (v.getId() == R.id.deleteBtn) {
-//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
-//
-//                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
-//
-//                alertDialogBuilder.setView(dialogView);
-//                AlertDialog alertDialog = alertDialogBuilder.create();
-//
-//                dialogDeleteButton.setOnClickListener(view -> {
-//                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
-//                    int position = recyclerView.getChildAdapterPosition(v);
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        MedicineItem item = medicineList.get(position);
-//                        View itemView = recyclerView.getChildAt(position);
-//                        if (itemView != null) {
-//                            itemView.setVisibility(View.GONE);
-//                        }
-//                        medicineList.remove(position);
-//                        adapter.notifyItemRemoved(position);
-//
-//                        Delete();
-//                    }
-//                    alertDialog.dismiss();
-//                });
-//
-//                alertDialog.show();
-//            }
-
         }
 
         // 시와 분을 가져와서 변수로 저장
@@ -560,7 +530,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             MedicineItem item = items.get(position);
 
             // 약 생김새 이미지
-            Glide.with(holder.itemView.getContext()).load(mediImg).into(holder.shapeImageView);
+            Glide.with(holder.itemView.getContext()).load(item.img).into(holder.shapeImageView);
 
             // 약 이름 설정
             String mediName = item.name.replace("&", "\n");
@@ -643,42 +613,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     void postAlarm() {
-        //name - string / days - list / hour - int / minute - int
-
-        //상세 페이지에서 넘어왔을 때
-        String name = medicine;
-
-        //메인에서 들어왔을 때
-//        String item_name =
-
-        //요일 가공
-        int[] arr = { };
-        List<int[]> day = Arrays.asList(arr);
-        if (selectedDay.equals("매일")) {
-            for (int i = 0; i < 7; i++) {
-                arr[i] = i;
-            }
-        }
-        else {
-            selectedDay = selectedDay.replace("일", "0");
-            selectedDay = selectedDay.replace("월", "1");
-            selectedDay = selectedDay.replace("화", "2");
-            selectedDay = selectedDay.replace("수", "3");
-            selectedDay = selectedDay.replace("목", "4");
-            selectedDay = selectedDay.replace("금", "5");
-            selectedDay = selectedDay.replace("토", "6");
-            String d[] = selectedDay.split(" ");
-
-            arr = new int[d.length];
-            for (int i = 0; i < d.length; i++) {
-                arr[i] = Integer.parseInt(d[i]);
-            }
-        }
-
-        //시간 가공
-        if (isAfternoonSelected == true) {
-            hour = hour + 12;
-        }
+        System.out.println(medicine +"확인");
+        List day = new ArrayList<>();
 
         postAlarm postAlarm = new postAlarm(medicine, day, hour, minute);
         retrofitAPI.postAlarm(divId, postAlarm).enqueue(new Callback<Void>() {
@@ -721,8 +657,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
                     //알림 설정 페이지에 받아와진 데이터 표시
 
-
-
                     modifyAlarm();
                 }
                 else {
@@ -743,43 +677,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     void modifyAlarm() {
-        //name - string / days - list / hour - int / minute - int
-
-        //상세 페이지에서 넘어왔을 때
-//        String name = medicine;
-
-        //메인에서 들어왔을 때
-//        String item_name =d
-
-        //요일 가공
-        int[] arr = { };
-        List<int[]> day = Arrays.asList(arr);
-        if (selectedDay.equals("매일")) {
-            for (int i = 0; i < 7; i++) {
-                arr[i] = i;
-            }
-        }
-        else {
-            selectedDay = selectedDay.replace("일", "0");
-            selectedDay = selectedDay.replace("월", "1");
-            selectedDay = selectedDay.replace("화", "2");
-            selectedDay = selectedDay.replace("수", "3");
-            selectedDay = selectedDay.replace("목", "4");
-            selectedDay = selectedDay.replace("금", "5");
-            selectedDay = selectedDay.replace("토", "6");
-            System.out.println("선택 요일 확인 " + selectedDay);
-            String d[] = selectedDay.split(" ");
-
-            arr = new int[d.length];
-            for (int i = 0; i < d.length; i++) {
-                arr[i] = Integer.parseInt(d[i]);
-            }
-        }
-
-        //시간 가공
-        if (isAfternoonSelected == true) {
-            hour = hour + 12;
-        }
+        List day = new ArrayList<>();
 
         putAlarm putAlarm = new putAlarm(medicine, day, hour, minute);
 
