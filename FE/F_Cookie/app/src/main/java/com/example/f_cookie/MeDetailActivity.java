@@ -95,9 +95,11 @@ public class MeDetailActivity extends AppCompatActivity {
 
         GetMedicineInfo();
 
-        backBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
         });
 
         shareBtn.setOnClickListener(view -> {
