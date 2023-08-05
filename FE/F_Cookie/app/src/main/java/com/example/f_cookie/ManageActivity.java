@@ -170,13 +170,13 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         });
 
         dayButtons = new Button[8];
-        dayButtons[0] = findViewById(R.id.buttonMonday);
-        dayButtons[1] = findViewById(R.id.buttonTuesday);
-        dayButtons[2] = findViewById(R.id.buttonWednesday);
-        dayButtons[3] = findViewById(R.id.buttonThursday);
-        dayButtons[4] = findViewById(R.id.buttonFriday);
-        dayButtons[5] = findViewById(R.id.buttonSaturday);
-        dayButtons[6] = findViewById(R.id.buttonSunday);
+        dayButtons[0] = findViewById(R.id.buttonSunday);
+        dayButtons[1] = findViewById(R.id.buttonMonday);
+        dayButtons[2] = findViewById(R.id.buttonTuesday);
+        dayButtons[3] = findViewById(R.id.buttonWednesday);
+        dayButtons[4] = findViewById(R.id.buttonThursday);
+        dayButtons[5] = findViewById(R.id.buttonFriday);
+        dayButtons[6] = findViewById(R.id.buttonSaturday);
         dayButtons[7] = findViewById(R.id.buttonEveryday);
 
         for (Button dayButton : dayButtons) {
@@ -203,15 +203,14 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             postAlarm();
         });
 
+        // 아이템이 없을 때 noneDrugLayout을 보여주고, 아이템이 추가될 때 숨김 (카운트 세는걸로 수정)
         LinearLayout noneDrugLayout = findViewById(R.id.none_drug);
 
-        // 아이템이 없을 때 noneDrugLayout을 보여주고, 아이템이 추가될 때 숨김
-        if (medicineList.isEmpty()) {
+        if (adapter.getItemCount() == 0) {
             noneDrugLayout.setVisibility(View.VISIBLE);
         } else {
             noneDrugLayout.setVisibility(View.GONE);
         }
-
     }
 
     private void setAlarm() {
