@@ -9,15 +9,7 @@
         android:id="@+id/detailLayout"
         android:visibility="gone"/>
 
-    <ImageView
-        android:src="@drawable/splash_logo"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_gravity="left"
-        android:layout_marginLeft="52dp"
-        android:layout_marginBottom="10dp"/>
-
-<!--    <ImageButton-->
+    <!--    <ImageButton-->
 <!--        android:id="@+id/infoBtn"-->
 <!--        android:src="@drawable/group7"-->
 <!--        android:background="@android:color/transparent"-->
@@ -32,27 +24,45 @@
 <!--        android:layout_marginRight="10dp"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content" />-->
-
-    <Button
-        android:id="@+id/infoBtn"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="의약품 정보 얻기"
-        android:background="@drawable/r1"
-        android:textSize="30dp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp" />
+        android:orientation="vertical"
+        android:gravity="center"
+        >
 
-    <Button
-        android:id="@+id/manageBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="내 복약관리"
-        android:background="@drawable/r2"
-        android:textSize="30dp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp" />
+        <ImageView
+            android:src="@drawable/splash_logo"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_gravity="left"
+            android:layout_marginBottom="10dp"/>
+
+
+            <Button
+                android:id="@+id/infoBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/g18"
+                android:text="\n의약품 정보 얻기"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+        <Button
+            android:id="@+id/manageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/g19"
+            android:text="\n내 복약관리"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp" />
+
+
+    </LinearLayout>
+
 
 </LinearLayout>

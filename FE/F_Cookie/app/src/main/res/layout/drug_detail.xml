@@ -63,13 +63,13 @@
 
                 <TextView
                     android:id="@+id/drug"
-                    android:layout_width="94dp"
-                    android:layout_height="33dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="15dp"
-                    android:background="@drawable/text_style"
+                    android:background="@drawable/g20"
                     android:gravity="center"
                     android:text="제품명"
                     android:textColor="@color/white"
@@ -92,7 +92,6 @@
 
             </RelativeLayout>
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -100,27 +99,29 @@
 
                 <TextView
                     android:id="@+id/drug_feature"
-                    android:layout_width="94dp"
-                    android:layout_height="33dp"
-                    android:layout_margin="15dp"
-                    android:background="@drawable/text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/g20"
                     android:gravity="center"
                     android:text="생김새"
                     android:textColor="@color/white"
                     android:textSize="19dp"
-                    android:textStyle="bold"
-                    tools:ignore="MissingConstraints" />
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/drug_featureimg"
-                    android:layout_width="378dp"
-                    android:layout_height="180dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/drug_feature"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     android:backgroundTint="#232323"
-                    app:srcCompat="@drawable/pill"
-                    tools:ignore="MissingConstraints" />
+                    app:srcCompat="@drawable/g17" />
 
                 <TextView
                     android:id="@+id/drug_featureinfo"
@@ -128,7 +129,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/drug_featureimg"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="15dp"
                     android:text="drug feature information"
@@ -146,11 +146,11 @@
 
                 <TextView
                     android:id="@+id/drug_activeinformation"
-                    android:layout_width="94dp"
-                    android:layout_height="33dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:background="@drawable/text_style"
+                    android:background="@drawable/g20"
                     android:gravity="center"
                     android:text="성분정보"
                     android:textColor="@color/white"
@@ -336,11 +336,11 @@
 
                 <TextView
                     android:id="@+id/drug_uses"
-                    android:layout_width="94dp"
-                    android:layout_height="33dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
-                    android:background="@drawable/text_style"
+                    android:background="@drawable/g21"
                     android:gravity="center"
                     android:text="효능효과"
                     android:textColor="@color/white"
@@ -538,10 +538,13 @@
 
                 <TextView
                     android:id="@+id/drug_derections"
-                    android:layout_width="94dp"
-                    android:layout_height="33dp"
-                    android:layout_margin="15dp"
-                    android:background="@drawable/text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/g21"
                     android:gravity="center"
                     android:text="용법용량"
                     android:textColor="@color/white"
@@ -571,13 +574,13 @@
 
                 <TextView
                     android:id="@+id/drug_storage"
-                    android:layout_width="94dp"
-                    android:layout_height="33dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="15dp"
-                    android:background="@drawable/text_style"
+                    android:background="@drawable/g21"
                     android:gravity="center"
                     android:text="저장방법"
                     android:textColor="@color/white"
