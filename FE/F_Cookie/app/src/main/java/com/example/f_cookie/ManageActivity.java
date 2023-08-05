@@ -206,11 +206,11 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         // 아이템이 없을 때 noneDrugLayout을 보여주고, 아이템이 추가될 때 숨김 (카운트 세는걸로 수정)
         LinearLayout noneDrugLayout = findViewById(R.id.none_drug);
 
-        if (adapter.getItemCount() == 0) {
-            noneDrugLayout.setVisibility(View.VISIBLE);
-        } else {
-            noneDrugLayout.setVisibility(View.GONE);
-        }
+//        if (adapter.getItemCount() == 0) {
+//            noneDrugLayout.setVisibility(View.VISIBLE);
+//        } else {
+//            noneDrugLayout.setVisibility(View.GONE);
+//        }
     }
 
     private void setAlarm() {
@@ -381,6 +381,12 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                                 medicine.getAlarm()
                         );
                         medicineList.add(item);
+                    }
+                    System.out.println("아이템 개수 " + adapter.getItemCount());
+                    if (adapter.getItemCount() != 0) {
+                        // 아이템이 추가된 후에 noneDrugLayout을 숨김
+                        LinearLayout noneDrugLayout = findViewById(R.id.none_drug);
+                        noneDrugLayout.setVisibility(View.GONE);
                     }
                     // 어댑터 갱신
                     adapter.notifyDataSetChanged();
