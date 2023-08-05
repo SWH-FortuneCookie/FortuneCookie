@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryDark">@color/purple_500</item>
         <item name="colorAccent">@color/purple_700</item>
+        <item name="android:fontFamily">@font/font</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
