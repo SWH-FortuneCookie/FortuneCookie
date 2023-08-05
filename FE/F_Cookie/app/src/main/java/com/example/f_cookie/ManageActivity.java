@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.fonts.SystemFonts;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -237,8 +238,37 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
     void sendData(List days, int hour, int min) {
         System.out.println("check " + tempName);
+//        save.setOnClickListener(view -> {
+//            System.out.println("포스트 알림 전 확인 " + tempName + " " + days + " " + hour + " " + min);
+//            postAlarm postAlarm = new postAlarm(tempName, days, hour, min);
+//            retrofitAPI.postAlarm(divId, postAlarm).enqueue(new Callback<Void>() {
+//                @Override
+//                public void onResponse(Call<Void> call, Response<Void> response) {
+//                    if (response.isSuccessful()) {
+//                        System.out.println("postAlarm 성공 " + response.body());
+//                    }
+//                    else {
+//                        try {
+//                            String body = response.errorBody().string();
+//                            Log.e(TAG, " <6> error - body : " + body);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Void> call, Throwable t) {
+//                    System.out.println("<6> 실패 " + call + "\n티는 " + t);
+//                }
+//            });
+//        });
+    }
+
+    void postAlrm(List l, int h, int m) {
         save.setOnClickListener(view -> {
-            postAlarm postAlarm = new postAlarm(tempName, days, hour, min);
+            System.out.println("포스트 알림 전 확인 " + tempName + " " + l + " " + h + " " + m);
+            postAlarm postAlarm = new postAlarm(tempName, l, h, m);
             retrofitAPI.postAlarm(divId, postAlarm).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -263,10 +293,14 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-
     @Override
     public void onClick(View v) {
+        integerList = new ArrayList<>();
         if (v.getId() == R.id.buttonEveryday) {
+            for (int i = 0; i < 7; i++) {
+                integerList.add(i);
+                System.out.println("리스트 확인 " + integerList);
+            }
             isEverydaySelected = !isEverydaySelected;
             for (int i = 0; i < 7; i++) {
                 dayButtons[i].setSelected(isEverydaySelected);
@@ -326,9 +360,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
         }
 
-        hour = 0;
-        minute = 0;
-
         if (!editTextHour.getText().toString().isEmpty()) {
             if (isAfternoonSelected == true) {
                 hour = Integer.parseInt(editTextHour.getText().toString()) + 12;
@@ -347,8 +378,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             selectedDay = ""; // 기존에 저장된 요일 초기화
             if (isEverydaySelected) {
                 selectedDay = "매일";
+                System.out.println("리스트 확인 " + selectedDay);
                 for (int i = 0; i < 7; i++) {
                     integerList.add(i);
+                    System.out.println("리스트 확인 " + integerList);
                 }
             } else {
                 integerList.clear();
@@ -357,12 +390,15 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                     if (isDaySelected[i]) {
                         selectedDay += dayOfWeek[i] + " ";
                         integerList.add(i+1);
+                        System.out.println("리스트 확인 " + integerList);
                     }
                 }
             }
         }
 
-        sendData(integerList, hour, minute);
+        postAlrm(integerList, hour, minute);
+
+//        sendData(integerList, hour, minute);
     }
 
     void Allocating() {
