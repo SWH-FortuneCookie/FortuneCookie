@@ -56,9 +56,14 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     View alarmLayout;
     TextView manTxt;
     ImageButton backButton, mngBack;
+    TextView alarmName;
 
     String divId, medicine;
     int count;
+
+//    boolean delCheck = false;
+    boolean already = false;
+    String words = "";
 
     EditText editTextHour, editTextMinute;
     int hour, minute;
@@ -119,6 +124,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // ******* 삭제하기 버튼 리스너 안에 할당할 함수 *******
         //Delete();
+
+        alarmName = findViewById(R.id.drug_name);
 
         // 시, 분 edittext 배경 활성화
         hourEditText = findViewById(R.id.hourEditText);
@@ -205,6 +212,13 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             System.out.println("저장하기 누를 때 확인 " + hour + " " + minute + " " + days);
 
             postAlarm(days, hour, minute);
+
+            Allocating();
+
+            backButton.setVisibility(View.VISIBLE);
+            manTxt.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+            alarmLayout.setVisibility(View.GONE);
         });
 
         // 아이템이 없을 때 noneDrugLayout을 보여주고, 아이템이 추가될 때 숨김 (카운트 세는걸로 수정)
@@ -348,7 +362,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 //                    System.out.println(count + "개수");
                     saveInfo(count, mArrays);
 
-//                    saveInfo(data.getSubName(), data.getShapeUrl(), data.getAmount(), data.getMessage(), data.getAlarm());
 
                     // 받아온 데이터를 MedicineItem으로 변환하여 medicineList에 추가
                     medicineList.clear();
@@ -361,7 +374,13 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                                 medicine.getAlarm()
                         );
                         medicineList.add(item);
+
+                        if (medicine.getMessage() != null) {
+                            already = true;
+                            words = medicine.getMessage();
+                        }
                     }
+
                     System.out.println("아이템 개수 " + adapter.getItemCount());
                     if (adapter.getItemCount() != 0) {
                         // 아이템이 추가된 후에 noneDrugLayout을 숨김
@@ -393,6 +412,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
 
         Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
+        TextView comment = dialogView.findViewById(R.id.alarm_msg);
+
+        comment.setText(words);
 
         alertDialogBuilder.setView(dialogView);
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -409,7 +431,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                 medicineList.remove(position);
                 adapter.notifyItemRemoved(position);
 
-                Delete();
+//                Delete();
             }
             alertDialog.dismiss();
         });
@@ -528,7 +550,16 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             // 복용 알림설정 경우 메시지 설정
             holder.medimsgTextView.setText(item.msg);
 
+            if (already) {
+                holder.setBtn.setText("수정하기");
+                holder.setBtn.setTextColor(Color.BLACK);
+                holder.setBtn.setBackgroundResource(R.drawable.bg0);
+
+                holder.medimsgTextView.setText(words);
+                holder.medimsgTextView.setVisibility(View.VISIBLE);
+            }
             holder.setBtn.setOnClickListener(view -> {
+                alarmName.setText(medicine);
                 setAlarm();
 
 //                putAlarm putAlarm = new putAlarm(mediName, day, hour, minute);
