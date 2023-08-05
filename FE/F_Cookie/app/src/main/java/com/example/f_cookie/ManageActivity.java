@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.fonts.SystemFonts;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -22,16 +22,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,18 +54,13 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private EditText hourEditText;
     private EditText minuteEditText;
     View alarmLayout;
-    TextView manTxt, drugName;
+    TextView manTxt;
     ImageButton backButton, mngBack;
+
     String divId, medicine;
     int count;
 
     int hour, minute;
-
-    private List<Integer> integerList;
-    private boolean[] isButtonClicked;
-
-    EditText editTextHour, editTextMinute;
-    String tempName;
 
     //백엔드에서 가져온 데이터 저장용 변수 선언
     String[] mediName;    //약_이름
@@ -117,11 +109,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         System.out.println("매니지 액티비티 확인 " + divId);
 
         alarmLayout = findViewById(R.id.alarmLayout);
-        drugName = findViewById(R.id.drug_name);
-
-        // 시와 분을 가져와서 변수로 저장
-        editTextHour = findViewById(R.id.hourEditText);
-        editTextMinute = findViewById(R.id.minuteEditText);
 
         //복약관리 데이터 할당 함수
         Allocating();
@@ -139,7 +126,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 //        alarmMngLayout.setVisibility(View.VISIBLE);
 
 //        View alarmScrollview = findViewById(R.id.alarm_scroll);
-//        alarmScrollview.setVisibility(View.GONE);
+//        alarmScrollview.setVisibility(View.VISIBLE);
 
         // 시, 분 edittext 배경 활성화
         hourEditText = findViewById(R.id.hourEditText);
@@ -211,96 +198,34 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         recyclerView.setAdapter(adapter);
 
         // 저장하기 버튼 초기화 및 클릭 리스너 설정
-        save = findViewById(R.id.save);
+        Button save = findViewById(R.id.save);
+        save.setOnClickListener(view -> {
+            postAlarm();
+        });
+
+        LinearLayout noneDrugLayout = findViewById(R.id.none_drug);
+
+        // 아이템이 없을 때 noneDrugLayout을 보여주고, 아이템이 추가될 때 숨김
+        if (medicineList.isEmpty()) {
+            noneDrugLayout.setVisibility(View.VISIBLE);
+        } else {
+            noneDrugLayout.setVisibility(View.GONE);
+        }
+
     }
 
-    private void setAlarm(String name) {
+    private void setAlarm() {
         System.out.println("알림매니지 페이지 확인");
         backButton.setVisibility(View.GONE);
         manTxt.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         alarmLayout.setVisibility(View.VISIBLE);
 
-        drugName.setText(name);
-        nameStore(name);
-
-//        //시간 가공
-//        if (isAfternoonSelected == true) {
-//            hour = hour + 12;
-//        }
-//
-//        sendData(name, day, hour, minute);
-    }
-
-    void nameStore(String n) {
-        tempName = n.replace("\n", "");
-    }
-
-    void sendData(List days, int hour, int min) {
-        System.out.println("check " + tempName);
-//        save.setOnClickListener(view -> {
-//            System.out.println("포스트 알림 전 확인 " + tempName + " " + days + " " + hour + " " + min);
-//            postAlarm postAlarm = new postAlarm(tempName, days, hour, min);
-//            retrofitAPI.postAlarm(divId, postAlarm).enqueue(new Callback<Void>() {
-//                @Override
-//                public void onResponse(Call<Void> call, Response<Void> response) {
-//                    if (response.isSuccessful()) {
-//                        System.out.println("postAlarm 성공 " + response.body());
-//                    }
-//                    else {
-//                        try {
-//                            String body = response.errorBody().string();
-//                            Log.e(TAG, " <6> error - body : " + body);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Void> call, Throwable t) {
-//                    System.out.println("<6> 실패 " + call + "\n티는 " + t);
-//                }
-//            });
-//        });
-    }
-
-    void postAlrm(List l, int h, int m) {
-        save.setOnClickListener(view -> {
-            System.out.println("포스트 알림 전 확인 " + tempName + " " + l + " " + h + " " + m);
-            postAlarm postAlarm = new postAlarm(tempName, l, h, m);
-            retrofitAPI.postAlarm(divId, postAlarm).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        System.out.println("postAlarm 성공 " + response.body());
-                    }
-                    else {
-                        try {
-                            String body = response.errorBody().string();
-                            Log.e(TAG, " <6> error - body : " + body);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    System.out.println("<6> 실패 " + call + "\n티는 " + t);
-                }
-            });
-        });
     }
 
     @Override
     public void onClick(View v) {
-        integerList = new ArrayList<>();
         if (v.getId() == R.id.buttonEveryday) {
-            for (int i = 0; i < 7; i++) {
-                integerList.add(i);
-                System.out.println("리스트 확인 " + integerList);
-            }
             isEverydaySelected = !isEverydaySelected;
             for (int i = 0; i < 7; i++) {
                 dayButtons[i].setSelected(isEverydaySelected);
@@ -358,15 +283,76 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             clickedButton.setTextColor(isDaySelected[index] ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
             // "매일" 버튼 텍스트 색상 변경
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
+
+            // '삭제하기' 버튼을 눌렀을 때 GONE 설정
+            if (v.getId() == R.id.deleteBtn) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
+
+                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
+
+                alertDialogBuilder.setView(dialogView);
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                dialogDeleteButton.setOnClickListener(view -> {
+                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
+                    int position = recyclerView.getChildAdapterPosition(dialogDeleteButton);
+                    if (position != RecyclerView.NO_POSITION) {
+                        MedicineItem item = medicineList.get(position);
+                        View itemView = recyclerView.getChildAt(position);
+                        if (itemView != null) {
+                            itemView.setVisibility(View.GONE);
+                        }
+                        medicineList.remove(position);
+                        adapter.notifyItemRemoved(position);
+
+                        Delete();
+                    }
+                    alertDialog.dismiss();
+                });
+
+                alertDialog.show();
+            }
+//            if (v.getId() == R.id.deleteBtn) {
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
+//
+//                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
+//
+//                alertDialogBuilder.setView(dialogView);
+//                AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//                dialogDeleteButton.setOnClickListener(view -> {
+//                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
+//                    int position = recyclerView.getChildAdapterPosition(v);
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        MedicineItem item = medicineList.get(position);
+//                        View itemView = recyclerView.getChildAt(position);
+//                        if (itemView != null) {
+//                            itemView.setVisibility(View.GONE);
+//                        }
+//                        medicineList.remove(position);
+//                        adapter.notifyItemRemoved(position);
+//
+//                        Delete();
+//                    }
+//                    alertDialog.dismiss();
+//                });
+//
+//                alertDialog.show();
+//            }
+
         }
 
+        // 시와 분을 가져와서 변수로 저장
+        EditText editTextHour = findViewById(R.id.hourEditText);
+        EditText editTextMinute = findViewById(R.id.minuteEditText);
+
+        hour = 0;
+        minute = 0;
+
         if (!editTextHour.getText().toString().isEmpty()) {
-            if (isAfternoonSelected == true) {
-                hour = Integer.parseInt(editTextHour.getText().toString()) + 12;
-            }
-            else {
-                hour = Integer.parseInt(editTextHour.getText().toString());
-            }
+            hour = Integer.parseInt(editTextHour.getText().toString());
         }
 
         if (!editTextMinute.getText().toString().isEmpty()) {
@@ -378,27 +364,24 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             selectedDay = ""; // 기존에 저장된 요일 초기화
             if (isEverydaySelected) {
                 selectedDay = "매일";
-                System.out.println("리스트 확인 " + selectedDay);
-                for (int i = 0; i < 7; i++) {
-                    integerList.add(i);
-                    System.out.println("리스트 확인 " + integerList);
-                }
             } else {
-                integerList.clear();
                 String[] dayOfWeek = {"월", "화", "수", "목", "금", "토", "일"};
                 for (int i = 0; i < isDaySelected.length; i++) {
                     if (isDaySelected[i]) {
                         selectedDay += dayOfWeek[i] + " ";
-                        integerList.add(i+1);
-                        System.out.println("리스트 확인 " + integerList);
                     }
                 }
             }
         }
 
-        postAlrm(integerList, hour, minute);
+        // 시간, 요일이 모두 선택되었을 경우 '저장하기' 버튼의 배경을 변경
+        Button saveButton = findViewById(R.id.save);
+        if (!selectedDay.isEmpty() && (isMorningSelected || isAfternoonSelected) && (hour > 0 && hour <= 12) && (minute >= 0 && minute < 60)) {
+            saveButton.setBackgroundResource(R.drawable.save_active); // 저장 가능한 상태
+        } else {
+            saveButton.setBackgroundResource(R.drawable.save_inactive); // 저장 불가능한 상태
+        }
 
-//        sendData(integerList, hour, minute);
     }
 
     void Allocating() {
@@ -461,7 +444,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         dialogDeleteButton.setOnClickListener(view -> {
             // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
-//            int position = recyclerView.getChildAdapterPosition(dialogDeleteButton);
+
             if (position != RecyclerView.NO_POSITION) {
                 MedicineItem item = medicineList.get(position);
                 View itemView = recyclerView.getChildAt(position);
@@ -577,10 +560,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             MedicineItem item = items.get(position);
 
             // 약 생김새 이미지
-            Glide.with(holder.itemView.getContext()).load(item.img)
-                    .apply(new RequestOptions().circleCrop())
-                    .override(700, 700)
-                    .into(holder.shapeImageView);
+            Glide.with(holder.itemView.getContext()).load(mediImg).into(holder.shapeImageView);
 
             // 약 이름 설정
             String mediName = item.name.replace("&", "\n");
@@ -593,7 +573,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             holder.medimsgTextView.setText(item.msg);
 
             holder.setBtn.setOnClickListener(view -> {
-                setAlarm(mediName);
+                setAlarm();
 
 //                putAlarm putAlarm = new putAlarm(mediName, day, hour, minute);
 //
@@ -656,6 +636,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // 어댑터에 변경 사항 알림
         adapter.notifyDataSetChanged();
+
+        // 아이템이 추가된 후에 noneDrugLayout을 숨김
+        LinearLayout noneDrugLayout = findViewById(R.id.none_drug);
+        noneDrugLayout.setVisibility(View.GONE);
     }
 
     void postAlarm() {
