@@ -60,7 +60,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     String divId, medicine;
     int count;
 
+    EditText editTextHour, editTextMinute;
     int hour, minute;
+    List days = new ArrayList();
 
     //백엔드에서 가져온 데이터 저장용 변수 선언
     String[] mediName;    //약_이름
@@ -105,7 +107,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         if (divId == null) {
             divId = getIntent.getStringExtra("divId");
         }
-        medicine = getIntent.getStringExtra("medicine");
+//        medicine = getIntent.getStringExtra("medicine");
         System.out.println("매니지 액티비티 확인 " + divId);
 
         alarmLayout = findViewById(R.id.alarmLayout);
@@ -117,16 +119,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
         // ******* 삭제하기 버튼 리스너 안에 할당할 함수 *******
         //Delete();
-
-        // -> 이제 리사이클러뷰에서 약 이름 텍스트 설정할 때 그냥 예를 들어 textView.setText(mediName); 이런식으로 사용하시면 돼요~!
-        // 이미지 설정은 Glide 클래스 사용해서 Glide.with(this).load(shapeUrl).into(looks);
-        // 이거 참고하시면 될 것 같아요 여기서 shapeUrl -> mediImg / looks -> 리사이클러 뷰의 이미지뷰 이거 두개만 바꾸시면 돼요!
-
-//        View alarmMngLayout = findViewById(R.id.alarmLayout);
-//        alarmMngLayout.setVisibility(View.VISIBLE);
-
-//        View alarmScrollview = findViewById(R.id.alarm_scroll);
-//        alarmScrollview.setVisibility(View.VISIBLE);
 
         // 시, 분 edittext 배경 활성화
         hourEditText = findViewById(R.id.hourEditText);
@@ -183,6 +175,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
             dayButton.setOnClickListener(this);
         }
 
+        // 시와 분을 가져와서 변수로 저장
+        editTextHour = findViewById(R.id.hourEditText);
+        editTextMinute = findViewById(R.id.minuteEditText);
+
         manTxt = findViewById(R.id.manTxt);
         morningButton = findViewById(R.id.morning_button);
         afternoonButton = findViewById(R.id.afternoon_button);
@@ -200,7 +196,15 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         // 저장하기 버튼 초기화 및 클릭 리스너 설정
         Button save = findViewById(R.id.save);
         save.setOnClickListener(view -> {
-            postAlarm();
+            hour = Integer.parseInt(editTextHour.getText().toString());
+            if (isAfternoonSelected) {
+                hour = hour + 12;
+            }
+            minute = Integer.parseInt(editTextMinute.getText().toString());
+
+            System.out.println("저장하기 누를 때 확인 " + hour + " " + minute + " " + days);
+
+            postAlarm(days, hour, minute);
         });
 
         // 아이템이 없을 때 noneDrugLayout을 보여주고, 아이템이 추가될 때 숨김 (카운트 세는걸로 수정)
@@ -218,7 +222,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         manTxt.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         alarmLayout.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -230,6 +233,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                 isDaySelected[i] = isEverydaySelected;
                 // 요일 버튼 텍스트 색상 변경
                 dayButtons[i].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
+                days.add(i);
             }
             // "매일" 버튼도 선택 상태에 맞게 설정
             dayButtons[7].setSelected(isEverydaySelected);
@@ -277,55 +281,32 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                 isEverydaySelected = allSelected;
             }
 
+            if (clickedButton.getText().equals("일")) {
+                days.add(0);
+            }
+            if (clickedButton.getText().equals("월")) {
+                days.add(1);
+            }
+            if (clickedButton.getText().equals("화")) {
+                days.add(2);
+            }
+            if (clickedButton.getText().equals("수")) {
+                days.add(3);
+            }
+            if (clickedButton.getText().equals("목")) {
+                days.add(4);
+            }
+            if (clickedButton.getText().equals("금")) {
+                days.add(5);
+            }
+            if (clickedButton.getText().equals("토")) {
+                days.add(6);
+            }
+
             // 클릭한 요일 버튼 텍스트 색상 변경
             clickedButton.setTextColor(isDaySelected[index] ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
             // "매일" 버튼 텍스트 색상 변경
             dayButtons[7].setTextColor(isEverydaySelected ? getResources().getColor(R.color.black) : getResources().getColor(R.color.white));
-
-            // '삭제하기' 버튼을 눌렀을 때 GONE 설정
-            if (v.getId() == R.id.deleteBtn) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
-
-                Button dialogDeleteButton = dialogView.findViewById(R.id.closeBtn);
-
-                alertDialogBuilder.setView(dialogView);
-                AlertDialog alertDialog = alertDialogBuilder.create();
-
-                dialogDeleteButton.setOnClickListener(view -> {
-                    // 해당 아이템의 visibility를 GONE으로 변경하고 어댑터에 변경 사항 알림
-                    int position = recyclerView.getChildAdapterPosition(dialogDeleteButton);
-                    if (position != RecyclerView.NO_POSITION) {
-                        MedicineItem item = medicineList.get(position);
-                        View itemView = recyclerView.getChildAt(position);
-                        if (itemView != null) {
-                            itemView.setVisibility(View.GONE);
-                        }
-                        medicineList.remove(position);
-                        adapter.notifyItemRemoved(position);
-
-                        Delete();
-                    }
-                    alertDialog.dismiss();
-                });
-
-                alertDialog.show();
-            }
-        }
-
-        // 시와 분을 가져와서 변수로 저장
-        EditText editTextHour = findViewById(R.id.hourEditText);
-        EditText editTextMinute = findViewById(R.id.minuteEditText);
-
-        hour = 0;
-        minute = 0;
-
-        if (!editTextHour.getText().toString().isEmpty()) {
-            hour = Integer.parseInt(editTextHour.getText().toString());
-        }
-
-        if (!editTextMinute.getText().toString().isEmpty()) {
-            minute = Integer.parseInt(editTextMinute.getText().toString());
         }
 
         // 선택한 요일을 가져와서 변수로 저장
@@ -350,7 +331,6 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             saveButton.setBackgroundResource(R.drawable.save_inactive); // 저장 불가능한 상태
         }
-
     }
 
     void Allocating() {
@@ -539,6 +519,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
 
             // 약 이름 설정
             String mediName = item.name.replace("&", "\n");
+            medicine = mediName;
             holder.mediNameTextView.setText(mediName);
 
             // 약 복용량 설정
@@ -617,11 +598,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         noneDrugLayout.setVisibility(View.GONE);
     }
 
-    void postAlarm() {
-        System.out.println(medicine +"확인");
-        List day = new ArrayList<>();
+    void postAlarm(List day, int hour, int min) {
+        medicine = medicine.replace("\n", "");
 
-        postAlarm postAlarm = new postAlarm(medicine, day, hour, minute);
+        postAlarm postAlarm = new postAlarm(medicine, day, hour, min);
         retrofitAPI.postAlarm(divId, postAlarm).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
