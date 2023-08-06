@@ -71,15 +71,9 @@
             android:layout_marginBottom="15dp"
             android:gravity="center">
 
-            <GridLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:rowCount="2"
-                android:columnCount="4"
-                android:alignmentMode="alignMargins"
-                android:layout_gravity="center"
-                android:columnOrderPreserved="false"
-                android:layoutDirection="ltr">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <Button
                     android:id="@+id/buttonMonday"
@@ -87,11 +81,15 @@
                     android:layout_height="85dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/day_button"
                     android:text="월"
                     android:textColor="@color/white"
                     android:textSize="27dp"
                     android:textStyle="bold"
-                    android:background="@drawable/day_button" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/buttonTuesday"
@@ -99,11 +97,15 @@
                     android:layout_height="85dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/day_button"
                     android:text="화"
                     android:textColor="@color/white"
                     android:textSize="27dp"
                     android:textStyle="bold"
-                    android:background="@drawable/day_button" />
+                    app:layout_constraintStart_toEndOf="@+id/buttonMonday"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/buttonWednesday"
@@ -111,11 +113,14 @@
                     android:layout_height="85dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/day_button"
                     android:text="수"
                     android:textColor="@color/white"
                     android:textSize="27dp"
                     android:textStyle="bold"
-                    android:background="@drawable/day_button" />
+                    app:layout_constraintStart_toEndOf="@+id/buttonTuesday"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/buttonThursday"
@@ -123,11 +128,14 @@
                     android:layout_height="85dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/day_button"
                     android:text="목"
                     android:textColor="@color/white"
                     android:textSize="27dp"
                     android:textStyle="bold"
-                    android:background="@drawable/day_button" />
+                    app:layout_constraintStart_toEndOf="@+id/buttonWednesday"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/buttonFriday"
@@ -135,11 +143,15 @@
                     android:layout_height="85dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/day_button"
                     android:text="금"
                     android:textColor="@color/white"
                     android:textSize="27dp"
                     android:textStyle="bold"
-                    android:background="@drawable/day_button" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonMonday" />
 
                 <Button
                     android:id="@+id/buttonSaturday"
@@ -147,11 +159,15 @@
                     android:layout_height="85dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/day_button"
                     android:text="토"
                     android:textColor="@color/white"
                     android:textSize="27dp"
                     android:textStyle="bold"
-                    android:background="@drawable/day_button" />
+                    app:layout_constraintStart_toEndOf="@+id/buttonFriday"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonTuesday" />
 
                 <Button
                     android:id="@+id/buttonSunday"
@@ -159,11 +175,15 @@
                     android:layout_height="85dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/day_button"
                     android:text="일"
                     android:textColor="@color/white"
                     android:textSize="27dp"
                     android:textStyle="bold"
-                    android:background="@drawable/day_button" />
+                    app:layout_constraintStart_toEndOf="@+id/buttonSaturday"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonWednesday" />
 
                 <Button
                     android:id="@+id/buttonEveryday"
@@ -171,13 +191,112 @@
                     android:layout_height="85dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/day_button"
                     android:text="매일"
                     android:textColor="@color/white"
                     android:textSize="27dp"
                     android:textStyle="bold"
-                    android:background="@drawable/day_button" />
+                    app:layout_constraintStart_toEndOf="@+id/buttonSunday"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonThursday" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </GridLayout>
+<!--                <Button-->
+<!--                    android:id="@+id/buttonMonday"-->
+<!--                    android:layout_width="85dp"-->
+<!--                    android:layout_height="85dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="4dp"-->
+<!--                    android:text="월"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="27dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@drawable/day_button" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/buttonTuesday"-->
+<!--                    android:layout_width="85dp"-->
+<!--                    android:layout_height="85dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="4dp"-->
+<!--                    android:text="화"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="27dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@drawable/day_button" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/buttonWednesday"-->
+<!--                    android:layout_width="85dp"-->
+<!--                    android:layout_height="85dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="4dp"-->
+<!--                    android:text="수"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="27dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@drawable/day_button" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/buttonThursday"-->
+<!--                    android:layout_width="85dp"-->
+<!--                    android:layout_height="85dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="4dp"-->
+<!--                    android:text="목"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="27dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@drawable/day_button" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/buttonFriday"-->
+<!--                    android:layout_width="85dp"-->
+<!--                    android:layout_height="85dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="4dp"-->
+<!--                    android:text="금"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="27dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@drawable/day_button" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/buttonSaturday"-->
+<!--                    android:layout_width="85dp"-->
+<!--                    android:layout_height="85dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="4dp"-->
+<!--                    android:text="토"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="27dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@drawable/day_button" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/buttonSunday"-->
+<!--                    android:layout_width="85dp"-->
+<!--                    android:layout_height="85dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="4dp"-->
+<!--                    android:text="일"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="27dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@drawable/day_button" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/buttonEveryday"-->
+<!--                    android:layout_width="85dp"-->
+<!--                    android:layout_height="85dp"-->
+<!--                    android:layout_columnWeight="1"-->
+<!--                    android:layout_margin="4dp"-->
+<!--                    android:text="매일"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="27dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:background="@drawable/day_button" />-->
 
         </LinearLayout>
 
@@ -327,7 +446,11 @@
             android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@drawable/save_inactive"
+            android:background="@drawable/save"
+            android:text="저장하기"
+            android:textSize="28dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
