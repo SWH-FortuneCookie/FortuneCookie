@@ -3,18 +3,12 @@ package com.example.f_cookie;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,12 +18,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -152,6 +141,8 @@ public class MeDetailActivity extends AppCompatActivity {
         addMngBtn.setOnClickListener(view -> {
             String name = subName.replace("\n", "");
             addTaking = new AddTaking(name);
+
+            System.out.println("약 이름" + name);
 
             retrofitAPI.postTaking(divId, addTaking).enqueue(new Callback<Void>() {
                 @Override
