@@ -348,6 +348,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     void Allocating() {
+        System.out.println("할당 확인");
         retrofitAPI.getTaking(divId).enqueue(new Callback<List<TakeMedicine>>() {
             @Override
             public void onResponse(Call<List<TakeMedicine>> call, Response<List<TakeMedicine>> response) {
@@ -359,7 +360,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                     String[] mArrays = oldList.toArray(new String[oldList.size()]);
 
                     count = mArrays.length;
-//                    System.out.println(count + "개수");
+                    System.out.println(count + "개수");
                     saveInfo(count, mArrays);
 
 
