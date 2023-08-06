@@ -49,7 +49,7 @@ public class MedicineService {
     public String takingMedicine(String deviceId, String name) {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Medicine medicine = medicineRepository.findByName(name).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
-        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine);
+        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
         if (takingMedicine != null) {
             throw new CustomException(ErrorCode.DUPLICATE_TAKING);
         }
@@ -107,7 +107,11 @@ public class MedicineService {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         // 해당 유저의 해당 의약품에 대한 복약 id 가져옴, 이 복약 id로 상세시간 세팅
         Medicine medicine = medicineRepository.findByName(alarmRequestDto.getName()).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
-        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine);
+        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
+        DetailTime detailTime = detailTimeRepository.findByTakingMedicineAlarm(takingMedicine);
+        if(detailTime != null) {
+            throw new CustomException(ErrorCode.DUPLICATE_ALARM);
+        }
         int[] days = alarmRequestDto.getDays();
         for(int day : days) {
             detailTimeRepository.save(DetailTime.of(takingMedicine, day, alarmRequestDto.getHour(), alarmRequestDto.getMinute()));
@@ -119,7 +123,7 @@ public class MedicineService {
     public String deleteTakingMedicine(String deviceId, TakingRequestDto takingRequestDto) {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Medicine medicine = medicineRepository.findByName(takingRequestDto.getName()).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
-        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine);
+        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
         if (takingMedicine == null) {
             throw new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND);
         }
@@ -131,7 +135,7 @@ public class MedicineService {
     public String updateTakingMedicine(String deviceId, AlarmRequestDto alarmRequestDto) {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Medicine medicine = medicineRepository.findByName(alarmRequestDto.getName()).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
-        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine);
+        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
 
         // 만약 해당 복약이 없다면 에러
         if(takingMedicine == null){
@@ -151,7 +155,7 @@ public class MedicineService {
     public AlarmResponseDto getAlarm(String deviceId, TakingRequestDto takingRequestDto) {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Medicine medicine = medicineRepository.findByName(takingRequestDto.getName()).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
-        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine);
+        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
         if (takingMedicine == null) {
             throw new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND);
         }
