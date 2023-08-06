@@ -49,7 +49,7 @@ public class MedicineService {
     public String takingMedicine(String deviceId, String name) {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Medicine medicine = medicineRepository.findByName(name).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
-        TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
+        TakingMedicine takingMedicine = takingMedicineRepository.findTaking(users, medicine);
         if (takingMedicine != null) {
             throw new CustomException(ErrorCode.DUPLICATE_TAKING);
         }
@@ -137,10 +137,6 @@ public class MedicineService {
         Medicine medicine = medicineRepository.findByName(alarmRequestDto.getName()).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
         TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
 
-        // 만약 해당 복약이 없다면 에러
-        if(takingMedicine == null){
-            throw new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND);
-        }
         // 해당 복약의 상세 시간을 모두 삭제
         detailTimeRepository.deleteByTakingMedicine(takingMedicine);
         // 새로운 상세 시간을 저장
@@ -156,9 +152,7 @@ public class MedicineService {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Medicine medicine = medicineRepository.findByName(takingRequestDto.getName()).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
         TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
-        if (takingMedicine == null) {
-            throw new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND);
-        }
+
         List<DetailTime> detailTime = detailTimeRepository.findByTakingMedicine(takingMedicine);
         List<Integer> days = detailTimeRepository.findDays(takingMedicine);
 
