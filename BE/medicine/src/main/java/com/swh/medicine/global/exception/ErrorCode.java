@@ -15,6 +15,8 @@ public enum ErrorCode {
     DUPLICATE_TAKING(CONFLICT, "복용중인 약이 이미 존재합니다"),
     MEDICINE_NOT_FOUND(NOT_FOUND, "약을 찾을 수 없습니다"),
     USER_NOT_FOUND(NOT_FOUND, "사용자를 찾을 수 없습니다"),
+    DEVICE_ALREADY_EXIST(CONFLICT, "이미 등록된 기기입니다"),
+    DUPLICATE_ALARM(CONFLICT, "이미 등록된 알람입니다"),
     TAKING_MEDICINE_NOT_FOUND(NOT_FOUND, "복용중인 약을 찾을 수 없습니다");
 
 

@@ -32,7 +32,7 @@ public class UsersService {
     public void createDevice(DeviceRequestDto deviceRequestDto) {
         Optional<Users> users = usersRepository.findByDevice(deviceRequestDto.getDevice());
         if(users.isPresent()) {
-            return;
+            throw new CustomException(ErrorCode.DEVICE_ALREADY_EXIST);
         }
         usersRepository.save(Users.of(deviceRequestDto.getDevice(), deviceRequestDto.getFcmToken()));
     }
