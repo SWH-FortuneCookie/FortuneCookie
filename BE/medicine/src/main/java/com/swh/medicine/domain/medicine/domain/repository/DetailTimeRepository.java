@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DetailTimeRepository extends JpaRepository<DetailTime, Long> {
     List<DetailTime> findByTakingMedicine(TakingMedicine takingMedicine);
@@ -17,4 +18,7 @@ public interface DetailTimeRepository extends JpaRepository<DetailTime, Long> {
     List<Integer> findDays(@Param("takingMedicine") TakingMedicine takingMedicine);
 
     List<DetailTime> findByHourAndMinuteAndDay(int currentHour, int currentMinute, int currentDay);
+
+    @Query("SELECT d FROM DetailTime d WHERE d.takingMedicine = :takingMedicine")
+    DetailTime findByTakingMedicineAlarm(TakingMedicine takingMedicine);
 }
