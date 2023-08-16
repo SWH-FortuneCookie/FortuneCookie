@@ -13,6 +13,7 @@ import com.swh.medicine.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,7 +30,10 @@ public class FCMService {
 
     // @Transactional 붙었었는데 일단 안붙이고 하고 싶어서 엔티티 직접 꺼냈다!
     // 해커톤 끝나고 리팩토링 필수!!!!!!
+    @Transactional
     public void getInformation(List<DetailTime> detailTimeList) {
+
+        log.info("fcmService 진입했는지");
         // fcm 푸시 알림 전송
         for (DetailTime detailTime : detailTimeList) {
             Long takingMedicineId = detailTime.getTakingMedicine().getId();
@@ -43,8 +47,10 @@ public class FCMService {
 
             String title = medicine.getName() + " " + medicine.getCount() + "을 복용할 시간이에요!";
             String body = weekdays[detailTime.getDay()] + " " + detailTime.getHour() + ":" + detailTime.getMinute() + " 알람";
-            sendMessage(fcmToken, title, body);
+            System.out.println(fcmToken + " " + title + " " + body);
 
+            sendMessage(fcmToken, title, body);
+            log.info("정보전달");
         }
     }
 
