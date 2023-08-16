@@ -124,9 +124,7 @@ public class MedicineService {
         Users users = usersRepository.findByDevice(deviceId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Medicine medicine = medicineRepository.findByName(takingRequestDto.getName()).orElseThrow(() -> new CustomException(ErrorCode.MEDICINE_NOT_FOUND));
         TakingMedicine takingMedicine = takingMedicineRepository.findByUsersAndMedicine(users, medicine).orElseThrow(() -> new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND));
-        if (takingMedicine == null) {
-            throw new CustomException(ErrorCode.TAKING_MEDICINE_NOT_FOUND);
-        }
+
         takingMedicineRepository.delete(takingMedicine);
         return takingRequestDto.getName() + "을 내 복약에서 삭제완료하였습니다.";
     }

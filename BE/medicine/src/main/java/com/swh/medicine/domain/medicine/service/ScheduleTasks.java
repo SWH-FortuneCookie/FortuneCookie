@@ -34,6 +34,9 @@ public class ScheduleTasks {
 
         List<DetailTime> detailTimeList
                 = detailTimeRepository.findByHourAndMinuteAndDay(currentHour, currentMinute, currentDay);
-        fcmService.getInformation(detailTimeList);
+
+        if(!detailTimeList.isEmpty()) {
+            fcmService.getInformation(detailTimeList);
+        }
     }
 }
